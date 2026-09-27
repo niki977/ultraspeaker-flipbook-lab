@@ -82,7 +82,14 @@
       let p = offs[ch];
       for (let k = 0; k < per && si < n; k++, si++) { samples.push(u8.slice(p, p + sizes[si])); p += sizes[si]; }
     }
+    samples.forEach(proresV1);
     return { stsd: u8.slice(stsd.start, stsd.end), samples };
+  }
+  // ffmpeg scrive i fotogrammi ProRes come "versione 0", che per le app Apple (Keynote, QuickTime) significa
+  // "senza canale alfa": decodificano i colori e scartano la trasparenza (sfondo nero). I fotogrammi 4:4:4 con alfa
+  // prodotti da Apple sono "versione 1": basta cambiare quel campo dell'intestazione, il resto è identico.
+  function proresV1(fr) {
+    if (fr.length > 12 && fr[4] === 0x69 && fr[5] === 0x63 && fr[6] === 0x70 && fr[7] === 0x66 && fr[10] === 0 && fr[11] === 0) fr[11] = 1;
   }
 
   /* ---------- Scrittura del MOV finale ---------- */
@@ -110,12 +117,13 @@
     let off = ftyp.length + mdatHdr.length;
     const offs = sizes.map((s) => { const o = off; off += s; return o; });
     const mvhd = box("mvhd", u32(0), u32(0), u32(0), u32(MV), u32(mvDur), u32(0x00010000), u16(0x0100), zeros(10), MATRIX, zeros(24), u32(2));
-    const tkhd = box("tkhd", u32(0x0000000f), u32(0), u32(0), u32(1), u32(0), u32(mvDur), zeros(8), u16(0), u16(0), u16(0), u16(0), MATRIX, u32(width << 16), u32(height << 16));
+    const tkhd = box("tkhd", u32(0x00000003), u32(0), u32(0), u32(1), u32(0), u32(mvDur), zeros(8), u16(0), u16(0), u16(0), u16(0), MATRIX, u32(width << 16), u32(height << 16));
     const mdhd = box("mdhd", u32(0), u32(0), u32(0), u32(TS), u32(dur), u16(0x7fff), u16(0));
     const hdlr = box("hdlr", u32(0), enc.encode("mhlr"), enc.encode("vide"), u32(0), u32(0), u32(0), pstr("VideoHandler"));
-    const vmhd = box("vmhd", u32(1), u16(0x40), u16(0x8000), u16(0x8000), u16(0x8000));
-    const dhlr = box("hdlr", u32(0), enc.encode("dhlr"), enc.encode("alis"), u32(0), u32(0), u32(0), pstr("DataHandler"));
-    const dinf = box("dinf", box("dref", u32(0), u32(1), box("alis", u32(1))));
+    // modalità grafica 0 (copy) come ffmpeg: con 0x40 (dither copy) le app Apple ignorano l'alfa e mostrano nero
+    const vmhd = box("vmhd", u32(1), u16(0), u16(0), u16(0), u16(0));
+    const dhlr = box("hdlr", u32(0), enc.encode("dhlr"), enc.encode("url "), u32(0), u32(0), u32(0), pstr("DataHandler"));
+    const dinf = box("dinf", box("dref", u32(0), u32(1), box("url ", u32(1))));
     const stts = box("stts", u32(0), u32(1), u32(n), u32(delta));
     const stsc = box("stsc", u32(0), u32(1), u32(1), u32(1), u32(1));
     const stsz = box("stsz", u32(0), u32(0), u32(n), ...sizes.map(u32));
@@ -125,7 +133,8 @@
     const stbl = box("stbl", stsd, stts, stsc, stsz, stco);
     const minf = box("minf", vmhd, dhlr, dinf, stbl);
     const mdia = box("mdia", mdhd, hdlr, minf);
-    const trak = box("trak", tkhd, mdia);
+    const edts = box("edts", box("elst", u32(0), u32(1), u32(mvDur), u32(0), u32(0x00010000)));
+    const trak = box("trak", tkhd, edts, mdia);
     const moov = box("moov", mvhd, trak);
     return { head: cat([ftyp, mdatHdr]), moov };
   }
@@ -160,6 +169,7 @@
       await f.writeFile("in.raw", raw);
       await f.exec(["-f", "rawvideo", "-pix_fmt", "rgba", "-s", W + "x" + H, "-r", String(fps), "-i", "in.raw",
         "-c:v", "prores_ks", "-profile:v", "4444", "-pix_fmt", "yuva444p10le", "-alpha_bits", "16", "-vendor", "apl0",
+        "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
         "-qscale:v", "6", "seg.mov"]);
       await f.deleteFile("in.raw");
       const u8 = await f.readFile("seg.mov");
