@@ -115,13 +115,31 @@
   }
   async function decode(blob) {
     if (window.createImageBitmap) { try { return await createImageBitmap(blob); } catch (e) { /* ripiego */ } }
-    return await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = URL.createObjectURL(blob); });
+    return await new Promise((res, rej) => {
+      const im = new Image(), u = URL.createObjectURL(blob);
+      im.onload = () => { URL.revokeObjectURL(u); res(im); };
+      im.onerror = () => { URL.revokeObjectURL(u); rej(new Error("immagine della pagina non decodificata")); };
+      im.src = u;
+    });
+  }
+  // Safari, con poca memoria (per esempio durante un'esportazione lunga), ogni tanto non decodifica un'immagine:
+  // svuota la cache e riprova, invece di fermare tutto
+  async function decodeRetry(blob) {
+    for (let t = 0; ; t++) {
+      try { return await decode(blob); }
+      catch (e) {
+        if (t >= 3) throw e;
+        const keep = [...cache.keys()].slice(-2);
+        cache.forEach((b, k) => { if (!keep.includes(k)) { try { b.close && b.close(); } catch (x) { /* ignora */ } cache.delete(k); } });
+        await new Promise((r) => setTimeout(r, 150 * (t + 1)));
+      }
+    }
   }
   function load(i) {
     if (i == null || i < 0 || i >= blobs.length) return Promise.resolve(null);
     if (cache.has(i)) { const b = cache.get(i); cache.delete(i); cache.set(i, b); return Promise.resolve(b); }
     if (loading.has(i)) return loading.get(i);
-    const p = decode(blobs[i]).then((bm) => {
+    const p = decodeRetry(blobs[i]).then((bm) => {
       loading.delete(i);
       cache.set(i, bm);
       while (cache.size > CACHE_MAX) {
@@ -131,7 +149,7 @@
       }
       onReady && onReady(i);
       return bm;
-    });
+    }, (e) => { loading.delete(i); throw e; });
     loading.set(i, p);
     return p;
   }
