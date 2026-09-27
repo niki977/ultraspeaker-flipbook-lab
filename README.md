@@ -31,14 +31,10 @@ Perché due formati: PowerPoint non mostra la trasparenza dei video in modo affi
 
 ## Pubblicazione su GitHub Pages
 
-1. Crea su GitHub un repository pubblico, per esempio **flipbook-lab** (account `niki977`).
-2. Carica **tutto** il contenuto di questa cartella, comprese `vendor/ffmpeg/ffmpeg-core.wasm` (31 MB, sotto il limite di 100 MB di GitHub),
-   `assets`, `fonts`, `js`, `demo`.
-   Il caricamento dal sito di GitHub accetta file fino a 25 MB: per `ffmpeg-core.wasm` usa GitHub Desktop oppure `git push`.
-3. *Settings → Pages* → *Deploy from a branch*, ramo `main`, cartella `/ (root)`.
-4. Dopo un minuto l’app è su `https://niki977.github.io/flipbook-lab/`.
-
-Si può anche mettere su theultraspeaker.com: basta copiare la cartella sul sito (serve https).
+Passo passo in **GUIDA-INSTALLAZIONE.html** (aprila con doppio clic). In breve: repository pubblico `ultraspeaker-flipbook-lab`,
+caricamento dal sito di GitHub di tutto il contenuto della cartella **tranne** `vendor/ffmpeg/ffmpeg-core.wasm` (31 MB, oltre il limite di 25 MB),
+poi *Settings → Pages → main / (root)*. Senza quel file l’app scarica il motore video da jsDelivr la prima volta che crea un MOV;
+per renderla indipendente si può aggiungere il file con GitHub Desktop.
 
 ## File
 
@@ -54,6 +50,7 @@ Si può anche mettere su theultraspeaker.com: basta copiare la cartella sul sito
 | `js/i18n.js` | Testi nelle 5 lingue |
 | `vendor/` | pdf.js (Apache 2.0), mp4-muxer (MIT), ffmpeg.wasm (MIT; core FFmpeg GPL-2.0-or-later, vedi `vendor/ffmpeg/LICENZE.txt`) |
 | `assets/`, `fonts/` | Loghi, icone, Quicksand (OFL) |
+| `GUIDA-INSTALLAZIONE.html` | Come mettere l’app online su GitHub Pages |
 | `demo/esempio-it.pdf` … `esempio-de.pdf` | Guida di esempio nelle 5 lingue (A4, copertina con la scena della homepage del sito): l’app apre quella della lingua scelta |
 
 ## Scorciatoie

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mettere online The Ultraspeaker Flipbook Lab</title>
+<style>
+@font-face{font-family:"Quicksand";font-weight:500;src:url(fonts/quicksand-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Quicksand";font-weight:700;src:url(fonts/quicksand-latin-700-normal.woff2) format("woff2")}
+:root{--bg:#f3f3f3;--surface:#fff;--ink:#000;--ink-2:#444;--line:#ddd;--soft:#ececec;--code:#efefef}
+@media (prefers-color-scheme: dark){:root{--bg:#000;--surface:#111;--ink:#fff;--ink-2:#c8c8c8;--line:#2a2a2a;--soft:#222;--code:#1c1c1c;color-scheme:dark}}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 15px/1.65 "Quicksand","Avenir Next","Segoe UI",Arial,sans-serif}
+header{background:#000;color:#fff;padding:28px 16px 22px}
+header .in,main{max-width:760px;margin:0 auto}
+header img{display:block;width:min(300px,75%);height:auto}
+main{padding:28px 16px 64px}
+h1{font-size:24px;margin:0 0 4px;letter-spacing:-.01em;text-wrap:balance}
+.lead{color:var(--ink-2);margin:0 0 28px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:16px}
+h2{font-size:16px;margin:0 0 10px;display:flex;gap:10px;align-items:center}
+h2 .n{background:var(--ink);color:var(--bg);border-radius:50%;width:24px;height:24px;display:grid;place-items:center;font-size:12px;flex:none}
+p b,li b{font-weight:700}
+ol{padding-left:20px;margin:0}li{margin:6px 0}
+code{background:var(--code);padding:2px 6px;border-radius:5px;font-size:13px;word-break:break-all;font-family:ui-monospace,Menlo,monospace}
+.note{background:var(--soft);border-radius:8px;padding:10px 14px;font-size:14px;margin-top:12px}
+.muted{color:var(--ink-2);font-size:14px}
+.tag{text-align:center;font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--ink-2);margin-top:28px}
+.tag img{display:block;width:180px;height:auto;margin:0 auto 14px}
+
+.steps{counter-reset:none}
+kbd{font-family:inherit;font-size:13px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:var(--surface)}
+.warn{background:#fff4d6;color:#4a3700;border-radius:8px;padding:10px 14px;font-size:14px;margin-top:12px}
+@media (prefers-color-scheme: dark){.warn{background:#3a2f0f;color:#ffe7a3}}
+.check li::marker{content:"✓  "}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <img src="assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab">
+</div></header>
+<main>
+<h1>Mettere online Flipbook Lab con GitHub Pages</h1>
+<p class="lead">Quattro passaggi, circa 10 minuti, da fare una volta sola. Alla fine l’app sarà all’indirizzo <code>https://niki977.github.io/ultraspeaker-flipbook-lab/</code> e la potrai aprire da qualsiasi computer con Chrome, Edge o Safari.</p>
+
+<section>
+<h2><span class="n">!</span>Prima di iniziare</h2>
+<ol>
+<li>Scarica lo zip <b>ultraspeaker-flipbook-lab.zip</b> e fai doppio clic per estrarlo: ottieni la cartella <code>ultraspeaker-flipbook-lab</code>.</li>
+<li>Apri la cartella <code>ultraspeaker-flipbook-lab</code> → <code>vendor</code> → <code>ffmpeg</code> e <b>sposta sulla Scrivania</b> il file <code>ffmpeg-core.wasm</code> (31 MB).
+  Il caricamento dal sito di GitHub rifiuta i file oltre 25 MB; senza questo file l’app funziona lo stesso, perché la prima volta che crei un MOV lo scarica da sola da jsDelivr, un servizio pubblico per questo tipo di file.</li>
+<li>Usa <b>Chrome</b> per i passaggi seguenti: è il browser in cui il trascinamento delle cartelle su GitHub funziona meglio.</li>
+</ol>
+</section>
+
+<section>
+<h2><span class="n">1</span>Crea il repository</h2>
+<ol>
+<li>Vai su <b>github.com</b> e accedi con l’account <b>niki977</b> (lo stesso di QR Lab e Image Lab).</li>
+<li>In alto a destra clicca <b>+</b> → <b>New repository</b>.</li>
+<li>In <b>Repository name</b> scrivi esattamente <code>ultraspeaker-flipbook-lab</code>.</li>
+<li>Scegli <b>Public</b>. Lascia <b>deselezionate</b> le opzioni “Add a README file”, “.gitignore” e “license”.</li>
+<li>Clicca <b>Create repository</b>.</li>
+</ol>
+<div class="note">Il nome conta: diventa l’ultima parte dell’indirizzo dell’app. Con un altro nome l’app funziona lo stesso, ma l’indirizzo cambia.</div>
+</section>
+
+<section>
+<h2><span class="n">2</span>Carica i file</h2>
+<ol>
+<li>Nella pagina del repository appena creato clicca il link <b>uploading an existing file</b> (nella frase “…or upload an existing file”).</li>
+<li>Apri la cartella <code>ultraspeaker-flipbook-lab</code> nel Finder, premi <kbd>⌘</kbd> + <kbd>A</kbd> per selezionare <b>tutto il suo contenuto</b> (file e cartelle) e trascinalo nel riquadro della pagina di GitHub.</li>
+<li>Aspetta che l’elenco dei file finisca di caricarsi: devono comparire anche <code>index.html</code>, <code>README.md</code> e le cartelle <code>assets</code>, <code>demo</code>, <code>fonts</code>, <code>js</code>, <code>vendor</code>.</li>
+<li>In basso, in <b>Commit changes</b>, clicca il pulsante verde <b>Commit changes</b>.</li>
+</ol>
+<div class="warn"><b>Importante:</b> trascina il <b>contenuto</b> della cartella, non la cartella <code>ultraspeaker-flipbook-lab</code> stessa. Nella pagina principale del repository <code>index.html</code> deve comparire subito, non dentro un’altra cartella.</div>
+</section>
+
+<section>
+<h2><span class="n">3</span>Attiva GitHub Pages</h2>
+<ol>
+<li>Nel repository clicca <b>Settings</b> (la rotellina, in alto a destra nella barra del repository).</li>
+<li>Nel menu a sinistra scegli <b>Pages</b>.</li>
+<li>In <b>Build and deployment</b> → <b>Source</b> scegli <b>Deploy from a branch</b>.</li>
+<li>In <b>Branch</b> scegli <b>main</b> e cartella <b>/ (root)</b>, poi <b>Save</b>.</li>
+<li>Dopo 1–2 minuti ricarica la pagina: in alto compare <b>“Your site is live at https://niki977.github.io/ultraspeaker-flipbook-lab/”</b>.</li>
+</ol>
+</section>
+
+<section>
+<h2><span class="n">4</span>Controlla che funzioni</h2>
+<ol class="check">
+<li>Apri <code>https://niki977.github.io/ultraspeaker-flipbook-lab/</code>: compare la schermata nera di Flipbook Lab.</li>
+<li>Clicca <b>Apri la guida di esempio</b>: si apre il libretto con la copertina “Knowledge is not enough”.</li>
+<li>Cambia lingua in alto a destra: il libretto cambia lingua.</li>
+<li>Premi <b>Registra</b>, gira una pagina, premi <b>Stop</b> ed esporta un <b>MP4</b> in 1280 × 720: il file si scarica.</li>
+<li>Ripeti scegliendo <b>MOV trasparente</b>: la prima volta compare “Carico il codificatore video…” per qualche secondo (sono circa 30 MB), poi il MOV si scarica. Dalle volte successive è più veloce.</li>
+</ol>
+<div class="note">Se l’indirizzo mostra “404”, aspetta ancora un minuto e ricarica. Se resta così, controlla nel repository che <code>index.html</code> sia nella pagina principale e non dentro una cartella.</div>
+</section>
+
+<section>
+<h2><span class="n">+</span>Facoltativo: il motore video dentro il sito</h2>
+<p class="muted">Il file <code>ffmpeg-core.wasm</code> (31 MB) è il motore che crea i MOV trasparenti. Se è nel repository, l’app lo prende dal tuo sito invece che da jsDelivr: funziona anche se jsDelivr è lento o bloccato (per esempio su una rete aziendale) e in Safari è la strada più affidabile. Il sito di GitHub accetta caricamenti fino a 25 MB, quindi serve <b>GitHub Desktop</b>, l’app gratuita di GitHub per Mac. Si fa una volta sola, circa 10 minuti.</p>
+
+<p><b>A. Installa GitHub Desktop</b></p>
+<ol>
+<li>Vai su <code>desktop.github.com</code> e clicca <b>Download for macOS</b>.</li>
+<li>Apri il file scaricato (nella cartella Download) e trascina <b>GitHub Desktop</b> nella cartella <b>Applicazioni</b>. Aprilo; se il Mac chiede conferma, clicca <b>Apri</b>.</li>
+<li>Clicca <b>Sign in to GitHub.com</b>: si apre il browser, accedi come <b>niki977</b> e clicca <b>Authorize desktop</b>. Il browser ti riporta nell’app.</li>
+<li>Nella schermata <b>Configure Git</b> lascia <b>Use my GitHub account name and email address</b> e clicca <b>Finish</b>.</li>
+</ol>
+
+<p><b>B. Scarica una copia del repository sul Mac</b></p>
+<ol>
+<li>In GitHub Desktop: menu <b>File → Clone Repository…</b> (<kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>O</kbd>).</li>
+<li>Nella scheda <b>GitHub.com</b> seleziona <code>niki977/ultraspeaker-flipbook-lab</code>.</li>
+<li><b>Local Path</b>: lascia quello proposto (di solito <code>Documenti/GitHub/ultraspeaker-flipbook-lab</code>) e clicca <b>Clone</b>. In pochi secondi la copia è sul Mac.</li>
+</ol>
+
+<p><b>C. Aggiungi il motore video</b></p>
+<ol>
+<li>In GitHub Desktop: menu <b>Repository → Show in Finder</b> (<kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>F</kbd>). Si apre la cartella del repository.</li>
+<li>Entra in <code>vendor</code> → <code>ffmpeg</code>. Ci sono già <code>ffmpeg.js</code>, <code>814.ffmpeg.js</code> e <code>ffmpeg-core.js</code>.</li>
+<li>Trascina qui dentro <code>ffmpeg-core.wasm</code> (quello messo da parte sulla Scrivania, oppure prendilo di nuovo dallo zip, nella stessa cartella <code>vendor/ffmpeg</code>). Il nome deve restare esattamente <code>ffmpeg-core.wasm</code>.</li>
+</ol>
+
+<p><b>D. Pubblica</b></p>
+<ol>
+<li>Torna in GitHub Desktop. A sinistra, nella scheda <b>Changes</b>, compare <code>vendor/ffmpeg/ffmpeg-core.wasm</code> con la casella spuntata.</li>
+<li>In basso a sinistra, nel campo <b>Summary</b>, scrivi <code>Motore video</code> e clicca <b>Commit to main</b>. Il salvataggio è fatto sul Mac, ma non ancora online.</li>
+<li>In alto clicca <b>Push origin</b>: il file viene caricato su GitHub (qualche decina di secondi, 31 MB). Quando il pulsante torna a dire <b>Fetch origin</b>, è finito.</li>
+</ol>
+
+<p><b>E. Controlla</b></p>
+<ol class="check">
+<li>Su github.com, nel repository, apri <code>vendor/ffmpeg</code>: c’è <code>ffmpeg-core.wasm</code> (31 MB).</li>
+<li>Nella scheda <b>Actions</b> l’ultima riga “pages build and deployment” diventa verde dopo 1–2 minuti.</li>
+<li>Apri l’app, ricarica con <kbd>⌘</kbd> + <kbd>Maiusc</kbd> + <kbd>R</kbd> e crea un MOV: ora il motore arriva dal tuo sito.</li>
+</ol>
+<div class="note">Da qui in poi puoi usare GitHub Desktop anche per gli aggiornamenti: copi i file nuovi nella cartella del repository sul Mac (sostituendo quelli vecchi), scrivi un titolo, <b>Commit to main</b> e <b>Push origin</b>. È più comodo del caricamento dal sito e non ha il limite dei 25 MB.</div>
+<div class="note"><b>Se qualcosa non va.</b> “Push rejected” o “non-fast-forward”: clicca <b>Fetch origin</b>, poi <b>Pull origin</b>, e ripeti il Push. Il file non compare in Changes: controlla di averlo messo nella cartella clonata (quella aperta con Show in Finder), non nella cartella dello zip. GitHub avvisa solo per file oltre 50 MB: 31 MB va bene, senza strumenti aggiuntivi.</div>
+</section>
+
+<section>
+<h2><span class="n">?</span>Buono a sapersi</h2>
+<ol>
+<li><b>Aggiornare l’app</b>: quando ti mando una nuova versione, nel repository clicca <b>Add file → Upload files</b>, trascina i file nuovi (stessi nomi) e fai <b>Commit changes</b>. GitHub sostituisce quelli vecchi; dopo un minuto l’app è aggiornata (se non vedi le modifiche, ricarica con <kbd>⌘</kbd> + <kbd>Maiusc</kbd> + <kbd>R</kbd>).</li>
+<li><b>Privacy</b>: il repository è pubblico, quindi chiunque può vedere il codice e usare l’app. I PDF che apri però non vengono mai caricati: restano sul computer di chi usa l’app.</li>
+<li><b>Browser</b>: Chrome ed Edge sono i più veloci per creare i video. Safari va bene per sfogliare, sottolineare e fare gli MP4.</li>
+<li><b>Il tuo dominio</b>: in futuro l’app può stare anche su theultraspeaker.com (per esempio <code>theultraspeaker.com/flipbook</code>) copiando la stessa cartella sul sito.</li>
+<li><b>Licenze</b>: pdf.js (Apache 2.0), mp4-muxer (MIT), ffmpeg.wasm (MIT, motore FFmpeg GPL); i dettagli sono nella cartella <code>vendor</code>.</li>
+</ol>
+</section>
+<p class="muted">Il carattere Quicksand è distribuito con licenza SIL Open Font License (file <code>fonts/OFL-Quicksand.txt</code>).</p>
+<p class="tag"><picture><source srcset="assets/logo-ultraspeaker-white.svg" media="(prefers-color-scheme: dark)"><img src="assets/logo-ultraspeaker-black.svg" alt="The Ultraspeaker"></picture><a href="mailto:info@theultraspeaker.com" style="color:inherit">Richiedi una consulenza</a> · info@theultraspeaker.com</p>
+</main>
+</body>
+</html>
