@@ -112,6 +112,7 @@
     const rb16 = (o) => (fr[o] << 8) | fr[o + 1];
     const rb32 = (o) => ((fr[o] << 24) >>> 0) + (fr[o + 1] << 16) + (fr[o + 2] << 8) + fr[o + 3];
     if (fr.length < 40 || fr[4] !== 0x69 || fr[5] !== 0x63 || fr[6] !== 0x70 || fr[7] !== 0x66) return fr;
+    fr[25] &= 15;                                              // come ffmpeg 7: bit riservati a zero
     const abits = (fr[25] & 15) === 1 ? 8 : (fr[25] & 15) === 2 ? 16 : 0;
     if (!abits || ((fr[20] >> 2) & 3)) return fr;              // senza alfa, o interlacciato: niente da fare
     const W = rb16(16), H = rb16(18);
