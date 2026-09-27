@@ -16,7 +16,17 @@
         const inst = new FFmpeg();
         const b = base() + "vendor/ffmpeg/";
         onLoad && onLoad();
-        await inst.load({ coreURL: b + "ffmpeg-core.js", wasmURL: b + "ffmpeg-core.wasm" });
+        // il motore video (31 MB) sta nel sito; se manca (il caricamento web di GitHub accetta file fino a 25 MB)
+        // lo scarica una volta dal CDN pubblico jsDelivr, stessa versione
+        let coreURL = b + "ffmpeg-core.js", wasmURL = b + "ffmpeg-core.wasm";
+        let local = false;
+        try { const r = await fetch(wasmURL, { method: "HEAD", cache: "no-store" }); local = r.ok; } catch (e) { /* non c'è */ }
+        if (!local) {
+          // indirizzi diretti (niente blob:, che Safari non sempre lascia leggere al worker)
+          const cdn = "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd/";
+          coreURL = cdn + "ffmpeg-core.js"; wasmURL = cdn + "ffmpeg-core.wasm";
+        }
+        await inst.load({ coreURL, wasmURL });
         ff = inst;
         return inst;
       })().catch((e) => { ffLoading = null; throw e; });

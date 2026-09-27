@@ -2,6 +2,7 @@
 window.FB_I18N = {
   langs: [["it", "Italiano"], ["en", "English"], ["es", "Español"], ["fr", "Français"], ["de", "Deutsch"]],
   it: {
+      "x.errSafari": "Safari non è riuscito a creare il MOV trasparente. Apri l’app in Chrome per il MOV, oppure esporta l’MP4.",
       "a.after": "Pausa dopo i segni",
       "a.close": "Alla fine richiudi il libro sulla copertina",
       "dropBox": "Trascina qui il PDF",
@@ -104,6 +105,7 @@ window.FB_I18N = {
       "nothingToClear": "Su queste pagine non ci sono segni"
   },
   en: {
+      "x.errSafari": "Safari couldn’t create the transparent MOV. Open the app in Chrome for the MOV, or export the MP4.",
       "a.after": "Pause after marks",
       "a.close": "Close the book on the cover at the end",
       "dropBox": "Drag your PDF here",
@@ -206,6 +208,7 @@ window.FB_I18N = {
       "nothingToClear": "There are no marks on these pages"
   },
   es: {
+      "x.errSafari": "Safari no pudo crear el MOV transparente. Abre la app en Chrome para el MOV, o exporta el MP4.",
       "a.after": "Pausa tras las marcas",
       "a.close": "Al final, cerrar el libro en la portada",
       "dropBox": "Arrastra aquí el PDF",
@@ -308,6 +311,7 @@ window.FB_I18N = {
       "nothingToClear": "No hay marcas en estas páginas"
   },
   fr: {
+      "x.errSafari": "Safari n’a pas pu créer le MOV transparent. Ouvrez l’app dans Chrome pour le MOV, ou exportez le MP4.",
       "a.after": "Pause après les marques",
       "a.close": "À la fin, refermer le livre sur la couverture",
       "dropBox": "Glissez votre PDF ici",
@@ -410,6 +414,7 @@ window.FB_I18N = {
       "nothingToClear": "Aucune marque sur ces pages"
   },
   de: {
+      "x.errSafari": "Safari konnte das transparente MOV nicht erstellen. Öffnen Sie die App für das MOV in Chrome oder exportieren Sie das MP4.",
       "a.after": "Pause nach den Markierungen",
       "a.close": "Am Ende das Buch auf der Titelseite schließen",
       "dropBox": "PDF hierher ziehen",

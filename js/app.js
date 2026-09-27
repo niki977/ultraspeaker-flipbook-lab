@@ -669,7 +669,13 @@
       showExpState("done");
     } catch (e) {
       if (e && e.message === "cancel") { showExpState("form"); }
-      else { console.error(e); toast(t("x.err"), true); showExpState("form"); }
+      else {
+        console.error(e);
+        const msg = (e && (e.message || String(e)) || "").slice(0, 140);
+        const safari = /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent);
+        toast(t(safari && xFmt === "mov" ? "x.errSafari" : "x.err") + (msg ? " (" + msg + ")" : ""), true);
+        showExpState("form");
+      }
     } finally { xRunning = false; }
   }
 
