@@ -1,0 +1,61 @@
+# The Ultraspeaker Flipbook Lab
+
+App online che trasforma un PDF in un **libro da sfogliare**, con **sottolineature** e **registrazione video**:
+MOV con **sfondo trasparente** per Keynote, MP4 con **il colore della slide** per PowerPoint.
+Funziona nel browser (Chrome, Edge, Safari recenti), senza installare nulla. Interfaccia in italiano, inglese, spagnolo, francese e tedesco.
+
+## Cosa fa
+
+- **Sfogliare**: trascina l’angolo della pagina, clicca sulla pagina, usa ◀ ▶ o le frecce della tastiera.
+  Vista **Libro** (due pagine, copertina da sola) o **Pagina** singola.
+- **Aprire un PDF**: pulsante Apri PDF oppure trascinalo nella finestra (anche con un libro già aperto). Trascinando un’immagine, diventa lo sfondo.
+- **Sottolineare**: Evidenzia (E) e Sottolinea (U) **si agganciano al testo come una selezione**: parola per parola, anche su più righe,
+  restando nella stessa colonna (articoli a due colonne compresi). Un clic segna una parola. Penna (P), Gomma (G), 6 colori.
+  L’aggancio usa il testo del PDF: con le scansioni senza testo la linea resta dritta ma libera.
+  Ogni segno può **restare** oppure **svanire dopo 3 secondi** (tasto M per passare dall’uno all’altro).
+- **Zoom**: rotellina del mouse (o pizzico sul trackpad) sul punto da ingrandire, pulsanti − % +, strumento Lente (Z).
+  Per spostarti: tieni premuta la barra spaziatrice e trascina, oppure trascina fuori dalle pagine. Lo zoom entra nella registrazione.
+- **Sfondo**: trasparente, a colore o un’immagine.
+- **Registrare dal vivo**: premi **Registra** (o R), sfoglia e sottolinea, premi **Stop**. Il video riproduce esattamente
+  quello che hai fatto, ma solo il libro: niente mouse, niente interfaccia.
+- **Video automatico**: scegli le pagine, i secondi su ogni pagina e la velocità del giro: le pagine si girano da sole.
+  Opzione **Sottolineature che si disegnano da sole**: prepara prima i segni (modalità «restano») e nel video compaiono uno dopo l’altro, nell’ordine di lettura,
+  con una pausa a scelta dopo l’ultimo segno. Opzione **Richiudi il libro sulla copertina** alla fine del video.
+- **Esportare**:
+  - **MOV trasparente** (ProRes 4444 con canale alfa) → Keynote, Final Cut. File grandi: circa 12 MB al secondo in 1920×1080.
+  - **MP4 con colore o immagine** (H.264) → PowerPoint su Mac e Windows. Usa lo stesso sfondo della slide.
+- L’ultimo PDF, con le sottolineature fisse, resta memorizzato **in questo browser**. Il PDF non viene inviato a nessun server.
+
+Perché due formati: PowerPoint non mostra la trasparenza dei video in modo affidabile durante la presentazione
+(su Mac lo sfondo diventa nero), mentre Keynote sì. Con l’MP4 dello stesso colore della slide il risultato in PowerPoint è identico.
+
+## Pubblicazione su GitHub Pages
+
+1. Crea su GitHub un repository pubblico, per esempio **flipbook-lab** (account `niki977`).
+2. Carica **tutto** il contenuto di questa cartella, comprese `vendor/ffmpeg/ffmpeg-core.wasm` (31 MB, sotto il limite di 100 MB di GitHub),
+   `assets`, `fonts`, `js`, `demo`.
+   Il caricamento dal sito di GitHub accetta file fino a 25 MB: per `ffmpeg-core.wasm` usa GitHub Desktop oppure `git push`.
+3. *Settings → Pages* → *Deploy from a branch*, ramo `main`, cartella `/ (root)`.
+4. Dopo un minuto l’app è su `https://niki977.github.io/flipbook-lab/`.
+
+Si può anche mettere su theultraspeaker.com: basta copiare la cartella sul sito (serve https).
+
+## File
+
+| File | Cosa contiene |
+|---|---|
+| `index.html` | L’interfaccia |
+| `js/engine.js` | Il libro disegnato su canvas: piega della pagina, ombre, sfondo trasparente |
+| `js/annot.js` | Evidenziatore, sottolineatura, penna, gomma, segni che svaniscono |
+| `js/pages.js` | Conversione delle pagine PDF in immagini nitide |
+| `js/export.js` | Video: MOV ProRes 4444 con trasparenza, MP4 H.264 |
+| `js/app.js` | Collegamenti tra interfaccia, registrazione ed esportazione |
+| `js/store.js` | Memoria dell’ultimo PDF nel browser |
+| `js/i18n.js` | Testi nelle 5 lingue |
+| `vendor/` | pdf.js (Apache 2.0), mp4-muxer (MIT), ffmpeg.wasm (MIT; core FFmpeg GPL-2.0-or-later, vedi `vendor/ffmpeg/LICENZE.txt`) |
+| `assets/`, `fonts/` | Loghi, icone, Quicksand (OFL) |
+| `demo/esempio-it.pdf` … `esempio-de.pdf` | Guida di esempio nelle 5 lingue (A4, copertina con la scena della homepage del sito): l’app apre quella della lingua scelta |
+
+## Scorciatoie
+
+← → sfoglia · + − 0 zoom · spazio+trascina sposta · H sfoglia · E evidenzia · U sottolinea · P penna · G gomma · Z lente · M resta/svanisce · R registra/stop · Esc chiude
