@@ -93,13 +93,84 @@
       for (let k = 0; k < per && si < n; k++, si++) { samples.push(u8.slice(p, p + sizes[si])); p += sizes[si]; }
     }
     samples.forEach(proresV1);
+    for (let i = 0; i < samples.length; i++) samples[i] = fixProresAlpha(samples[i]);
     return { stsd: u8.slice(stsd.start, stsd.end), samples };
   }
   // ffmpeg scrive i fotogrammi ProRes come "versione 0", che per le app Apple (Keynote, QuickTime) significa
   // "senza canale alfa": decodificano i colori e scartano la trasparenza (sfondo nero). I fotogrammi 4:4:4 con alfa
   // prodotti da Apple sono "versione 1": basta cambiare quel campo dell'intestazione, il resto è identico.
   function proresV1(fr) {
-    if (fr.length > 12 && fr[4] === 0x69 && fr[5] === 0x63 && fr[6] === 0x70 && fr[7] === 0x66 && fr[10] === 0 && fr[11] === 0) fr[11] = 1;
+    if (fr.length > 12 && fr[4] === 0x69 && fr[5] === 0x63 && fr[6] === 0x70 && fr[7] === 0x66 && fr[10] === 0 && fr[11] === 0) { fr[11] = 1; fr[25] &= 15; } // come ffmpeg 7: versione 1, bit riservati a zero
+  }
+
+  /* ffmpeg prima della versione 7 dimentica l'ultimo codice "ripetizione" della trasparenza quando una fetta (slice)
+     finisce con un valore nuovo. ffmpeg non se ne accorge, ma il decodificatore Apple (chip M2/M3, Keynote, QuickTime)
+     sì: blocchi trasparenti o neri, oppure "Impossibile decodificare". Qui si rilegge ogni fetta e si aggiunge
+     il bit mancante, come fa ffmpeg 7 (commit 9109273e3b, "fix alpha plane encoding bitstream").
+     Restituisce il fotogramma corretto (lo stesso array se non serve aggiungere byte). */
+  function fixProresAlpha(fr) {
+    const rb16 = (o) => (fr[o] << 8) | fr[o + 1];
+    const rb32 = (o) => ((fr[o] << 24) >>> 0) + (fr[o + 1] << 16) + (fr[o + 2] << 8) + fr[o + 3];
+    if (fr.length < 40 || fr[4] !== 0x69 || fr[5] !== 0x63 || fr[6] !== 0x70 || fr[7] !== 0x66) return fr;
+    const abits = (fr[25] & 15) === 1 ? 8 : (fr[25] & 15) === 2 ? 16 : 0;
+    if (!abits || ((fr[20] >> 2) & 3)) return fr;              // senza alfa, o interlacciato: niente da fare
+    const W = rb16(16), H = rb16(18);
+    const p = 8 + rb16(8);                                     // intestazione dell'immagine
+    const phs = fr[p] >> 3, log2w = fr[p + 7] >> 4;
+    const mbw = (W + 15) >> 4, mbh = (H + 15) >> 4;
+    const mbs = [];
+    for (let y = 0; y < mbh; y++) {
+      let n = 1 << log2w;
+      for (let x = 0; x < mbw; x += n) { while (mbw - x < n) n >>= 1; mbs.push(n); }
+    }
+    const idx0 = p + phs, data0 = idx0 + mbs.length * 2;
+    const dbits = abits === 16 ? 7 : 4;
+    const grow = new Uint8Array(mbs.length);                   // 1 = alla fetta serve un byte in più
+    let off = data0, extra = 0;
+    for (let i = 0; i < mbs.length; i++) {
+      const size = rb16(idx0 + i * 2), s = off;
+      off += size;
+      const shs = fr[s] >> 3, ys = rb16(s + 2), us = rb16(s + 4);
+      const vs = shs > 7 ? rb16(s + 6) : size - shs - ys - us;
+      const a0 = s + shs + ys + us + vs, aBytes = s + size - a0;
+      if (aBytes <= 0) continue;
+      const N = mbs[i] * 256, end = aBytes * 8;
+      let pos = 0, n = 0;
+      const bit = () => { const b = pos < end ? (fr[a0 + (pos >> 3)] >> (7 - (pos & 7))) & 1 : 0; pos++; return b; };
+      const bits = (k) => { let v = 0; for (let j = 0; j < k; j++) v = (v << 1) | bit(); return v; };
+      let missing = false;
+      for (;;) {
+        if (bit()) pos += abits; else pos += dbits;             // differenza
+        n++;
+        if (n >= N) { missing = true; break; }                  // finita con una differenza: manca il codice finale
+        if (bit()) continue;                                    // "1": subito un'altra differenza
+        let r = bits(4); if (!r) r = bits(11);
+        n += r;
+        if (n >= N) break;                                      // finita con una ripetizione: corretta
+      }
+      if (!missing || pos > end) continue;
+      if (pos < end) fr[a0 + (pos >> 3)] |= 0x80 >> (pos & 7);  // c'è spazio nel riempimento dell'ultimo byte
+      else { grow[i] = 1; extra++; }
+    }
+    if (!extra) return fr;
+    // servono byte in più: si ricompone il fotogramma con le nuove misure
+    const out = new Uint8Array(fr.length + extra);
+    out.set(fr.subarray(0, data0), 0);
+    let src = data0, dst = data0;
+    for (let i = 0; i < mbs.length; i++) {
+      const size = rb16(idx0 + i * 2);
+      out.set(fr.subarray(src, src + size), dst);
+      src += size; dst += size;
+      if (grow[i]) {
+        out[dst++] = 0x80;
+        const ns = size + 1; out[idx0 + i * 2] = ns >> 8; out[idx0 + i * 2 + 1] = ns & 255;
+      }
+    }
+    out.set(fr.subarray(src), dst);
+    const dv = new DataView(out.buffer);
+    dv.setUint32(0, rb32(0) + extra);
+    dv.setUint32(p + 1, rb32(p + 1) + extra);
+    return out;
   }
 
   /* ---------- Scrittura del MOV finale ---------- */
@@ -290,6 +361,6 @@
     run(job) { return job.format === "mov" ? mov(job) : mp4(job); },
     cancel: stopFF,
     avcSupported,
-    _parseSegment: parseSegment, _buildMov: buildMov,
+    _parseSegment: parseSegment, _buildMov: buildMov, _fixProresAlpha: fixProresAlpha,
   };
 })();
