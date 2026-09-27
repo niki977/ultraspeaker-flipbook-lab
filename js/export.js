@@ -26,7 +26,17 @@
           const cdn = "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd/";
           coreURL = cdn + "ffmpeg-core.js"; wasmURL = cdn + "ffmpeg-core.wasm";
         }
-        await inst.load({ coreURL, wasmURL });
+        try { await inst.load({ coreURL, wasmURL }); }
+        catch (e) {
+          if (!local) throw e;
+          // il file nel sito non parte (per esempio in Safari): riprova con la copia del CDN
+          try { inst.terminate(); } catch (x) { /* ignora */ }
+          const cdn = "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd/";
+          const again = new FFmpeg();
+          await again.load({ coreURL: cdn + "ffmpeg-core.js", wasmURL: cdn + "ffmpeg-core.wasm" });
+          ff = again;
+          return again;
+        }
         ff = inst;
         return inst;
       })().catch((e) => { ffLoading = null; throw e; });
@@ -149,38 +159,67 @@
   // quando la scheda è in secondo piano (i timer sì, fino a una volta al secondo)
   const idle = () => new Promise((r) => { const c = new MessageChannel(); c.port1.onmessage = () => r(); c.port2.postMessage(0); });
 
+  // testo leggibile per qualsiasi errore (Safari a volte rifiuta con un Event, che diventa "[object Event]")
+  function describe(e) {
+    if (!e) return "?";
+    if (typeof Event !== "undefined" && e instanceof Event) {
+      return "evento " + e.type + (e.message ? ": " + e.message : "") + (e.filename ? " @ " + String(e.filename).split("/").pop() + ":" + (e.lineno || "") : "");
+    }
+    return e.message || String(e);
+  }
+  const RECYCLE = 15;                     // ogni 15 blocchi (180 fotogrammi) il motore riparte pulito: Safari libera la memoria
+
   async function mov(job) {
     const { width: W, height: H, fps, frames: N, render, onProgress, isCancelled } = job;
-    const f = await ffmpeg(() => onProgress(0, "load"));
+    let f;
+    try { f = await ffmpeg(() => onProgress(0, "load")); }
+    catch (e) { throw new Error("motore video non caricato – " + describe(e)); }
     const { c, ctx } = frameCanvas(W, H);
     let stsd = null;
-    const parts = [], sizes = [];
+    const chunks = [], sizes = [];
+    const encode = async (raw) => {
+      await f.writeFile("in.raw", raw);
+      const code = await f.exec(["-f", "rawvideo", "-pix_fmt", "rgba", "-s", W + "x" + H, "-r", String(fps), "-i", "in.raw",
+        "-c:v", "prores_ks", "-profile:v", "4444", "-pix_fmt", "yuva444p10le", "-alpha_bits", "16", "-vendor", "apl0",
+        "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
+        "-qscale:v", "6", "seg.mov"]);
+      try { await f.deleteFile("in.raw"); } catch (e) { /* ignora */ }
+      if (code) throw new Error("ffmpeg codice " + code);
+      const u8 = await f.readFile("seg.mov");
+      await f.deleteFile("seg.mov");
+      return parseSegment(u8);
+    };
     for (let s = 0, seg = 0; s < N; s += BLOCK, seg++) {
       const n = Math.min(BLOCK, N - s);
-      const raw = new Uint8Array(W * H * 4 * n);
+      let raw = new Uint8Array(W * H * 4 * n);
       for (let k = 0; k < n; k++) {
         if (isCancelled()) throw new Error("cancel");
         ctx.clearRect(0, 0, W, H);
-        await render(ctx, s + k, W, H);
+        try { await render(ctx, s + k, W, H); }
+        catch (e) { throw new Error("fotogramma " + (s + k) + " – " + describe(e)); }
         raw.set(ctx.getImageData(0, 0, W, H).data, k * W * H * 4);
         onProgress((s + k + 0.5) / N, "frames");
         if (k % 3 === 2) await idle();
       }
-      await f.writeFile("in.raw", raw);
-      await f.exec(["-f", "rawvideo", "-pix_fmt", "rgba", "-s", W + "x" + H, "-r", String(fps), "-i", "in.raw",
-        "-c:v", "prores_ks", "-profile:v", "4444", "-pix_fmt", "yuva444p10le", "-alpha_bits", "16", "-vendor", "apl0",
-        "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
-        "-qscale:v", "6", "seg.mov"]);
-      await f.deleteFile("in.raw");
-      const u8 = await f.readFile("seg.mov");
-      await f.deleteFile("seg.mov");
-      const pr = parseSegment(u8);
+      if (seg && seg % RECYCLE === 0) { stopFF(); f = await ffmpeg(); }
+      let pr;
+      try { pr = await encode(raw); }
+      catch (e) {
+        // un secondo tentativo con il motore riavviato (se si è bloccato o ha finito la memoria)
+        if (isCancelled()) throw new Error("cancel");
+        stopFF();
+        try { f = await ffmpeg(); pr = await encode(raw); }
+        catch (e2) { throw new Error("blocco " + (seg + 1) + " – " + describe(e2)); }
+      }
+      raw = null;
       if (!stsd) stsd = pr.stsd;
-      pr.samples.forEach((x) => { parts.push(x); sizes.push(x.length); });
+      pr.samples.forEach((x) => sizes.push(x.length));
+      // i fotogrammi pronti diventano subito un Blob: il browser può tenerli fuori dalla memoria della pagina
+      chunks.push(new Blob(pr.samples));
       if (isCancelled()) throw new Error("cancel");
     }
     const { head, moov } = buildMov(stsd, sizes, W, H, fps);
-    return new Blob([head, ...parts, moov], { type: "video/quicktime" });
+    return new Blob([head, ...chunks, moov], { type: "video/quicktime" });
   }
 
   async function avcSupported(W, H, fps) {
