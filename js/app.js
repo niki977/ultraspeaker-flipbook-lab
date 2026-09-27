@@ -151,7 +151,13 @@
   function canGo(dir) { const v = views(); return !!v[st.view + dir]; }
   function startFlip(dir, P0, corner, dur) {
     if (!book) return false;
-    if (anim) { if (Math.sign(queue) === -dir) queue = 0; if (canGo(dir * (Math.abs(queue) + 2))) queue += dir; return true; }
+    if (anim) {
+      // un altro giro mentre la pagina sta ancora girando: lo mettiamo in coda, anche nella direzione opposta
+      const base = st.view + (anim.complete ? anim.dir : 0);
+      if (Math.sign(queue) === -dir) queue = 0;
+      if (views()[base + queue + dir]) queue += dir;
+      return true;
+    }
     if (!canGo(dir)) return false;
     const g = geo();
     corner = corner || (st.flip && st.flip.dir === dir ? st.flip.corner : "bottom");
@@ -704,7 +710,7 @@
     const lang = $("#lang");
     lang.innerHTML = I18N.langs.map(([k, n]) => `<option value="${k}">${n}</option>`).join("");
     lang.addEventListener("change", () => {
-      LANG = lang.value; ST.setPref("lang", LANG); applyStatic();
+      LANG = lang.value; ST.setPref("lang", LANG); applyStatic(); lang.blur();   // le frecce tornano a sfogliare
       if (book && book.sample && book.sample !== LANG && !rec) loadSample(st.view);
     });
     $("#openBtn").addEventListener("click", () => $("#fileIn").click());
@@ -781,7 +787,7 @@
     window.addEventListener("resize", resize);
 
     document.addEventListener("keydown", (e) => {
-      if (e.target.closest("input,select,textarea")) return;
+      if (e.target && e.target.closest && e.target.closest("input,select,textarea")) return;
       if (dlgOpen()) {
         if (e.key === "Escape" && !xRunning) { $("#expDlg").hidden = true; $("#autoDlg").hidden = true; }
         return;

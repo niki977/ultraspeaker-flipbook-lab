@@ -136,7 +136,9 @@
     c.width = w; c.height = h;
     return { c, ctx: c.getContext("2d", { willReadFrequently: true }) };
   }
-  const idle = () => new Promise((r) => setTimeout(r, 0));
+  // piccola pausa per lasciar respirare la pagina; con MessageChannel non viene rallentata
+  // quando la scheda è in secondo piano (i timer sì, fino a una volta al secondo)
+  const idle = () => new Promise((r) => { const c = new MessageChannel(); c.port1.onmessage = () => r(); c.port2.postMessage(0); });
 
   async function mov(job) {
     const { width: W, height: H, fps, frames: N, render, onProgress, isCancelled } = job;
@@ -199,7 +201,7 @@
         venc.encode(vf, { keyFrame: k % (fps * 2) === 0 });
         vf.close();
         onProgress((k + 1) / N, "frames");
-        while (venc.encodeQueueSize > 6) await new Promise((r) => setTimeout(r, 5));
+        while (venc.encodeQueueSize > 6) await new Promise((r) => { const done = () => { venc.removeEventListener && venc.removeEventListener("dequeue", done); r(); }; if (venc.addEventListener && "ondequeue" in venc) venc.addEventListener("dequeue", done, { once: true }); else idle().then(r); });
         if (k % 4 === 3) await idle();
       }
       await venc.flush();
