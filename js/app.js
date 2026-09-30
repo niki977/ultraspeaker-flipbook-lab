@@ -514,13 +514,15 @@
   let saveT;
   function saveSoon() { if (!book) return; clearTimeout(saveT); saveT = setTimeout(saveNow, 1500); }
   function saveNow() {
-    if (!book || window.FB_PREVIEW) return;
+    if (!book || window.FB_PREVIEW || isMobile()) return;
     ST.save({ name: book.name, sample: book.sample || null, aspect: PG.aspect, blobs: PG.blobs, lines: PG.lines, strokes: A.exportKeep(), view: st.view });
   }
   async function restore() {
     if (window.FB_PREVIEW) return false;
     const bgb = await ST.get("bgImage");
     if (bgb) { const m = bgMode; await setBgImage(bgb, false); bgMode = m; }
+    // sul telefono si riparte sempre dalla pagina iniziale, senza riaprire l'ultimo PDF
+    if (isMobile()) return false;
     const r = await ST.load();
     if (!r || !r.blobs || !r.blobs.length) return false;
     PG.set(r.blobs, r.aspect);
