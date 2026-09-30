@@ -159,7 +159,19 @@ select{height:32px;padding:0 6px;border-radius:8px;background:#111111;border:1px
   .stagewrap{padding:10px}
   .cards{grid-template-columns:1fr}
   .hide-s{display:none!important}
+  /* schermata iniziale: usa tutto lo spazio (non solo il riquadro 16:9 del libro) e scorre se serve */
+  .stagewrap:has(.empty:not([hidden])) .stage{width:100%!important;height:100%!important}
+  .empty{justify-content:safe center;overflow-y:auto;gap:10px;padding:18px 16px}
+  .empty img{width:min(220px,62%)}
+  .empty h1{font-size:17px;margin:2px 0 0}
+  .empty p{font-size:14px;line-height:1.5;color:var(--ink-2)}
+  .dropzone{padding:14px 12px;gap:10px;width:100%;max-width:420px}
+  .row .btn.big{flex:1 1 auto}
+  /* finché non c'è un PDF i comandi in basso non servono: sul telefono lasciano spazio alla pagina iniziale */
+  .app:has(.empty:not([hidden])) .bottom{display:none}
 }
+/* sul telefono non si trascinano file: riquadro senza tratteggio e senza «Trascina qui» */
+@media (pointer:coarse){.dropzone{border:0;padding:4px 0}.dropzone > svg,.dropzone > b{display:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
