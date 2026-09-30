@@ -9,6 +9,8 @@ Funziona nel browser (Chrome, Edge, Safari recenti), senza installare nulla. Int
 - **Sfogliare**: trascina l’angolo della pagina, clicca sulla pagina, usa ◀ ▶ o le frecce della tastiera.
   Vista **Libro** (due pagine, copertina da sola) o **Pagina** singola.
 - **Aprire un PDF**: pulsante Apri PDF oppure trascinalo nella finestra (anche con un libro già aperto). Trascinando un’immagine, diventa lo sfondo.
+- **Da un link**: pulsante **Link** (o «Da un link»): incolli l’indirizzo e l’app scarica il PDF. Vanno i link diretti a un .pdf e i link di condivisione di Dropbox, Google Drive, OneDrive e GitHub, se il file è pubblico e il sito permette il download da altre pagine.
+  Con `?pdf=` nell’indirizzo dell’app il PDF si apre da solo, per esempio `https://niki977.github.io/ultraspeaker-flipbook-lab/?pdf=https://…/file.pdf`.
 - **Sottolineare**: Evidenzia (E) e Sottolinea (U) **si agganciano al testo come una selezione**: parola per parola, anche su più righe,
   restando nella stessa colonna (articoli a due colonne compresi). Un clic segna una parola. Penna (P), Gomma (G), 6 colori.
   L’aggancio usa il testo del PDF: con le scansioni senza testo la linea resta dritta ma libera.
@@ -24,6 +26,7 @@ Funziona nel browser (Chrome, Edge, Safari recenti), senza installare nulla. Int
 - **Esportare**:
   - **MOV trasparente** (ProRes 4444 con canale alfa) → Keynote, Final Cut. File grandi: circa 12 MB al secondo in 1920×1080.
   - **MP4 con colore o immagine** (H.264) → PowerPoint su Mac e Windows. Usa lo stesso sfondo della slide.
+- **Sul telefono**: a video pronto, il pulsante **Salva o condividi** apre il menu Condividi del sistema: «Salva video» lo mette nelle Foto, oppure lo invii con WhatsApp, Messaggi o Mail. Sul telefono il formato proposto è l’MP4.
 - L’ultimo PDF, con le sottolineature fisse, resta memorizzato **in questo browser**. Il PDF non viene inviato a nessun server.
 
 Perché due formati: PowerPoint non mostra la trasparenza dei video in modo affidabile durante la presentazione

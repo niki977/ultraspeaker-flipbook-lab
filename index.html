@@ -133,6 +133,10 @@ select{height:32px;padding:0 6px;border-radius:8px;background:#111111;border:1px
 .note{margin:0;font-size:12px;line-height:1.5;color:var(--ink-3)}
 .hint{margin:0;font-size:12px;line-height:1.5;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line-2);border-radius:9px;padding:9px 12px}
 .acts{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+#expDl{text-decoration:none}
+.url-in{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:12px 14px;border-radius:12px;border:1px solid var(--line-3);background:var(--surface-2);color:var(--ink)}
+.url-in:focus{outline:2px solid var(--ink);outline-offset:1px}
+@media (max-width:640px){#expDlg .acts{flex-direction:column;align-items:stretch}#expDlg .acts .btn{width:100%;justify-content:center}#expGo,#expShare{order:1}#expDl{order:2}#expOther{order:3}#expCancel{order:4}}
 .num-in{width:64px;height:32px;border-radius:8px;border:1px solid #333333;background:#111111;padding:0 8px;font-weight:700;font-variant-numeric:tabular-nums}
 .done{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
 .done video{width:100%;max-height:220px;border-radius:10px;background:repeating-conic-gradient(#202020 0 25%,#171717 0 50%) 0 0/16px 16px}
@@ -169,6 +173,10 @@ select{height:32px;padding:0 6px;border-radius:8px;background:#111111;border:1px
     <button type="button" class="btn" id="openBtn">
       <svg class="i" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9 14l3-3 3 3"/></svg>
       <span data-i18n="open"></span>
+    </button>
+    <button type="button" class="btn" id="linkBtn" data-i18n-title="l.open" data-i18n-aria="l.open">
+      <svg class="i" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>
+      <span class="hide-s" data-i18n="l.short"></span>
     </button>
     <label class="lang hide-s">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
@@ -208,6 +216,7 @@ select{height:32px;padding:0 6px;border-radius:8px;background:#111111;border:1px
             <b data-i18n="dropBox"></b>
             <div class="row">
               <button type="button" class="btn pri big" id="chooseBtn"><span data-i18n="choose"></span></button>
+              <button type="button" class="btn big" id="linkBtn2" data-i18n="l.fromLink"></button>
               <button type="button" class="btn big" id="sampleBtn" data-i18n="sample"></button>
             </div>
           </div>
@@ -332,7 +341,23 @@ select{height:32px;padding:0 6px;border-radius:8px;background:#111111;border:1px
       <button type="button" class="btn" id="expCancel" data-i18n="cancel"></button>
       <button type="button" class="btn" id="expOther" hidden></button>
       <button type="button" class="btn pri" id="expGo" data-i18n="x.go"></button>
+      <button type="button" class="btn pri" id="expShare" hidden><svg class="i" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M6 12H5v8h14v-8h-1"/></svg><span data-i18n="x.share"></span></button>
       <a class="btn pri" id="expDl" hidden download><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-i18n="x.download"></span></a>
+    </div>
+  </div>
+</div>
+
+<div class="veil" id="linkDlg" hidden>
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="linkTitle">
+    <h2 id="linkTitle" data-i18n="l.title"></h2>
+    <p class="sub" data-i18n="l.sub"></p>
+    <form class="opts" id="linkForm" autocomplete="off">
+      <input class="url-in" type="url" id="linkUrl" inputmode="url" spellcheck="false" placeholder="https://…" required>
+      <p class="hint" data-i18n="l.hint"></p>
+    </form>
+    <div class="acts">
+      <button type="button" class="btn" id="linkCancel" data-i18n="cancel"></button>
+      <button type="submit" form="linkForm" class="btn pri" id="linkGo" data-i18n="l.go"></button>
     </div>
   </div>
 </div>
