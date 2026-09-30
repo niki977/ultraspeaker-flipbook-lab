@@ -196,6 +196,29 @@
     peek.target = 0;
   }
   function zoomReset() { camT = CAM0(); }
+  // pinch con due dita: il punto del libro tra le dita resta tra le dita, anche spostandole
+  const touches = new Map();
+  let pinch = null, pinchLock = false;
+  function pinchStart() {
+    const [a, b] = [...touches.values()];
+    if (stroke) {                                            // il segno iniziato col primo dito non vale
+      if (!stroke.erase) { A.end(stroke.s, now()); stroke.s.del = stroke.s.t0; }
+      stroke = null; dirty = true;
+    }
+    if (drag) { drag = null; st.flip = null; dirty = true; }
+    pan = null; peek.target = peek.amt = 0;
+    const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+    pinch = { d0: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)), w0: E.toWorld(mid, camT), z0: camT.z };
+    pinchLock = true;
+  }
+  function pinchMove() {
+    const [a, b] = [...touches.values()];
+    const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+    const z = Math.max(1, Math.min(5, pinch.z0 * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d0));
+    camT = E.clampCam({ z, x: pinch.w0.x - (mid.x - E.SW / 2) / z, y: pinch.w0.y - (mid.y - E.SH / 2) / z });
+    cam = { ...camT };
+    dirty = true;
+  }
   const center = () => ({ x: E.SW / 2, y: E.SH / 2 });
 
   /* ---------- Puntatore ---------- */
@@ -226,7 +249,7 @@
     cv.setPointerCapture(e.pointerId);
     const p = worldPt(e);
     // spostarsi nell'ingrandimento: barra spaziatrice, tasto centrale, o strumento lente
-    if (spaceDown || e.button === 1 || tool === "zoom") { startPan(e); return; }
+    if (spaceDown || e.button === 1 || tool === "zoom" || tool === "zoomout") { startPan(e); return; }
     if (tool === "hand") {
       if (anim) return;
       const s = sideAt(p);
@@ -276,7 +299,7 @@
       else { A.add(stroke.s, u, v, now()); dirty = true; }
       return;
     }
-    if (tool === "zoom" || spaceDown) { cv.style.cursor = spaceDown ? "grab" : (e.altKey ? "zoom-out" : "zoom-in"); return; }
+    if (tool === "zoom" || tool === "zoomout" || spaceDown) { cv.style.cursor = spaceDown ? "grab" : ((tool === "zoomout") !== e.altKey ? "zoom-out" : "zoom-in"); return; }
     if (tool === "hand" && book && !anim && e.pointerType === "mouse") {
       const s = sideAt(p);
       let tgt = 0, dir = 0, corner = "bottom";
@@ -294,7 +317,7 @@
   function onUp(e) {
     if (pan) {
       const p = pan; pan = null; toolCursor();
-      if (!p.moved && tool === "zoom") zoomAt(screenPt(e), e.altKey || e.shiftKey ? 1 / 1.6 : 1.6);
+      if (!p.moved && (tool === "zoom" || tool === "zoomout")) zoomAt(screenPt(e), ((tool === "zoomout") !== (e.altKey || e.shiftKey)) ? 1 / 1.6 : 1.6);
       return;
     }
     if (drag) {
@@ -320,7 +343,7 @@
     zoomAt(screenPt(e), f);
   }
   function toolCursor() {
-    cv.style.cursor = tool === "hand" ? "default" : tool === "erase" ? "cell" : tool === "zoom" ? "zoom-in" : "crosshair";
+    cv.style.cursor = tool === "hand" ? "default" : tool === "erase" ? "cell" : tool === "zoom" ? "zoom-in" : tool === "zoomout" ? "zoom-out" : "crosshair";
   }
 
   /* ---------- Strumenti ---------- */
@@ -871,10 +894,35 @@
     });
     ["fullscreenchange", "webkitfullscreenchange"].forEach((ev) => document.addEventListener(ev, () => { resize(); setTimeout(resize, 60); setTimeout(resize, 250); }));
 
-    cv.addEventListener("pointerdown", onDown);
-    cv.addEventListener("pointermove", onMove);
-    cv.addEventListener("pointerup", onUp);
-    cv.addEventListener("pointercancel", onUp);
+    // tocco: con due dita si ingrandisce e ci si sposta (pinch); un dito fa quello che fa il mouse
+    cv.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "touch") {
+        touches.set(e.pointerId, screenPt(e));
+        if (touches.size >= 2) { if (book) pinchStart(); return; }
+        if (pinchLock) return;
+      }
+      onDown(e);
+    });
+    cv.addEventListener("pointermove", (e) => {
+      if (e.pointerType === "touch" && touches.has(e.pointerId)) {
+        touches.set(e.pointerId, screenPt(e));
+        if (pinch && touches.size >= 2) { pinchMove(); return; }
+        if (pinchLock) return;
+      }
+      onMove(e);
+    });
+    const touchEnd = (e) => {
+      if (e.pointerType === "touch") {
+        touches.delete(e.pointerId);
+        if (pinch && touches.size < 2) pinch = null;
+        if (pinchLock) { if (!touches.size) pinchLock = false; return; }
+      }
+      onUp(e);
+    };
+    cv.addEventListener("pointerup", touchEnd);
+    cv.addEventListener("pointercancel", touchEnd);
+    // Safari: niente zoom della pagina intera quando si pizzica sul libro
+    ["gesturestart", "gesturechange"].forEach((ev) => $("#stagewrap").addEventListener(ev, (e) => e.preventDefault()));
     cv.addEventListener("pointerleave", () => { peek.target = 0; });
     cv.addEventListener("wheel", onWheel, { passive: false });
     cv.addEventListener("auxclick", (e) => e.preventDefault());
@@ -899,6 +947,7 @@
       else if (k === "+" || k === "=") zoomAt(center(), 1.4);
       else if (k === "-" || k === "_") zoomAt(center(), 1 / 1.4);
       else if (k === "0") zoomReset();
+      else if (k === "Z" && e.shiftKey) setTool("zoomout");
       else if (map[k.toLowerCase()]) setTool(map[k.toLowerCase()]);
       else if (k.toLowerCase() === "m") { markMode = markMode === "keep" ? "fade" : "keep"; ST.setPref("markMode", markMode); syncUI(); }
       else if (k.toLowerCase() === "r" && book) { rec ? stopRec() : startRec(); }
