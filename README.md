@@ -15,7 +15,8 @@ Funziona nel browser (Chrome, Edge, Safari recenti), senza installare nulla. Int
   restando nella stessa colonna (articoli a due colonne compresi). Un clic segna una parola. Penna (P), Gomma (G), 6 colori.
   L’aggancio usa il testo del PDF: con le scansioni senza testo la linea resta dritta ma libera.
   Ogni segno può **restare** oppure **svanire dopo 3 secondi** (tasto M per passare dall’uno all’altro).
-- **Zoom**: rotellina del mouse (o pizzico sul trackpad) sul punto da ingrandire, pulsanti − % +, strumento Lente (Z).
+- **Zoom**: rotellina del mouse (o pizzico sul trackpad) sul punto da ingrandire, pulsanti − % +, strumenti Lente per ingrandire (Z) e per ridurre (⇧Z).
+  Su telefono e tablet: pizzico con due dita sul libro per ingrandire, ridurre e spostarsi.
   Per spostarti: tieni premuta la barra spaziatrice e trascina, oppure trascina fuori dalle pagine. Lo zoom entra nella registrazione.
 - **Sfondo**: trasparente, a colore o un’immagine.
 - **Registrare dal vivo**: premi **Registra** (o R), sfoglia e sottolinea, premi **Stop**. Il video riproduce esattamente
@@ -58,4 +59,4 @@ per renderla indipendente si può aggiungere il file con GitHub Desktop.
 
 ## Scorciatoie
 
-← → sfoglia · + − 0 zoom · spazio+trascina sposta · H sfoglia · E evidenzia · U sottolinea · P penna · G gomma · Z lente · M resta/svanisce · R registra/stop · Esc chiude
+← → sfoglia · + − 0 zoom · spazio+trascina sposta · H sfoglia · E evidenzia · U sottolinea · P penna · G gomma · Z lente · ⇧Z riduci · M resta/svanisce · R registra/stop · Esc chiude
