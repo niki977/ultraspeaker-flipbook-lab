@@ -428,6 +428,75 @@
     if (!isPDF(file)) { toast(t("err.pdf"), true); return; }
     file.arrayBuffer().then((b) => openData(new Uint8Array(b), file.name.replace(/\.pdf$/i, ""))).catch(() => toast(t("err.pdf"), true));
   }
+  /* ---------- PDF da un link ---------- */
+  // i link di condivisione dei servizi più usati portano a una pagina di anteprima: qui diventano link al file
+  function directLink(raw) {
+    let u;
+    try { u = new URL(raw.trim()); } catch (e) { return null; }
+    if (!/^https?:$/.test(u.protocol)) return null;
+    const h = u.hostname.replace(/^www\./, "");
+    if (h === "dropbox.com") {                                     // Dropbox: ?dl=0 → file diretto
+      u.hostname = "dl.dropboxusercontent.com"; u.searchParams.delete("dl"); u.searchParams.delete("raw");
+    } else if (h === "drive.google.com" || h === "docs.google.com") { // Google Drive
+      const m = u.pathname.match(/\/d\/([\w-]{10,})/);
+      const id = (m && m[1]) || u.searchParams.get("id");
+      if (id) return "https://drive.usercontent.google.com/download?id=" + id + "&export=download&confirm=t";
+    } else if (h === "github.com") {                               // GitHub: pagina del file → file grezzo
+      const m = u.pathname.match(/^\/([^/]+)\/([^/]+)\/(?:blob|raw)\/(.+)$/);
+      if (m) return "https://raw.githubusercontent.com/" + m[1] + "/" + m[2] + "/" + m[3];
+    } else if (h === "1drv.ms" || h === "onedrive.live.com") {     // OneDrive: condivisione → download
+      if (!u.searchParams.has("download")) u.searchParams.set("download", "1");
+    }
+    return u.href;
+  }
+  function nameFromLink(href) {
+    try {
+      const seg = decodeURIComponent(new URL(href).pathname.split("/").filter(Boolean).pop() || "");
+      if (/\.pdf$/i.test(seg)) return seg.replace(/\.pdf$/i, "");
+    } catch (e) { /* ignora */ }
+    return "PDF";
+  }
+  function isPdfBytes(b) {
+    const n = Math.min(b.length - 4, 1024);
+    for (let i = 0; i < n; i++) if (b[i] === 0x25 && b[i + 1] === 0x50 && b[i + 2] === 0x44 && b[i + 3] === 0x46) return true; // %PDF
+    return false;
+  }
+  async function openLink(raw) {
+    if (rec) return;
+    const url = directLink(raw);
+    if (!url) { toast(t("l.errUrl"), true); return false; }
+    busy(true, t("l.loading"), 0);
+    let res;
+    try { res = await fetch(url, { mode: "cors", credentials: "omit", redirect: "follow" }); }
+    catch (e) { busy(false); toast(t("l.errCors"), true); return false; }        // il sito non lascia scaricare il file da un'altra pagina
+    if (!res.ok) { busy(false); toast(t("l.errHttp", { c: res.status }), true); return false; }
+    let data;
+    try {
+      const total = +res.headers.get("content-length") || 0;
+      if (res.body && res.body.getReader) {
+        const rd = res.body.getReader(), parts = [];
+        let got = 0;
+        for (;;) {
+          const { done, value } = await rd.read();
+          if (done) break;
+          parts.push(value); got += value.length;
+          busy(true, t("l.loadingMb", { mb: (got / 1048576).toFixed(1) }), total ? got / total : null);
+        }
+        data = new Uint8Array(got); let o = 0; parts.forEach((x) => { data.set(x, o); o += x.length; });
+      } else data = new Uint8Array(await res.arrayBuffer());
+    } catch (e) { busy(false); toast(t("l.errCors"), true); return false; }
+    busy(false);
+    if (!isPdfBytes(data)) { toast(t("l.errNotPdf"), true); return false; }
+    await openData(data, nameFromLink(url));
+    return true;
+  }
+  function openLinkDlg() {
+    if (rec) return;
+    $("#linkUrl").value = "";
+    showDlg("#linkDlg");
+    setTimeout(() => $("#linkUrl").focus(), 30);
+  }
+
   // PDF di esempio: una guida all'app nella lingua scelta (cambia lingua insieme all'app)
   async function loadSample(keepView) {
     try {
@@ -584,11 +653,16 @@
   const fmtDur = (ms) => { const s = Math.round(ms / 1000); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
 
   /* ---------- Esportazione ---------- */
-  let lastBlob = null;
+  let lastBlob = null, shareFile = null, shareOK = false;
+  // telefono o tablet: lì il video va nelle Foto o in WhatsApp, tramite il menu Condividi del sistema
+  const isMobile = () => /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent) ||
+    (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent)) || matchMedia("(pointer: coarse)").matches;
+  function canShareFile(f) { try { return !!(navigator.share && navigator.canShare && navigator.canShare({ files: [f] })); } catch (e) { return false; } }
   let xFmt = null, xRes = ST.pref("xRes", 1080), mp4Color = null, mp4Bg = null, xCancel = false, xUrl = null, xRunning = false;
   function openExport() {
     if (!take) return;
-    if (!xFmt) xFmt = bgMode === "clear" ? "mov" : "mp4";
+    // sul telefono l'MP4: si apre nelle Foto e in WhatsApp (il MOV trasparente è per Keynote sul Mac)
+    if (!xFmt) xFmt = isMobile() ? "mp4" : bgMode === "clear" ? "mov" : "mp4";
     if (window.FB_NO_MOV) xFmt = "mp4";
     if (!mp4Color) mp4Color = bgMode === "color" ? bgColor : "#000000";
     mp4Bg = bgMode === "image" && bgImg ? "image" : (mp4Bg === "image" && bgImg ? "image" : "color");
@@ -624,6 +698,8 @@
     $("#expDone").hidden = s !== "done";
     $("#expGo").hidden = s !== "form";
     $("#expDl").hidden = s !== "done";
+    $("#expShare").hidden = s !== "done" || !shareOK;
+    $("#expDl").classList.toggle("pri", !(s === "done" && shareOK));
     $("#expOther").hidden = s !== "done" || !!window.FB_NO_MOV;
     $("#expCancel").textContent = s === "done" ? t("close") : t("cancel");
   }
@@ -670,7 +746,9 @@
       $("#expSize").textContent = (blob.size / 1048576).toFixed(1) + " MB";
       const vid = $("#expVideo");
       if (xFmt === "mp4") { vid.hidden = false; vid.src = xUrl; } else { vid.hidden = true; vid.removeAttribute("src"); }
-      $("#expHow").textContent = xFmt === "mov" ? t("x.howMov") : t("x.howMp4");
+      shareFile = new File([blob], name, { type: xFmt === "mov" ? "video/quicktime" : "video/mp4" });
+      shareOK = isMobile() && canShareFile(shareFile);
+      $("#expHow").textContent = shareOK ? t(xFmt === "mov" ? "x.shareMov" : "x.shareHow") : xFmt === "mov" ? t("x.howMov") : t("x.howMp4");
       $("#expOther").textContent = xFmt === "mov" ? t("x.alsoMp4") : t("x.alsoMov");
       showExpState("done");
     } catch (e) {
@@ -689,7 +767,7 @@
   let lastFocus = null;
   function showDlg(sel) { lastFocus = document.activeElement; $(sel).hidden = false; const f = $(sel + " button:not([hidden]):not(:disabled), " + sel + " input"); f && f.focus(); }
   function hideDlg(sel) { $(sel).hidden = true; lastFocus && lastFocus.focus && lastFocus.focus(); }
-  const dlgOpen = () => !$("#expDlg").hidden || !$("#autoDlg").hidden;
+  const dlgOpen = () => !$("#expDlg").hidden || !$("#autoDlg").hidden || !$("#linkDlg").hidden;
 
   /* ---------- Trascina e rilascia ---------- */
   function fileOf(dt) {
@@ -716,6 +794,17 @@
     $("#openBtn").addEventListener("click", () => $("#fileIn").click());
     $("#chooseBtn").addEventListener("click", () => $("#fileIn").click());
     $("#sampleBtn").addEventListener("click", () => loadSample());
+    $("#linkBtn").addEventListener("click", openLinkDlg);
+    $("#linkBtn2").addEventListener("click", openLinkDlg);
+    $("#linkCancel").addEventListener("click", () => hideDlg("#linkDlg"));
+    $("#linkForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const v = $("#linkUrl").value;
+      if (!directLink(v)) { toast(t("l.errUrl"), true); return; }
+      hideDlg("#linkDlg");
+      openLink(v);
+    });
+    $("#linkUrl").addEventListener("keydown", (e) => { if (e.key === "Escape") hideDlg("#linkDlg"); });
     $("#fileIn").addEventListener("change", (e) => { readFile(e.target.files[0]); e.target.value = ""; });
     $("#prevBtn").addEventListener("click", () => startFlip(-1));
     $("#nextBtn").addEventListener("click", () => startFlip(1));
@@ -761,6 +850,11 @@
       e.preventDefault();
       window.FB_SAVE($("#expDl").download, lastBlob).catch(() => toast(t("x.saveErr"), true));
     });
+    $("#expShare").addEventListener("click", async () => {
+      if (!shareFile) return;
+      try { await navigator.share({ files: [shareFile], title: shareFile.name }); }
+      catch (e) { if (!e || e.name !== "AbortError") toast(t("x.shareErr"), true); }
+    });
     $("#expCancel").addEventListener("click", () => {
       if (xRunning) { xCancel = true; FBExport.cancel(); return; }
       hideDlg("#expDlg");
@@ -789,7 +883,7 @@
     document.addEventListener("keydown", (e) => {
       if (e.target && e.target.closest && e.target.closest("input,select,textarea")) return;
       if (dlgOpen()) {
-        if (e.key === "Escape" && !xRunning) { $("#expDlg").hidden = true; $("#autoDlg").hidden = true; }
+        if (e.key === "Escape" && !xRunning) { $("#expDlg").hidden = true; $("#autoDlg").hidden = true; $("#linkDlg").hidden = true; }
         return;
       }
       if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -833,7 +927,11 @@
     setTool("hand");
     resize();
     requestAnimationFrame(frame);
-    const ok = await restore();
+    // indirizzo dell'app con ?pdf=<link>: apre subito quel PDF (utile da condividere)
+    let qpdf = null;
+    try { qpdf = new URLSearchParams(location.search).get("pdf"); } catch (e) { /* ignora */ }
+    const had = await restore();
+    const ok = qpdf ? (await openLink(qpdf)) || had : had;
     if (!ok) {
       $("#empty").hidden = false;
       if (window.FB_PREVIEW) loadSample();
