@@ -30,6 +30,11 @@ svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke
 /* ---------- Intestazione ---------- */
 .top{display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid var(--line);min-width:0}
 .top .lockup{height:38px;width:auto;flex:none}
+.brandlink{display:inline-flex;flex:none;border-radius:6px;transition:opacity .15s}
+.brandlink:hover{opacity:.75}
+.brandlink:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.empty .brandlink{width:min(360px,60%);justify-content:center}
+.empty .brandlink img{width:100%}
 .doc{min-width:0;display:flex;flex-direction:column;line-height:1.25;margin-left:6px;padding-left:14px;border-left:1px solid var(--line-2)}
 .doc b{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .doc span{font-size:11px;color:var(--ink-3)}
@@ -162,7 +167,7 @@ select{height:32px;padding:0 6px;border-radius:8px;background:#111111;border:1px
   /* schermata iniziale: usa tutto lo spazio (non solo il riquadro 16:9 del libro) e scorre se serve */
   .stagewrap:has(.empty:not([hidden])) .stage{width:100%!important;height:100%!important}
   .empty{justify-content:safe center;overflow-y:auto;gap:10px;padding:18px 16px}
-  .empty img{width:min(220px,62%)}
+  .empty .brandlink{width:min(220px,62%)}
   .empty h1{font-size:17px;margin:2px 0 0}
   .empty p{font-size:14px;line-height:1.5;color:var(--ink-2)}
   .dropzone{padding:14px 12px;gap:10px;width:100%;max-width:420px}
@@ -178,7 +183,7 @@ select{height:32px;padding:0 6px;border-radius:8px;background:#111111;border:1px
 <body>
 <div class="app">
   <header class="top">
-    <img class="lockup" src="assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab">
+    <a class="brandlink" href="https://www.theultraspeaker.com" target="_blank" rel="noopener" title="www.theultraspeaker.com"><img class="lockup" src="assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab – www.theultraspeaker.com"></a>
     <div class="doc" id="doc" hidden><b id="docName"></b><span id="docInfo"></span></div>
     <div class="spacer"></div>
     <span class="recpill" id="recPill" hidden><i></i><span id="recTime">00:00</span></span>
@@ -221,7 +226,7 @@ select{height:32px;padding:0 6px;border-radius:8px;background:#111111;border:1px
         <canvas id="cv"></canvas>
         <div class="stagenote" id="stagenote"></div>
         <section class="empty" id="empty" hidden>
-          <img src="assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab">
+          <a class="brandlink" href="https://www.theultraspeaker.com" target="_blank" rel="noopener" title="www.theultraspeaker.com"><img src="assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab – www.theultraspeaker.com"></a>
           <h1 data-i18n="empty.title"></h1>
           <p data-i18n="empty.text"></p>
           <div class="dropzone" id="dropzone">
