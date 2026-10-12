@@ -20,7 +20,9 @@
   const toBlob = (cv, q) => new Promise((r) => cv.toBlob(r, "image/jpeg", q));
 
   async function openPDF(data, onProgress) {
-    const doc = await lib().getDocument({ data, isEvalSupported: false }).promise;
+    // disableFontFace: pdf.js disegna le lettere come tracciati, senza passare i caratteri del PDF al browser.
+    // Safari rifiuta alcuni caratteri incorporati e la pagina restava bianca; così il risultato è uguale ovunque.
+    const doc = await lib().getDocument({ data, isEvalSupported: false, disableFontFace: true, fontExtraProperties: false }).promise;
     const total = doc.numPages;
     if (!total) throw Object.assign(new Error("empty"), { code: "err.none" });
     const used = Math.min(total, MAX_PAGES);
@@ -41,7 +43,9 @@
       cx.setTransform(1, 0, 0, 1, 0, 0);
       cx.fillStyle = "#ffffff"; cx.fillRect(0, 0, bw, bh);
       const ox = Math.round((bw - vp.width) / 2), oy = Math.round((bh - vp.height) / 2);
-      await page.render({ canvasContext: cx, viewport: vp, transform: [1, 0, 0, 1, ox, oy] }).promise;
+      // un errore su una pagina non deve fermare tutto il PDF: si tiene quello che è stato disegnato
+      try { await page.render({ canvasContext: cx, viewport: vp, transform: [1, 0, 0, 1, ox, oy] }).promise; }
+      catch (e) { console.warn("pagina " + i + ":", e); }
       out.push(await toBlob(cv, 0.9));
       try { lines.push(await textLines(page, vp, ox, oy, bw, bh)); } catch (e) { lines.push([]); }
       page.cleanup();
