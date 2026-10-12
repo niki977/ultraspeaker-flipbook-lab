@@ -4,6 +4,8 @@ App online che trasforma un PDF in un **libro da sfogliare**, con **sottolineatu
 MOV con **sfondo trasparente** per Keynote, MP4 con **il colore della slide** per PowerPoint.
 Funziona nel browser (Chrome, Edge, Safari recenti), senza installare nulla. Interfaccia in italiano, inglese, spagnolo, francese e tedesco.
 
+Grafica conforme al **Brand Book 1.0** di The Ultraspeaker: carattere Champagne & Limousines, palette monocromatica (ambra solo per gli avvisi e la registrazione in corso, blu per il focus), angoli di 10 px, pulsante principale bianco, nessuna ombra.
+
 ## Cosa fa
 
 - **Sfogliare**: trascina l’angolo della pagina, clicca sulla pagina, usa ◀ ▶ o le frecce della tastiera.
@@ -53,7 +55,7 @@ per renderla indipendente si può aggiungere il file con GitHub Desktop.
 | `js/store.js` | Memoria dell’ultimo PDF nel browser |
 | `js/i18n.js` | Testi nelle 5 lingue |
 | `vendor/` | pdf.js (Apache 2.0), mp4-muxer (MIT), ffmpeg.wasm (MIT; core FFmpeg GPL-2.0-or-later, vedi `vendor/ffmpeg/LICENZE.txt`) |
-| `assets/`, `fonts/` | Loghi, icone, Quicksand (OFL) |
+| `assets/`, `fonts/` | Loghi, icone, carattere Champagne & Limousines (Brand Book 1.0) |
 | `GUIDA-INSTALLAZIONE.html` | Come mettere l’app online su GitHub Pages |
 | `demo/esempio-it.pdf` … `esempio-de.pdf` | Guida di esempio nelle 5 lingue (A4, copertina con la scena della homepage del sito): l’app apre quella della lingua scelta |
 

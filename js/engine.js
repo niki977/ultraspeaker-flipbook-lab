@@ -117,7 +117,7 @@
       if (idx == null) return;
       ctx.save();
       if (mirror) { ctx.translate(rect.x * 2 + rect.w, 0); ctx.scale(-1, 1); }
-      if (idx === PAPER) { ctx.fillStyle = "#f4f4f2"; ctx.fillRect(rect.x, rect.y, rect.w, rect.h); }
+      if (idx === PAPER) { ctx.fillStyle = "#F3F3F3"; ctx.fillRect(rect.x, rect.y, rect.w, rect.h); }
       else o.drawPage(ctx, idx, rect.x, rect.y, rect.w, rect.h);
       ctx.restore();
     };
