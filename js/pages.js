@@ -110,11 +110,12 @@
     return out;
   }
   let lines = [];
+  const failedAt = new Map();                   // pagine che non si sono decodificate, con l'ora del tentativo
   function setLines(l) { lines = l || []; }
 
   function set(list, asp) {
     cache.forEach((b) => { try { b.close && b.close(); } catch (e) { /* ignora */ } });
-    cache.clear(); loading.clear();
+    cache.clear(); loading.clear(); failedAt.clear();
     blobs = list; aspect = asp;
   }
   async function decode(blob) {
@@ -126,15 +127,12 @@
       im.src = u;
     });
   }
-  // Safari, con poca memoria (per esempio durante un'esportazione lunga), ogni tanto non decodifica un'immagine:
-  // svuota la cache e riprova, invece di fermare tutto
+  // se una decodifica non riesce (memoria scarsa) si riprova la stessa pagina; le altre restano come sono
   async function decodeRetry(blob) {
     for (let t = 0; ; t++) {
       try { return await decode(blob); }
       catch (e) {
         if (t >= 3) throw e;
-        const keep = [...cache.keys()].slice(-2);
-        cache.forEach((b, k) => { if (!keep.includes(k)) { try { b.close && b.close(); } catch (x) { /* ignora */ } cache.delete(k); } });
         await new Promise((r) => setTimeout(r, 150 * (t + 1)));
       }
     }
@@ -143,8 +141,9 @@
     if (i == null || i < 0 || i >= blobs.length) return Promise.resolve(null);
     if (cache.has(i)) { const b = cache.get(i); cache.delete(i); cache.set(i, b); return Promise.resolve(b); }
     if (loading.has(i)) return loading.get(i);
+    if (failedAt.has(i) && Date.now() - failedAt.get(i) < 2000) return Promise.resolve(null);   // non riprovare a ogni fotogramma
     const p = decodeRetry(blobs[i]).then((bm) => {
-      loading.delete(i);
+      loading.delete(i); failedAt.delete(i);
       cache.set(i, bm);
       while (cache.size > CACHE_MAX) {
         const k = cache.keys().next().value;
@@ -153,11 +152,11 @@
       }
       onReady && onReady(i);
       return bm;
-    }, (e) => { loading.delete(i); throw e; });
+    }, (e) => { loading.delete(i); failedAt.set(i, Date.now()); throw e; });
     loading.set(i, p);
     return p;
   }
-  function get(i) { if (cache.has(i)) return cache.get(i); load(i); return null; }
+  function get(i) { if (cache.has(i)) return cache.get(i); load(i).catch(() => {}); return null; }
   function ensure(list) { return Promise.all(list.filter((i) => i != null && i >= 0).map(load)); }
 
   window.FBPages = {
