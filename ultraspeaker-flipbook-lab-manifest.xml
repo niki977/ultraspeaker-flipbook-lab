@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The Ultraspeaker Flipbook Lab – manifest per PowerPoint.
+     Tutti gli indirizzi puntano a https://niki977.github.io/ultraspeaker-flipbook-lab/ : se pubblichi in un'altra cartella, sostituisci quel testo ovunque.
+     Il pulsante apre un pannello (addin.html) da cui il Flipbook Lab si apre nel browser,
+     perché PowerPoint per Mac non permette ai componenti aggiuntivi di salvare file. -->
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+           xsi:type="TaskPaneApp">
+  <Id>efb799d0-d3c9-41ef-bb99-1e0e0cbf0a3b</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>The Ultraspeaker</ProviderName>
+  <DefaultLocale>it-IT</DefaultLocale>
+  <DisplayName DefaultValue="The Ultraspeaker Flipbook Lab">
+    <Override Locale="en-US" Value="The Ultraspeaker Flipbook Lab"/>
+  </DisplayName>
+  <Description DefaultValue="Trasforma un .pdf in un libro da sfogliare, sottolinealo e registra un video da inserire nella slide.">
+    <Override Locale="en-US" Value="Turn a .pdf into a book you can flip, underline it and record a video for your slide."/>
+    <Override Locale="es-ES" Value="Convierte un .pdf en un libro para hojear, subráyalo y graba un vídeo para tu diapositiva."/>
+    <Override Locale="fr-FR" Value="Transformez un .pdf en livre à feuilleter, soulignez-le et enregistrez une vidéo pour votre diapositive."/>
+    <Override Locale="de-DE" Value="Verwandeln Sie eine .pdf in ein Buch zum Blättern, unterstreichen Sie sie und nehmen Sie ein Video für Ihre Folie auf."/>
+  </Description>
+  <IconUrl DefaultValue="https://niki977.github.io/ultraspeaker-flipbook-lab/assets/flipbook-lab-icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://niki977.github.io/ultraspeaker-flipbook-lab/assets/flipbook-lab-icon-128.png"/>
+  <SupportUrl DefaultValue="https://niki977.github.io/ultraspeaker-flipbook-lab/GUIDA-INSTALLAZIONE.html"/>
+  <AppDomains>
+    <AppDomain>https://niki977.github.io</AppDomain>
+    <AppDomain>https://www.theultraspeaker.com</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Presentation"/>
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://niki977.github.io/ultraspeaker-flipbook-lab/addin.html"/>
+  </DefaultSettings>
+  <Permissions>ReadDocument</Permissions>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Presentation">
+        <DesktopFormFactor>
+          <GetStarted>
+            <Title resid="GetStarted.Title"/>
+            <Description resid="GetStarted.Description"/>
+            <LearnMoreUrl resid="Home.Url"/>
+          </GetStarted>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="Ultraspeaker.FlipbookLab.Group">
+                <Label resid="Group.Label"/>
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16"/>
+                  <bt:Image size="32" resid="Icon.32"/>
+                  <bt:Image size="80" resid="Icon.80"/>
+                </Icon>
+                <Control xsi:type="Button" id="Ultraspeaker.FlipbookLab.Open">
+                  <Label resid="Button.Label"/>
+                  <Supertip>
+                    <Title resid="Button.Label"/>
+                    <Description resid="Button.Tooltip"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16"/>
+                    <bt:Image size="32" resid="Icon.32"/>
+                    <bt:Image size="80" resid="Icon.80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>UltraspeakerFlipbookLab</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16" DefaultValue="https://niki977.github.io/ultraspeaker-flipbook-lab/assets/flipbook-lab-icon-16.png"/>
+        <bt:Image id="Icon.32" DefaultValue="https://niki977.github.io/ultraspeaker-flipbook-lab/assets/flipbook-lab-icon-32.png"/>
+        <bt:Image id="Icon.80" DefaultValue="https://niki977.github.io/ultraspeaker-flipbook-lab/assets/flipbook-lab-icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://niki977.github.io/ultraspeaker-flipbook-lab/addin.html"/>
+        <bt:Url id="Home.Url" DefaultValue="https://niki977.github.io/ultraspeaker-flipbook-lab/"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="Group.Label" DefaultValue="The Ultraspeaker">
+          <bt:Override Locale="en-US" Value="The Ultraspeaker"/>
+        </bt:String>
+        <bt:String id="Button.Label" DefaultValue="Flipbook Lab">
+          <bt:Override Locale="en-US" Value="Flipbook Lab"/>
+        </bt:String>
+        <bt:String id="GetStarted.Title" DefaultValue="Flipbook Lab è pronto">
+          <bt:Override Locale="en-US" Value="Flipbook Lab is ready"/>
+          <bt:Override Locale="es-ES" Value="Flipbook Lab está listo"/>
+          <bt:Override Locale="fr-FR" Value="Flipbook Lab est prêt"/>
+          <bt:Override Locale="de-DE" Value="Flipbook Lab ist bereit"/>
+        </bt:String>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="Button.Tooltip" DefaultValue="Trasforma un .pdf in un libro da sfogliare e registra un video per la slide.">
+          <bt:Override Locale="en-US" Value="Turn a .pdf into a flip book and record a video for the slide."/>
+          <bt:Override Locale="es-ES" Value="Convierte un .pdf en un libro para hojear y graba un vídeo para la diapositiva."/>
+          <bt:Override Locale="fr-FR" Value="Transformez un .pdf en livre à feuilleter et enregistrez une vidéo pour la diapositive."/>
+          <bt:Override Locale="de-DE" Value="Verwandeln Sie eine .pdf in ein Buch zum Blättern und nehmen Sie ein Video für die Folie auf."/>
+        </bt:String>
+        <bt:String id="GetStarted.Description" DefaultValue="Apri Flipbook Lab dalla scheda Home.">
+          <bt:Override Locale="en-US" Value="Open Flipbook Lab from the Home tab."/>
+          <bt:Override Locale="es-ES" Value="Abre Flipbook Lab desde la pestaña Inicio."/>
+          <bt:Override Locale="fr-FR" Value="Ouvrez Flipbook Lab depuis l’onglet Accueil."/>
+          <bt:Override Locale="de-DE" Value="Öffnen Sie Flipbook Lab über die Registerkarte Start."/>
+        </bt:String>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>

@@ -56,6 +56,7 @@ per renderla indipendente si può aggiungere il file con GitHub Desktop.
 | `js/i18n.js` | Testi nelle 5 lingue |
 | `vendor/` | pdf.js (Apache 2.0), mp4-muxer (MIT), ffmpeg.wasm (MIT; core FFmpeg GPL-2.0-or-later, vedi `vendor/ffmpeg/LICENZE.txt`) |
 | `assets/`, `fonts/` | Loghi, icone, carattere Champagne & Limousines (Brand Book 1.0) |
+| `addin.html`, `ultraspeaker-flipbook-lab-manifest.xml` | Componente aggiuntivo di PowerPoint: pulsante Flipbook Lab nella scheda Home, che apre l’app nel browser |
 | `GUIDA-INSTALLAZIONE.html` | Come mettere l’app online su GitHub Pages |
 | `demo/esempio-it.pdf` … `esempio-de.pdf` | Guida di esempio nelle 5 lingue (A4, copertina con la scena della homepage del sito): l’app apre quella della lingua scelta |
 

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Ultraspeaker Flipbook Lab</title>
+<link rel="icon" href="assets/flipbook-lab-icon-64.png">
+<!-- Pannello del componente aggiuntivo di PowerPoint.
+     PowerPoint per Mac non lascia salvare file dai componenti aggiuntivi: per questo il pannello apre
+     il Flipbook Lab nel browser, dove il video si salva in Download o nella cartella che scegli. -->
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+<style>
+@font-face{font-family:"Champagne & Limousines";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/champagne-limousines-regular.woff2) format("woff2")}
+@font-face{font-family:"Champagne & Limousines";font-weight:700;font-style:normal;font-display:swap;src:url(fonts/champagne-limousines-bold.woff2) format("woff2")}
+:root{--bg:#000000;--surface:#111111;--line:#3A3A3A;--ink:#FFFFFF;--ink-2:#D0D0D0;--ink-3:#8E8E8E;--focus:#4F8DFF;--radius:10px;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.6 "Champagne & Limousines","Avenir Next","Segoe UI",-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.wrap{padding:22px 18px 28px;display:flex;flex-direction:column;gap:18px;max-width:440px}
+.brandlink{display:block;width:180px;border-radius:6px}
+.brandlink:hover{opacity:.75}
+.brandlink img{display:block;width:100%;height:auto}
+.lbl{font-size:10.5px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-3);margin:0}
+h1{margin:0;font-size:24px;font-weight:400;line-height:1.05}
+p{margin:0;color:var(--ink-2)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:46px;border-radius:var(--radius);border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none}
+.btn.pri{background:#FFFFFF;color:#000000;border-color:#FFFFFF}
+.btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;counter-reset:s}
+.steps li{position:relative;padding-left:34px;color:var(--ink-2);font-size:14.5px;line-height:1.5}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:#FFFFFF;color:#000000;font-size:12px;font-weight:700;display:grid;place-items:center}
+.steps b{color:var(--ink);font-weight:700}
+.box{border:1px solid var(--line);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:12px;background:var(--surface)}
+.note{font-size:13px;color:var(--ink-3)}
+.foot{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-3)}
+.foot a{color:inherit;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brandlink" href="https://www.theultraspeaker.com" target="_blank" rel="noopener" title="theultraspeaker.com"><img src="assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab"></a>
+  <h1 data-t="title"></h1>
+  <p data-t="intro"></p>
+  <button type="button" class="btn pri" id="open"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span data-t="open"></span></button>
+  <p class="note" data-t="why"></p>
+  <div class="box">
+    <p class="lbl" data-t="howLbl"></p>
+    <ol class="steps">
+      <li data-t="s1"></li>
+      <li data-t="s2"></li>
+      <li data-t="s3"></li>
+      <li data-t="s4"></li>
+    </ol>
+  </div>
+  <div class="foot"><a href="https://www.theultraspeaker.com" target="_blank" rel="noopener">theultraspeaker.com</a></div>
+</div>
+<script>
+(function () {
+  "use strict";
+  var APP = "https://niki977.github.io/ultraspeaker-flipbook-lab/";
+  var T = {
+    it: { title: "Il tuo .pdf diventa un libro", intro: "Sfoglia, sottolinea e registra un video da inserire nella slide.",
+      open: "Apri Flipbook Lab", why: "Si apre nel browser: lì puoi registrare a tutto schermo e salvare il video. PowerPoint non permette ai componenti aggiuntivi di salvare file.",
+      howLbl: "Dal libro alla slide",
+      s1: "Apri il .pdf, sfoglialo e sottolinea, poi premi <b>Registra</b> o <b>Video automatico</b>.",
+      s2: "Scegli <b>MP4 con colore</b> e lo stesso colore di sfondo della slide.",
+      s3: "<b>Scarica il video</b> lo salva in Download; con <b>Salva in…</b> scegli tu la cartella.",
+      s4: "In PowerPoint: <b>Inserisci → Video → Video da file</b>, poi in Riproduzione scegli <b>Avvia automaticamente</b>." },
+    en: { title: "Your .pdf becomes a book", intro: "Flip, underline and record a video to put on your slide.",
+      open: "Open Flipbook Lab", why: "It opens in your browser, where you can record full screen and save the video. PowerPoint doesn’t let add-ins save files.",
+      howLbl: "From book to slide",
+      s1: "Open the .pdf, flip through and underline, then press <b>Record</b> or <b>Auto video</b>.",
+      s2: "Choose <b>MP4 with colour</b> and the same background colour as the slide.",
+      s3: "<b>Download video</b> saves it to Downloads; with <b>Save to…</b> you choose the folder.",
+      s4: "In PowerPoint: <b>Insert → Video → Video from file</b>, then set Playback to <b>Start automatically</b>." },
+    es: { title: "Tu .pdf se convierte en un libro", intro: "Hojea, subraya y graba un vídeo para tu diapositiva.",
+      open: "Abrir Flipbook Lab", why: "Se abre en el navegador: allí puedes grabar a pantalla completa y guardar el vídeo. PowerPoint no permite que los complementos guarden archivos.",
+      howLbl: "Del libro a la diapositiva",
+      s1: "Abre el .pdf, hojéalo y subraya, luego pulsa <b>Grabar</b> o <b>Vídeo automático</b>.",
+      s2: "Elige <b>MP4 con color</b> y el mismo color de fondo de la diapositiva.",
+      s3: "<b>Descargar el vídeo</b> lo guarda en Descargas; con <b>Guardar en…</b> eliges la carpeta.",
+      s4: "En PowerPoint: <b>Insertar → Vídeo → Vídeo desde archivo</b> y en Reproducción elige <b>Iniciar automáticamente</b>." },
+    fr: { title: "Votre .pdf devient un livre", intro: "Feuilletez, soulignez et enregistrez une vidéo pour votre diapositive.",
+      open: "Ouvrir Flipbook Lab", why: "Il s’ouvre dans le navigateur : vous pouvez y enregistrer en plein écran et sauvegarder la vidéo. PowerPoint ne permet pas aux compléments d’enregistrer des fichiers.",
+      howLbl: "Du livre à la diapositive",
+      s1: "Ouvrez le .pdf, feuilletez et soulignez, puis appuyez sur <b>Enregistrer</b> ou <b>Vidéo automatique</b>.",
+      s2: "Choisissez <b>MP4 avec couleur</b> et la même couleur de fond que la diapositive.",
+      s3: "<b>Télécharger la vidéo</b> l’enregistre dans Téléchargements ; avec <b>Enregistrer dans…</b>, vous choisissez le dossier.",
+      s4: "Dans PowerPoint : <b>Insertion → Vidéo → Vidéo à partir d’un fichier</b>, puis dans Lecture choisissez <b>Démarrer automatiquement</b>." },
+    de: { title: "Ihre .pdf wird zum Buch", intro: "Blättern, unterstreichen und ein Video für Ihre Folie aufnehmen.",
+      open: "Flipbook Lab öffnen", why: "Es öffnet sich im Browser: Dort können Sie im Vollbild aufnehmen und das Video speichern. PowerPoint erlaubt Add-ins nicht, Dateien zu speichern.",
+      howLbl: "Vom Buch zur Folie",
+      s1: "Öffnen Sie die .pdf, blättern und unterstreichen Sie, dann klicken Sie auf <b>Aufnehmen</b> oder <b>Automatisches Video</b>.",
+      s2: "Wählen Sie <b>MP4 mit Farbe</b> und dieselbe Hintergrundfarbe wie die Folie.",
+      s3: "<b>Video herunterladen</b> speichert es unter Downloads; mit <b>Speichern unter…</b> wählen Sie den Ordner.",
+      s4: "In PowerPoint: <b>Einfügen → Video → Video aus Datei</b>, dann unter Wiedergabe <b>Automatisch starten</b> wählen." }
+  };
+  var lang = "it";
+  function pick(l) { l = (l || "").slice(0, 2).toLowerCase(); return T[l] ? l : null; }
+  function apply() {
+    var d = T[lang]; document.documentElement.lang = lang;
+    var els = document.querySelectorAll("[data-t]");
+    for (var i = 0; i < els.length; i++) els[i].innerHTML = d[els[i].getAttribute("data-t")];
+  }
+  lang = pick(navigator.language) || "en";
+  apply();
+  function openApp() {
+    var url = APP + "?lang=" + lang;
+    try {
+      if (window.Office && Office.context && Office.context.ui && Office.context.ui.openBrowserWindow) { Office.context.ui.openBrowserWindow(url); return; }
+    } catch (e) { /* si prova sotto */ }
+    window.open(url, "_blank", "noopener");
+  }
+  document.getElementById("open").addEventListener("click", openApp);
+  if (window.Office && Office.onReady) {
+    Office.onReady(function () {
+      try { var l = pick(Office.context.displayLanguage); if (l) { lang = l; apply(); } } catch (e) { /* ignora */ }
+    });
+  }
+})();
+</script>
+</body>
+</html>

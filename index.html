@@ -146,7 +146,7 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
 #expDl{text-decoration:none}
 .url-in{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:12px 14px;border-radius:var(--radius);border:1px solid var(--line-3);background:var(--surface-2);color:var(--ink)}
 .url-in:focus{outline:2px solid var(--focus);outline-offset:1px}
-@media (max-width:640px){#expDlg .acts{flex-direction:column;align-items:stretch}#expDlg .acts .btn{width:100%;justify-content:center}#expGo,#expShare{order:1}#expDl{order:2}#expOther{order:3}#expCancel{order:4}}
+@media (max-width:640px){#expDlg .acts{flex-direction:column;align-items:stretch}#expDlg .acts .btn{width:100%;justify-content:center}#expGo,#expShare{order:1}#expDl{order:2}#expSaveAs{order:3}#expOther{order:4}#expCancel{order:5}}
 .num-in{width:64px;height:32px;border-radius:var(--radius);border:1px solid #3A3A3A;background:#000000;padding:0 8px;font-weight:700;font-variant-numeric:tabular-nums}
 .done{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
 .done video{width:100%;max-height:220px;border-radius:var(--radius);background:repeating-conic-gradient(#1B1B1B 0 25%,#111111 0 50%) 0 0/16px 16px}
@@ -359,6 +359,7 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
     <div id="expDone" class="done" hidden>
       <video id="expVideo" controls muted playsinline></video>
       <div><b id="expFile"></b> <span class="note" id="expSize"></span></div>
+      <p class="note" id="expWhere" hidden></p>
       <p class="hint" id="expHow"></p>
     </div>
     <div class="acts">
@@ -366,6 +367,7 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
       <button type="button" class="btn" id="expOther" hidden></button>
       <button type="button" class="btn pri" id="expGo" data-i18n="x.go"></button>
       <button type="button" class="btn pri" id="expShare" hidden><svg class="i" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M6 12H5v8h14v-8h-1"/></svg><span data-i18n="x.share"></span></button>
+      <button type="button" class="btn" id="expSaveAs" hidden><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13l3 3 3-3"/></svg><span data-i18n="x.saveAs"></span></button>
       <a class="btn pri" id="expDl" hidden download><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-i18n="x.download"></span></a>
     </div>
   </div>

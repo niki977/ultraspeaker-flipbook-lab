@@ -142,6 +142,19 @@ kbd{font-family:inherit;font-size:13px;border:1px solid var(--line);border-botto
 </section>
 
 <section>
+<h2><span class="n">5</span>Il pulsante in PowerPoint</h2>
+<p class="muted">Il componente aggiuntivo mette il pulsante <b>Flipbook Lab</b> nella scheda <b>Home</b> di PowerPoint, nel gruppo The Ultraspeaker. Il pulsante apre un pannello da cui il Flipbook Lab si apre nel browser: PowerPoint per Mac non permette ai componenti aggiuntivi di salvare file, nel browser invece il video si salva in Download oppure, con <b>Salva in…</b>, nella cartella che scegli.</p>
+<ol>
+<li>Controlla che su GitHub ci siano <code>addin.html</code> e <code>ultraspeaker-flipbook-lab-manifest.xml</code>.</li>
+<li>Chiudi PowerPoint (<kbd>⌘</kbd> + <kbd>Q</kbd>).</li>
+<li>Nel Finder premi <b>⌘ + Maiusc + G</b> e incolla:<br><code>~/Library/Containers/com.microsoft.Powerpoint/Data/Documents/wef</code><br>Se la cartella <code>wef</code> non c'è, apri <code>Documents</code> e creala con quel nome esatto.</li>
+<li>Copia dentro <code>ultraspeaker-flipbook-lab-manifest.xml</code>, accanto ai manifest degli altri Lab. Se il Finder chiede di sostituire un file, rispondi <b>No</b> e controlla il nome.</li>
+<li>Riapri PowerPoint e una presentazione. Il pulsante <b>Flipbook Lab</b> è nella scheda <b>Home</b>. Se non compare: <b>Inserisci → Componenti aggiuntivi → I miei componenti aggiuntivi</b>, sezione <b>Componenti aggiuntivi per sviluppatori</b>, e scegli The Ultraspeaker Flipbook Lab.</li>
+</ol>
+<div class="note">Il manifest va copiato una volta sola. Gli aggiornamenti del sito arrivano da soli; solo se cambia il manifest va ricopiato nella cartella <code>wef</code>.</div>
+</section>
+
+<section>
 <h2><span class="n">?</span>Buono a sapersi</h2>
 <ol>
 <li><b>Aggiornare l’app</b>: quando ti mando una nuova versione, nel repository clicca <b>Add file → Upload files</b>, trascina i file nuovi (stessi nomi) e fai <b>Commit changes</b>. GitHub sostituisce quelli vecchi; dopo un minuto l’app è aggiornata (se non vedi le modifiche, ricarica con <kbd>⌘</kbd> + <kbd>Maiusc</kbd> + <kbd>R</kbd>).</li>

@@ -18,6 +18,8 @@
     return s;
   };
   function detectLang() {
+    // ?lang=xx nell'indirizzo (per esempio quando si apre dal pannello di PowerPoint)
+    try { const q = (new URLSearchParams(location.search).get("lang") || "").slice(0, 2).toLowerCase(); if (LANGS.includes(q)) return q; } catch (e) { /* ignora */ }
     const saved = ST.pref("lang", null);
     if (saved && LANGS.includes(saved)) return saved;
     const l = ((navigator.languages && navigator.languages[0]) || navigator.language || "it").slice(0, 2).toLowerCase();
@@ -724,6 +726,8 @@
     $("#expGo").hidden = s !== "form";
     $("#expDl").hidden = s !== "done";
     $("#expShare").hidden = s !== "done" || !shareOK;
+    $("#expSaveAs").hidden = s !== "done" || shareOK;
+    $("#expWhere").hidden = s !== "done" || shareOK;
     $("#expDl").classList.toggle("pri", !(s === "done" && shareOK));
     $("#expOther").hidden = s !== "done" || !!window.FB_NO_MOV;
     $("#expCancel").textContent = s === "done" ? t("close") : t("cancel");
@@ -773,6 +777,7 @@
       if (xFmt === "mp4") { vid.hidden = false; vid.src = xUrl; } else { vid.hidden = true; vid.removeAttribute("src"); }
       shareFile = new File([blob], name, { type: xFmt === "mov" ? "video/quicktime" : "video/mp4" });
       shareOK = isMobile() && canShareFile(shareFile);
+      $("#expWhere").textContent = t("x.where");
       $("#expHow").textContent = shareOK ? t(xFmt === "mov" ? "x.shareMov" : "x.shareHow") : xFmt === "mov" ? t("x.howMov") : t("x.howMp4");
       $("#expOther").textContent = xFmt === "mov" ? t("x.alsoMp4") : t("x.alsoMov");
       showExpState("done");
@@ -874,6 +879,18 @@
       if (!window.FB_SAVE || !lastBlob) return;
       e.preventDefault();
       window.FB_SAVE($("#expDl").download, lastBlob).catch(() => toast(t("x.saveErr"), true));
+    });
+    // «Salva in…»: scegli la cartella. Chrome ed Edge aprono la finestra di salvataggio del Mac;
+    // Safari non lo permette alle pagine web, quindi si spiega come fargli chiedere la cartella a ogni download.
+    $("#expSaveAs").addEventListener("click", async () => {
+      if (!lastBlob) return;
+      const name = $("#expDl").download, ext = name.split(".").pop();
+      if (!window.showSaveFilePicker) { $("#expWhere").textContent = t("x.saveAsSafari"); toast(t("x.saveAsSafariShort")); return; }
+      try {
+        const h = await window.showSaveFilePicker({ suggestedName: name, types: [{ description: ext.toUpperCase(), accept: { [lastBlob.type || (ext === "mov" ? "video/quicktime" : "video/mp4")]: ["." + ext] } }] });
+        const w = await h.createWritable(); await w.write(lastBlob); await w.close();
+        toast(t("x.savedAs", { f: h.name }));
+      } catch (e) { if (!e || e.name !== "AbortError") toast(t("x.saveErr"), true); }
     });
     $("#expShare").addEventListener("click", async () => {
       if (!shareFile) return;
