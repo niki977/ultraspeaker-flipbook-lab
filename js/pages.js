@@ -6,23 +6,20 @@
   const LONG = 1600;           // lato lungo della pagina in pixel: nitido anche in video 1080p
   let blobs = [];              // JPEG di ogni pagina
   let aspect = 0.7071;
-  const cache = new Map();     // idx -> ImageBitmap (o HTMLImageElement)
+  let lines = [];               // righe di testo di ogni pagina (per agganciare i segni)
+  const cache = new Map();     // idx -> ImageBitmap, le più recenti in fondo
   const loading = new Map();
+  const failedAt = new Map();  // pagine che non si sono decodificate, con l'ora del tentativo
   const CACHE_MAX = 14;
   let onReady = null;          // chiamata quando una pagina diventa disponibile
-
-  function lib() {
-    const p = window.pdfjsLib;
-    if (p && !p.GlobalWorkerOptions.workerSrc) p.GlobalWorkerOptions.workerSrc = window.FB_PDF_WORKER || "vendor/pdf.worker.min.js";
-    return p;
-  }
   const tick = () => new Promise((r) => setTimeout(r, 0));
   const toBlob = (cv, q) => new Promise((r) => cv.toBlob(r, "image/jpeg", q));
 
   async function openPDF(data, onProgress) {
     // disableFontFace: pdf.js disegna le lettere come tracciati, senza passare i caratteri del PDF al browser.
     // Safari rifiuta alcuni caratteri incorporati e la pagina restava bianca; così il risultato è uguale ovunque.
-    const doc = await lib().getDocument({ data, isEvalSupported: false, disableFontFace: true, fontExtraProperties: false }).promise;
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "vendor/pdf.worker.min.js";
+    const doc = await pdfjsLib.getDocument({ data, isEvalSupported: false, disableFontFace: true, fontExtraProperties: false }).promise;
     const total = doc.numPages;
     if (!total) throw Object.assign(new Error("empty"), { code: "err.none" });
     const used = Math.min(total, MAX_PAGES);
@@ -35,7 +32,7 @@
     const cx = cv.getContext("2d", { alpha: false });
     const out = [], lines = [];
     for (let i = 1; i <= used; i++) {
-      onProgress && onProgress(i, used);
+      onProgress(i, used);
       const page = i === 1 ? first : await doc.getPage(i);
       const v = page.getViewport({ scale: 1 });
       const s = Math.min(bw / v.width, bh / v.height);
@@ -109,63 +106,47 @@
     out.forEach((l) => { l.words.sort((p, q) => p[0] - q[0]); l.vb = +l.vb.toFixed(5); });
     return out;
   }
-  let lines = [];
-  const failedAt = new Map();                   // pagine che non si sono decodificate, con l'ora del tentativo
-  function setLines(l) { lines = l || []; }
-
-  function set(list, asp) {
-    cache.forEach((b) => { try { b.close && b.close(); } catch (e) { /* ignora */ } });
+  function set(list, asp, l) {
+    cache.forEach((b) => b.close());
     cache.clear(); loading.clear(); failedAt.clear();
-    blobs = list; aspect = asp;
+    blobs = list; aspect = asp; lines = l || [];
   }
-  async function decode(blob) {
-    if (window.createImageBitmap) { try { return await createImageBitmap(blob); } catch (e) { /* ripiego */ } }
-    return await new Promise((res, rej) => {
-      const im = new Image(), u = URL.createObjectURL(blob);
-      im.onload = () => { URL.revokeObjectURL(u); res(im); };
-      im.onerror = () => { URL.revokeObjectURL(u); rej(new Error("immagine della pagina non decodificata")); };
-      im.src = u;
-    });
-  }
-  // se una decodifica non riesce (memoria scarsa) si riprova la stessa pagina; le altre restano come sono
-  async function decodeRetry(blob) {
-    for (let t = 0; ; t++) {
-      try { return await decode(blob); }
-      catch (e) {
-        if (t >= 3) throw e;
-        await new Promise((r) => setTimeout(r, 150 * (t + 1)));
-      }
-    }
-  }
-  function load(i) {
+  // se una pagina non si decodifica (Safari con poca memoria) si riprova dopo 2 secondi; le altre restano come sono
+  function load(i, force) {
     if (i == null || i < 0 || i >= blobs.length) return Promise.resolve(null);
     if (cache.has(i)) { const b = cache.get(i); cache.delete(i); cache.set(i, b); return Promise.resolve(b); }
     if (loading.has(i)) return loading.get(i);
-    if (failedAt.has(i) && Date.now() - failedAt.get(i) < 2000) return Promise.resolve(null);   // non riprovare a ogni fotogramma
-    const p = decodeRetry(blobs[i]).then((bm) => {
+    if (!force && Date.now() - (failedAt.get(i) || 0) < 2000) return Promise.resolve(null);   // non riprovare a ogni fotogramma
+    const p = createImageBitmap(blobs[i]).then((bm) => {
       loading.delete(i); failedAt.delete(i);
       cache.set(i, bm);
       while (cache.size > CACHE_MAX) {
         const k = cache.keys().next().value;
         const old = cache.get(k); cache.delete(k);
-        try { old.close && old.close(); } catch (e) { /* ignora */ }
+        old.close();
       }
-      onReady && onReady(i);
+      onReady && onReady();
       return bm;
     }, (e) => { loading.delete(i); failedAt.set(i, Date.now()); throw e; });
     loading.set(i, p);
     return p;
   }
   function get(i) { if (cache.has(i)) return cache.get(i); load(i).catch(() => {}); return null; }
-  function ensure(list) { return Promise.all(list.filter((i) => i != null && i >= 0).map(load)); }
+  // per il video servono davvero: fino a 3 tentativi per pagina
+  async function ensure(list) {
+    for (const i of list) {
+      for (let t = 0; ; t++) {
+        try { await load(i, true); break; } catch (e) { if (t >= 2) throw e; await new Promise((r) => setTimeout(r, 300 * (t + 1))); }
+      }
+    }
+  }
 
   window.FBPages = {
-    MAX_PAGES, openPDF, set, get, load, ensure,
+    openPDF, set, get, ensure,
     get count() { return blobs.length; },
     get aspect() { return aspect; },
     get blobs() { return blobs; },
     get lines() { return lines; },
-    setLines,
     linesOf(i) { return lines[i] || []; },
     set onReady(fn) { onReady = fn; },
   };

@@ -8,7 +8,6 @@
   const HOLD = 2200, FADE = 700;          // i segni "che svaniscono": restano 2,2 s poi spariscono in 0,7 s
   const WIDTH = { hl: 0.034, ul: 0.0055, pen: 0.0042 };
   let strokes = [];
-  let seq = 1;
   let linesOf = () => [];                 // righe di testo della pagina (da pages.js)
 
   /* ---------- Testo della pagina ---------- */
@@ -60,7 +59,7 @@
 
   /* ---------- Creazione ---------- */
   function begin(page, tool, color, fade, u, v, t) {
-    const s = { id: seq++, page, tool, color, fade: !!fade, pts: [{ u, v, t }], t0: t, t1: null, del: null };
+    const s = { page, tool, color, fade, pts: [{ u, v, t }], t0: t, t1: null, del: null };
     if (tool === "ul" || tool === "hl") {
       const l = lineAt(page, u, v);
       if (l) {
@@ -163,7 +162,7 @@
     }
     if (s.tool === "hl") { ctx.globalAlpha = 0.42 * a; ctx.globalCompositeOperation = "multiply"; }
     else ctx.globalAlpha = a;
-    ctx.fill("nonzero");
+    ctx.fill();
     ctx.restore();
   }
 
@@ -267,7 +266,7 @@
   }
   function importKeep(list) {
     strokes = (list || []).map((s) => ({
-      id: seq++, page: s.page, tool: s.tool, color: s.color, fade: false,
+      page: s.page, tool: s.tool, color: s.color, fade: false,
       pts: s.pts.map((p) => ({ u: p[0], v: p[1], t: 0 })),
       segs: s.segs ? s.segs.map((g) => ({ u0: g[0], u1: g[1], vb: g[2], h: g[3] })) : undefined,
       t0: 0, t1: 0, del: null,
@@ -276,7 +275,7 @@
   function reset() { strokes = []; }
 
   window.FBAnnot = {
-    begin, add, end, draw, eraseAt, clearPage, hasFading, prune, keepList, length, exportKeep, importKeep, reset, HOLD, FADE,
+    begin, add, end, draw, eraseAt, clearPage, hasFading, prune, keepList, length, exportKeep, importKeep, reset,
     set lineSource(fn) { linesOf = fn; },
   };
 })();

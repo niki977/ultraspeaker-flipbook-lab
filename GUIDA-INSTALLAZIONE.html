@@ -47,7 +47,7 @@ kbd{font-family:inherit;font-size:13px;border:1px solid var(--line);border-botto
 <ol>
 <li>Scarica lo zip <b>ultraspeaker-flipbook-lab.zip</b> e fai doppio clic per estrarlo: ottieni la cartella <code>ultraspeaker-flipbook-lab</code>.</li>
 <li>Apri la cartella <code>ultraspeaker-flipbook-lab</code> → <code>vendor</code> → <code>ffmpeg</code> e <b>sposta sulla Scrivania</b> il file <code>ffmpeg-core.wasm</code> (31 MB).
-  Il caricamento dal sito di GitHub rifiuta i file oltre 25 MB; senza questo file l’app funziona lo stesso, perché la prima volta che crei un MOV lo scarica da sola da jsDelivr, un servizio pubblico per questo tipo di file.</li>
+  Il caricamento dal sito di GitHub rifiuta i file oltre 25 MB: questo file si aggiunge dopo con GitHub Desktop (passaggio «Il motore video»). Senza, l’app funziona ma non crea il MOV trasparente.</li>
 <li>Usa <b>Chrome</b> per i passaggi seguenti: è il browser in cui il trascinamento delle cartelle su GitHub funziona meglio.</li>
 </ol>
 </section>
@@ -99,8 +99,8 @@ kbd{font-family:inherit;font-size:13px;border:1px solid var(--line);border-botto
 </section>
 
 <section>
-<h2><span class="n">+</span>Facoltativo: il motore video dentro il sito</h2>
-<p class="muted">Il file <code>ffmpeg-core.wasm</code> (31 MB) è il motore che crea i MOV trasparenti. Se è nel repository, l’app lo prende dal tuo sito invece che da jsDelivr: funziona anche se jsDelivr è lento o bloccato (per esempio su una rete aziendale) e in Safari è la strada più affidabile. Il sito di GitHub accetta caricamenti fino a 25 MB, quindi serve <b>GitHub Desktop</b>, l’app gratuita di GitHub per Mac. Si fa una volta sola, circa 10 minuti.</p>
+<h2><span class="n">+</span>Il motore video</h2>
+<p class="muted">Il file <code>ffmpeg-core.wasm</code> (31 MB) è il motore che crea i MOV trasparenti e deve stare nel repository. Il sito di GitHub accetta caricamenti fino a 25 MB, quindi serve <b>GitHub Desktop</b>, l’app gratuita di GitHub per Mac. Si fa una volta sola, circa 10 minuti.</p>
 
 <p><b>A. Installa GitHub Desktop</b></p>
 <ol>

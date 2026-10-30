@@ -18,12 +18,12 @@
     return s;
   };
   function detectLang() {
-    // ?lang=xx nell'indirizzo (per esempio quando si apre dal pannello di PowerPoint)
-    try { const q = (new URLSearchParams(location.search).get("lang") || "").slice(0, 2).toLowerCase(); if (LANGS.includes(q)) return q; } catch (e) { /* ignora */ }
-    const saved = ST.pref("lang", null);
-    if (saved && LANGS.includes(saved)) return saved;
-    const l = ((navigator.languages && navigator.languages[0]) || navigator.language || "it").slice(0, 2).toLowerCase();
-    return LANGS.includes(l) ? l : "en";
+    // ?lang=xx nell'indirizzo (per esempio quando si apre dal pannello di PowerPoint), poi la scelta salvata, poi il browser
+    for (const l of [new URLSearchParams(location.search).get("lang"), ST.pref("lang", null), navigator.language]) {
+      const x = (l || "").slice(0, 2).toLowerCase();
+      if (LANGS.includes(x)) return x;
+    }
+    return "en";
   }
   function applyStatic() {
     document.documentElement.lang = LANG;
@@ -42,7 +42,7 @@
   const st = { view: 0, flip: null };
   let layout = ST.pref("layout", "book"), cover = ST.pref("cover", true);
   let bgMode = ST.pref("bgMode", "clear"), bgColor = ST.pref("bgColor", "#000000");
-  let bgImg = null, bgBlob = null;                   // immagine di sfondo
+  let bgImg = null;                                  // immagine di sfondo (ImageBitmap)
   let tool = "hand", color = ST.pref("color", "#ffd400"), markMode = ST.pref("markMode", "keep");
   let anim = null, queue = 0, drag = null, stroke = null, pan = null, peek = { dir: 0, corner: "bottom", amt: 0, target: 0 };
   let cam = CAM0(), camT = CAM0();                   // zoom: posizione attuale e di arrivo
@@ -243,7 +243,7 @@
     return null;
   }
   function startPan(e) {
-    pan = { sx: screenPt(e), cam: { ...camT }, moved: false, alt: e.altKey };
+    pan = { sx: screenPt(e), cam: { ...camT }, moved: false };
     cv.style.cursor = "grabbing";
   }
   function onDown(e) {
@@ -397,15 +397,12 @@
   function lum(hex) { const n = parseInt(hex.slice(1), 16); return (0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255)) / 255; }
 
   /* ---------- Sfondo immagine ---------- */
-  async function setBgImage(blob, save) {
-    if (!blob) return;
+  // fromUser: scelta adesso (diventa lo sfondo e si ricorda); altrimenti è quella ricordata dall'ultima volta
+  async function setBgImage(blob, fromUser) {
     try {
-      const bm = window.createImageBitmap ? await createImageBitmap(blob) : await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = URL.createObjectURL(blob); });
-      bgImg = bm; bgBlob = blob;
-      const u = URL.createObjectURL(blob);
-      $("#bgImgBtn").style.backgroundImage = "url(" + u + ")";
-      bgMode = "image"; ST.setPref("bgMode", bgMode);
-      if (save && !window.FB_PREVIEW) ST.put("bgImage", blob);
+      bgImg = await createImageBitmap(blob);
+      $("#bgImgBtn").style.backgroundImage = "url(" + URL.createObjectURL(blob) + ")";
+      if (fromUser) { bgMode = "image"; ST.setPref("bgMode", bgMode); ST.putImage("bgImage", blob); }
       syncUI();
     } catch (e) { toast(t("err.image"), true); }
   }
@@ -427,8 +424,7 @@
     busy(true, t("prep.open"), 0);
     try {
       const r = await PG.openPDF(data, (i, n) => busy(true, t("prep.page", { n: i, t: n }), (i - 1) / n));
-      PG.set(r.blobs, r.aspect);
-      PG.setLines(r.lines);
+      PG.set(r.blobs, r.aspect, r.lines);
       A.reset();
       book = { name, sample: extra.sample || null };
       st.view = 0; st.flip = null; anim = null;
@@ -439,6 +435,7 @@
       const hasText = r.lines.some((l) => l && l.length);
       if (r.total > r.used) toast(t("cut", { t: r.total, n: r.used }));
       else if (!extra.sample || extra.view == null) toast(hasText ? t("ready") : t("readyNoText"));
+      if (!isMobile()) ST.savePages({ name, sample: book.sample, aspect: r.aspect, lines: r.lines, blobs: r.blobs });
       saveNow();
     } catch (e) {
       console.error(e);
@@ -496,20 +493,8 @@
     catch (e) { busy(false); toast(t("l.errCors"), true); return false; }        // il sito non lascia scaricare il file da un'altra pagina
     if (!res.ok) { busy(false); toast(t("l.errHttp", { c: res.status }), true); return false; }
     let data;
-    try {
-      const total = +res.headers.get("content-length") || 0;
-      if (res.body && res.body.getReader) {
-        const rd = res.body.getReader(), parts = [];
-        let got = 0;
-        for (;;) {
-          const { done, value } = await rd.read();
-          if (done) break;
-          parts.push(value); got += value.length;
-          busy(true, t("l.loadingMb", { mb: (got / 1048576).toFixed(1) }), total ? got / total : null);
-        }
-        data = new Uint8Array(got); let o = 0; parts.forEach((x) => { data.set(x, o); o += x.length; });
-      } else data = new Uint8Array(await res.arrayBuffer());
-    } catch (e) { busy(false); toast(t("l.errCors"), true); return false; }
+    try { data = new Uint8Array(await res.arrayBuffer()); }
+    catch (e) { busy(false); toast(t("l.errCors"), true); return false; }
     busy(false);
     if (!isPdfBytes(data)) { toast(t("l.errNotPdf"), true); return false; }
     await openData(data, nameFromLink(url));
@@ -525,36 +510,25 @@
   // PDF di esempio: una guida all'app nella lingua scelta (cambia lingua insieme all'app)
   async function loadSample(keepView) {
     try {
-      let b;
-      const lang = LANG;
-      if (window.FB_SAMPLES) {
-        const s = atob(window.FB_SAMPLES[lang] || window.FB_SAMPLES.en);
-        b = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) b[i] = s.charCodeAt(i);
-      } else b = new Uint8Array(await (await fetch("demo/esempio-" + lang + ".pdf")).arrayBuffer());
-      await openData(b, t("sampleName"), { sample: lang, view: keepView });
+      const b = new Uint8Array(await (await fetch("demo/esempio-" + LANG + ".pdf")).arrayBuffer());
+      await openData(b, t("sampleName"), { sample: LANG, view: keepView });
     } catch (e) { toast(t("err.pdf"), true); }
   }
 
-  /* ---------- Memoria nel browser ---------- */
+  /* ---------- Memoria nel browser (non sul telefono, che riparte sempre dalla pagina iniziale) ---------- */
   let saveT;
   function saveSoon() { if (!book) return; clearTimeout(saveT); saveT = setTimeout(saveNow, 1500); }
-  function saveNow() {
-    if (!book || window.FB_PREVIEW || isMobile()) return;
-    ST.save({ name: book.name, sample: book.sample || null, aspect: PG.aspect, blobs: PG.blobs, lines: PG.lines, strokes: A.exportKeep(), view: st.view });
-  }
+  function saveNow() { if (book && !isMobile()) ST.saveState({ view: st.view, strokes: A.exportKeep() }); }
   async function restore() {
-    if (window.FB_PREVIEW) return false;
-    const bgb = await ST.get("bgImage");
-    if (bgb) { const m = bgMode; await setBgImage(bgb, false); bgMode = m; }
-    // sul telefono si riparte sempre dalla pagina iniziale, senza riaprire l'ultimo PDF
+    const bgb = await ST.getImage("bgImage");
+    if (bgb) await setBgImage(bgb, false);
     if (isMobile()) return false;
-    const r = await ST.load();
-    if (!r || !r.blobs || !r.blobs.length) return false;
-    PG.set(r.blobs, r.aspect);
-    PG.setLines(r.lines || []);
-    A.importKeep(r.strokes);
+    const r = await ST.loadBook();
+    if (!r) return false;
+    PG.set(r.blobs, r.aspect, r.lines);
+    A.importKeep(r.state.strokes);
     book = { name: r.name || "PDF", sample: r.sample || null };
-    st.view = Math.min(r.view || 0, views().length - 1);
+    st.view = Math.min(r.state.view || 0, views().length - 1);
     afterView();
     if (r.sample && r.sample !== LANG) loadSample(st.view);   // guida di esempio nella lingua attuale
     return true;
@@ -684,13 +658,12 @@
   // telefono o tablet: lì il video va nelle Foto o in WhatsApp, tramite il menu Condividi del sistema
   const isMobile = () => /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent) ||
     (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent)) || matchMedia("(pointer: coarse)").matches;
-  function canShareFile(f) { try { return !!(navigator.share && navigator.canShare && navigator.canShare({ files: [f] })); } catch (e) { return false; } }
+  const canShareFile = (f) => !!(navigator.canShare && navigator.canShare({ files: [f] }));
   let xFmt = null, xRes = ST.pref("xRes", 1080), mp4Color = null, mp4Bg = null, xCancel = false, xUrl = null, xRunning = false;
   function openExport() {
     if (!take) return;
     // sul telefono l'MP4: si apre nelle Foto e in WhatsApp (il MOV trasparente è per Keynote sul Mac)
     if (!xFmt) xFmt = isMobile() ? "mp4" : bgMode === "clear" ? "mov" : "mp4";
-    if (window.FB_NO_MOV) xFmt = "mp4";
     if (!mp4Color) mp4Color = bgMode === "color" ? bgColor : "#000000";
     mp4Bg = bgMode === "image" && bgImg ? "image" : (mp4Bg === "image" && bgImg ? "image" : "color");
     showExpState("form");
@@ -700,10 +673,7 @@
   function syncExport() {
     const frames = Math.ceil(take.dur / 1000 * FPS);
     $("#expSub").textContent = t(take.kind === "auto" ? "x.subAuto" : "x.subLive", { d: fmtDur(take.dur), f: frames });
-    $$(".card[data-fmt]").forEach((b) => {
-      b.setAttribute("aria-pressed", String(b.dataset.fmt === xFmt));
-      if (window.FB_NO_MOV && b.dataset.fmt === "mov") { b.disabled = true; b.title = t("x.movOnline"); $("[data-i18n='x.movText']", b).textContent = t("x.movOnline"); }
-    });
+    $$(".card[data-fmt]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.fmt === xFmt)));
     $("#mp4ColorRow").hidden = xFmt !== "mp4";
     $$("#mp4Bg button").forEach((b) => { b.setAttribute("aria-pressed", String(b.dataset.v === mp4Bg)); if (b.dataset.v === "image") b.disabled = !bgImg; });
     $("#mp4Sw").hidden = mp4Bg !== "color";
@@ -711,7 +681,7 @@
     $("#mp4Sw").style.background = mp4Color;
     $("#mp4BgNote").textContent = mp4Bg === "image" ? t("x.imageNote") : t("x.colorNote");
     const pv = $("#mp4Prev");
-    if (mp4Bg === "image" && bgBlob) { pv.style.background = "#000000 center/cover no-repeat"; pv.style.backgroundImage = $("#bgImgBtn").style.backgroundImage; }
+    if (mp4Bg === "image" && bgImg) { pv.style.background = "#000000 center/cover no-repeat"; pv.style.backgroundImage = $("#bgImgBtn").style.backgroundImage; }
     else { pv.style.backgroundImage = ""; pv.style.background = mp4Color; }
     const rc = $("#resChips"); rc.innerHTML = "";
     [[1080, "1920 × 1080"], [720, "1280 × 720"]].forEach(([r, l]) => rc.appendChild(chip(l, xRes === r, () => { xRes = r; ST.setPref("xRes", r); syncExport(); })));
@@ -729,7 +699,7 @@
     $("#expSaveAs").hidden = s !== "done" || shareOK;
     $("#expWhere").hidden = s !== "done" || shareOK;
     $("#expDl").classList.toggle("pri", !(s === "done" && shareOK));
-    $("#expOther").hidden = s !== "done" || !!window.FB_NO_MOV;
+    $("#expOther").hidden = s !== "done";
     $("#expCancel").textContent = s === "done" ? t("close") : t("cancel");
   }
   async function runExport() {
@@ -785,9 +755,7 @@
       if (e && e.message === "cancel") { showExpState("form"); }
       else {
         console.error(e);
-        const msg = (e && (e.message || (e.type ? "evento " + e.type : String(e))) || "").slice(0, 160);
-        const safari = /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent);
-        toast(t(safari && xFmt === "mov" ? "x.errSafari" : "x.err") + (msg ? " (" + msg + ")" : ""), true);
+        toast(t("x.err") + " (" + String((e && e.message) || e).slice(0, 160) + ")", true);
         showExpState("form");
       }
     } finally { xRunning = false; }
@@ -799,19 +767,7 @@
   function hideDlg(sel) { $(sel).hidden = true; lastFocus && lastFocus.focus && lastFocus.focus(); }
   const dlgOpen = () => !$("#expDlg").hidden || !$("#autoDlg").hidden || !$("#linkDlg").hidden;
 
-  /* ---------- Trascina e rilascia ---------- */
-  function fileOf(dt) {
-    if (!dt) return null;
-    if (dt.files && dt.files.length) return dt.files[0];
-    if (dt.items) for (const it of dt.items) if (it.kind === "file") { const f = it.getAsFile(); if (f) return f; }
-    return null;
-  }
-  function hasFiles(e) {
-    const dt = e.dataTransfer;
-    if (!dt) return false;
-    const types = Array.from(dt.types || []);
-    return types.includes("Files") || types.includes("application/x-moz-file") || Array.from(dt.items || []).some((i) => i.kind === "file");
-  }
+  const hasFiles = (e) => !!e.dataTransfer && Array.from(e.dataTransfer.types).includes("Files");
 
   /* ---------- Eventi ---------- */
   function wire() {
@@ -875,11 +831,6 @@
     $$("#mp4Bg button").forEach((b) => b.addEventListener("click", () => { mp4Bg = b.dataset.v; syncExport(); }));
     $("#mp4Color").addEventListener("input", (e) => { mp4Color = e.target.value; syncExport(); });
     $("#expGo").addEventListener("click", runExport);
-    $("#expDl").addEventListener("click", (e) => {
-      if (!window.FB_SAVE || !lastBlob) return;
-      e.preventDefault();
-      window.FB_SAVE($("#expDl").download, lastBlob).catch(() => toast(t("x.saveErr"), true));
-    });
     // «Salva in…»: scegli la cartella. Chrome ed Edge aprono la finestra di salvataggio del Mac;
     // Safari non lo permette alle pagine web, quindi si spiega come fargli chiedere la cartella a ogni download.
     $("#expSaveAs").addEventListener("click", async () => {
@@ -903,13 +854,9 @@
     });
     $("#expOther").addEventListener("click", () => { xFmt = xFmt === "mov" ? "mp4" : "mov"; showExpState("form"); syncExport(); });
     $("#fsBtn").addEventListener("click", () => {
-      const el = $("#stagewrap");
-      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
-      if (fsEl) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-      else if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
-      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      if (document.fullscreenElement) document.exitFullscreen();
+      else $("#stagewrap").requestFullscreen().catch(() => {});
     });
-    ["fullscreenchange", "webkitfullscreenchange"].forEach((ev) => document.addEventListener(ev, () => { resize(); setTimeout(resize, 60); setTimeout(resize, 250); }));
 
     // tocco: con due dita si ingrandisce e ci si sposta (pinch); un dito fa quello che fa il mouse
     cv.addEventListener("pointerdown", (e) => {
@@ -943,9 +890,7 @@
     cv.addEventListener("pointerleave", () => { peek.target = 0; });
     cv.addEventListener("wheel", onWheel, { passive: false });
     cv.addEventListener("auxclick", (e) => e.preventDefault());
-    new ResizeObserver(resize).observe($("#stagewrap"));
-    new ResizeObserver(resize).observe(cv);
-    window.addEventListener("resize", resize);
+    new ResizeObserver(resize).observe($("#stagewrap"));       // finestra, schermo intero, telefono ruotato
 
     document.addEventListener("keydown", (e) => {
       if (e.target && e.target.closest && e.target.closest("input,select,textarea")) return;
@@ -981,7 +926,7 @@
     window.addEventListener("drop", (e) => {
       if (!hasFiles(e)) return;
       e.preventDefault(); depth = 0; show(false);
-      if (!rec && !dlgOpen()) readFile(fileOf(e.dataTransfer));
+      if (!rec && !dlgOpen()) readFile(e.dataTransfer.files[0]);
     });
     window.addEventListener("beforeunload", saveNow);
     PG.onReady = () => { dirty = true; };
@@ -996,16 +941,10 @@
     resize();
     requestAnimationFrame(frame);
     // indirizzo dell'app con ?pdf=<link>: apre subito quel PDF (utile da condividere)
-    let qpdf = null;
-    try { qpdf = new URLSearchParams(location.search).get("pdf"); } catch (e) { /* ignora */ }
+    const qpdf = new URLSearchParams(location.search).get("pdf");
     const had = await restore();
-    const ok = qpdf ? (await openLink(qpdf)) || had : had;
-    if (!ok) {
-      $("#empty").hidden = false;
-      if (window.FB_PREVIEW) loadSample();
-    }
+    if (!(qpdf ? (await openLink(qpdf)) || had : had)) $("#empty").hidden = false;
     syncUI();
-    window.FBApp = { st, get take() { return take; }, startFlip, goTo, startRec, stopRec, setTool, runExport, zoomAt, get cam() { return camT; }, get layout() { return layout; } };
   }
   start();
 })();

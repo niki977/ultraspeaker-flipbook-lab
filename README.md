@@ -38,9 +38,9 @@ Perché due formati: PowerPoint non mostra la trasparenza dei video in modo affi
 ## Pubblicazione su GitHub Pages
 
 Passo passo in **GUIDA-INSTALLAZIONE.html** (aprila con doppio clic). In breve: repository pubblico `ultraspeaker-flipbook-lab`,
-caricamento dal sito di GitHub di tutto il contenuto della cartella **tranne** `vendor/ffmpeg/ffmpeg-core.wasm` (31 MB, oltre il limite di 25 MB),
-poi *Settings → Pages → main / (root)*. Senza quel file l’app scarica il motore video da jsDelivr la prima volta che crea un MOV;
-per renderla indipendente si può aggiungere il file con GitHub Desktop.
+caricamento con GitHub Desktop di tutto il contenuto della cartella, poi *Settings → Pages → main / (root)*.
+Serve GitHub Desktop perché `vendor/ffmpeg/ffmpeg-core.wasm` (31 MB, il motore del MOV trasparente) supera il limite di 25 MB
+del caricamento dal sito di GitHub.
 
 ## File
 

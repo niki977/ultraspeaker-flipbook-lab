@@ -1,49 +1,24 @@
 /* The Ultraspeaker Flipbook Lab – esporta il video.
    - MOV ProRes 4444 con canale alfa (sfondo trasparente) per Keynote: codifica con ffmpeg nel browser,
      a blocchi di pochi fotogrammi, e file MOV composto qui in JavaScript (così anche video lunghi non esauriscono la memoria).
-   - MP4 H.264 con sfondo a colore per PowerPoint: WebCodecs quando il browser lo offre, altrimenti ffmpeg. */
+   - MP4 H.264 con sfondo a colore per PowerPoint: WebCodecs (VideoEncoder) del browser. */
 (function () {
   "use strict";
   const BLOCK = 12;                        // fotogrammi per blocco ProRes
-  let ff = null, ffLoading = null;
+  let ffLoading = null;
 
-  function base() { return (window.FB_BASE || location.href.replace(/[^/]*([?#].*)?$/, "")); }
-  async function ffmpeg(onLoad) {
-    if (ff) return ff;
+  function ffmpeg(onLoad) {
     if (!ffLoading) {
-      ffLoading = (async () => {
-        const { FFmpeg } = window.FFmpegWASM;
-        const inst = new FFmpeg();
-        const b = base() + "vendor/ffmpeg/";
-        onLoad && onLoad();
-        // il motore video (31 MB) sta nel sito; se manca (il caricamento web di GitHub accetta file fino a 25 MB)
-        // lo scarica una volta dal CDN pubblico jsDelivr, stessa versione
-        let coreURL = b + "ffmpeg-core.js", wasmURL = b + "ffmpeg-core.wasm";
-        let local = false;
-        try { const r = await fetch(wasmURL, { method: "HEAD", cache: "no-store" }); local = r.ok; } catch (e) { /* non c'è */ }
-        if (!local) {
-          // indirizzi diretti (niente blob:, che Safari non sempre lascia leggere al worker)
-          const cdn = "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd/";
-          coreURL = cdn + "ffmpeg-core.js"; wasmURL = cdn + "ffmpeg-core.wasm";
-        }
-        try { await inst.load({ coreURL, wasmURL }); }
-        catch (e) {
-          if (!local) throw e;
-          // il file nel sito non parte (per esempio in Safari): riprova con la copia del CDN
-          try { inst.terminate(); } catch (x) { /* ignora */ }
-          const cdn = "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd/";
-          const again = new FFmpeg();
-          await again.load({ coreURL: cdn + "ffmpeg-core.js", wasmURL: cdn + "ffmpeg-core.wasm" });
-          ff = again;
-          return again;
-        }
-        ff = inst;
-        return inst;
-      })().catch((e) => { ffLoading = null; throw e; });
+      onLoad && onLoad();
+      const f = new window.FFmpegWASM.FFmpeg(), b = new URL("vendor/ffmpeg/", location.href).href;
+      ffLoading = f.load({ coreURL: b + "ffmpeg-core.js", wasmURL: b + "ffmpeg-core.wasm" }).then(() => f, (e) => { ffLoading = null; throw e; });
     }
     return ffLoading;
   }
-  function stopFF() { if (ff) { try { ff.terminate(); } catch (e) { /* ignora */ } } ff = null; ffLoading = null; }
+  function stopFF() {
+    if (ffLoading) ffLoading.then((f) => { try { f.terminate(); } catch (e) { /* ignora */ } }, () => {});
+    ffLoading = null;
+  }
 
   /* ---------- Lettura di un MOV/MP4 (solo quello che serve) ---------- */
   function readBoxes(u8, start, end) {
@@ -51,11 +26,9 @@
     const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
     let p = start;
     while (p + 8 <= end) {
-      let size = dv.getUint32(p), hdr = 8;
+      const size = dv.getUint32(p) || end - p;          // 0 = fino alla fine
       const type = String.fromCharCode(u8[p + 4], u8[p + 5], u8[p + 6], u8[p + 7]);
-      if (size === 1) { size = Number(dv.getBigUint64(p + 8)); hdr = 16; }
-      else if (size === 0) size = end - p;
-      out.push({ type, start: p, hdr, end: p + size });
+      out.push({ type, start: p, hdr: 8, end: p + size });
       p += size;
     }
     return out;
@@ -73,14 +46,14 @@
     const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
     const sub = (t) => find(u8, [t], stbl.start + stbl.hdr, stbl.end);
     const stsd = sub("stsd"), stsz = sub("stsz"), stsc = sub("stsc");
-    const stco = sub("stco") || sub("co64");
+    const stco = sub("stco");
     const c = stsz.start + stsz.hdr + 4;
     const fixed = dv.getUint32(c), n = dv.getUint32(c + 4);
     const sizes = [];
     for (let i = 0; i < n; i++) sizes.push(fixed || dv.getUint32(c + 8 + i * 4));
     const co = stco.start + stco.hdr + 4, nc = dv.getUint32(co);
     const offs = [];
-    for (let i = 0; i < nc; i++) offs.push(stco.type === "co64" ? Number(dv.getBigUint64(co + 4 + i * 8)) : dv.getUint32(co + 4 + i * 4));
+    for (let i = 0; i < nc; i++) offs.push(dv.getUint32(co + 4 + i * 4));
     const sc = stsc.start + stsc.hdr + 4, ns = dv.getUint32(sc);
     const runs = [];
     for (let i = 0; i < ns; i++) runs.push({ first: dv.getUint32(sc + 4 + i * 12), per: dv.getUint32(sc + 8 + i * 12) });
@@ -92,27 +65,21 @@
       let p = offs[ch];
       for (let k = 0; k < per && si < n; k++, si++) { samples.push(u8.slice(p, p + sizes[si])); p += sizes[si]; }
     }
-    samples.forEach(proresV1);
-    for (let i = 0; i < samples.length; i++) samples[i] = fixProresAlpha(samples[i]);
+    for (let i = 0; i < samples.length; i++) samples[i] = fixProres(samples[i]);
     return { stsd: u8.slice(stsd.start, stsd.end), samples };
   }
-  // ffmpeg scrive i fotogrammi ProRes come "versione 0", che per le app Apple (Keynote, QuickTime) significa
-  // "senza canale alfa": decodificano i colori e scartano la trasparenza (sfondo nero). I fotogrammi 4:4:4 con alfa
-  // prodotti da Apple sono "versione 1": basta cambiare quel campo dell'intestazione, il resto è identico.
-  function proresV1(fr) {
-    if (fr.length > 12 && fr[4] === 0x69 && fr[5] === 0x63 && fr[6] === 0x70 && fr[7] === 0x66 && fr[10] === 0 && fr[11] === 0) { fr[11] = 1; fr[25] &= 15; } // come ffmpeg 7: versione 1, bit riservati a zero
-  }
-
-  /* ffmpeg prima della versione 7 dimentica l'ultimo codice "ripetizione" della trasparenza quando una fetta (slice)
-     finisce con un valore nuovo. ffmpeg non se ne accorge, ma il decodificatore Apple (chip M2/M3, Keynote, QuickTime)
-     sì: blocchi trasparenti o neri, oppure "Impossibile decodificare". Qui si rilegge ogni fetta e si aggiunge
-     il bit mancante, come fa ffmpeg 7 (commit 9109273e3b, "fix alpha plane encoding bitstream").
+  /* Due correzioni ai fotogrammi ProRes di ffmpeg (prima della versione 7), senza le quali Keynote e QuickTime
+     mostrano lo sfondo nero o "Impossibile decodificare":
+     1. ffmpeg scrive "versione 0", che per Apple significa "senza canale alfa": va scritto 1 (e i bit riservati a 0).
+     2. ffmpeg dimentica l'ultimo codice "ripetizione" della trasparenza quando una fetta (slice) finisce con un
+        valore nuovo: si rilegge ogni fetta e si aggiunge il bit mancante, come fa ffmpeg 7
+        (commit 9109273e3b, "fix alpha plane encoding bitstream").
      Restituisce il fotogramma corretto (lo stesso array se non serve aggiungere byte). */
-  function fixProresAlpha(fr) {
+  function fixProres(fr) {
     const rb16 = (o) => (fr[o] << 8) | fr[o + 1];
     const rb32 = (o) => ((fr[o] << 24) >>> 0) + (fr[o + 1] << 16) + (fr[o + 2] << 8) + fr[o + 3];
     if (fr.length < 40 || fr[4] !== 0x69 || fr[5] !== 0x63 || fr[6] !== 0x70 || fr[7] !== 0x66) return fr;
-    fr[25] &= 15;                                              // come ffmpeg 7: bit riservati a zero
+    fr[11] = 1; fr[25] &= 15;                                  // versione 1, bit riservati a zero
     const abits = (fr[25] & 15) === 1 ? 8 : (fr[25] & 15) === 2 ? 16 : 0;
     if (!abits || ((fr[20] >> 2) & 3)) return fr;              // senza alfa, o interlacciato: niente da fare
     const W = rb16(16), H = rb16(18);
@@ -232,13 +199,7 @@
   const idle = () => new Promise((r) => { const c = new MessageChannel(); c.port1.onmessage = () => r(); c.port2.postMessage(0); });
 
   // testo leggibile per qualsiasi errore (Safari a volte rifiuta con un Event, che diventa "[object Event]")
-  function describe(e) {
-    if (!e) return "?";
-    if (typeof Event !== "undefined" && e instanceof Event) {
-      return "evento " + e.type + (e.message ? ": " + e.message : "") + (e.filename ? " @ " + String(e.filename).split("/").pop() + ":" + (e.lineno || "") : "");
-    }
-    return e.message || String(e);
-  }
+  const describe = (e) => (e && (e.message || (e.type && "evento " + e.type))) || String(e);
   const RECYCLE = 15;                     // ogni 15 blocchi (180 fotogrammi) il motore riparte pulito: Safari libera la memoria
 
   async function mov(job) {
@@ -294,74 +255,38 @@
     return new Blob([head, ...chunks, moov], { type: "video/quicktime" });
   }
 
-  async function avcSupported(W, H, fps) {
-    if (!window.VideoEncoder || !window.Mp4Muxer) return null;
-    for (const codec of ["avc1.640028", "avc1.4d0028", "avc1.42e028"]) {
-      try {
-        const cfg = { codec, width: W, height: H, bitrate: W >= 1900 ? 14e6 : 8e6, framerate: fps, avc: { format: "avc" } };
-        const r = await VideoEncoder.isConfigSupported(cfg);
-        if (r && r.supported) return cfg;
-      } catch (e) { /* prova il successivo */ }
-    }
-    return null;
-  }
   async function mp4(job) {
     const { width: W, height: H, fps, frames: N, render, onProgress, isCancelled } = job;
-    const cfg = await avcSupported(W, H, fps);
+    let cfg = null;
+    for (const codec of ["avc1.640028", "avc1.4d0028", "avc1.42e028"]) {          // High, Main, Baseline
+      const c = { codec, width: W, height: H, bitrate: W >= 1900 ? 14e6 : 8e6, framerate: fps, avc: { format: "avc" } };
+      try { if ((await VideoEncoder.isConfigSupported(c)).supported) { cfg = c; break; } } catch (e) { /* il successivo */ }
+    }
+    if (!cfg) throw new Error("H.264 non disponibile in questo browser");
     const { c, ctx } = frameCanvas(W, H);
-    if (cfg) {
-      const muxer = new Mp4Muxer.Muxer({ target: new Mp4Muxer.ArrayBufferTarget(), video: { codec: "avc", width: W, height: H, frameRate: fps }, fastStart: "in-memory" });
-      let err = null;
-      const venc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => { err = e; } });
-      venc.configure(cfg);
-      for (let k = 0; k < N; k++) {
-        if (isCancelled()) { try { venc.close(); } catch (e) { /* ignora */ } throw new Error("cancel"); }
-        if (err) throw err;
-        await render(ctx, k, W, H);
-        const vf = new VideoFrame(c, { timestamp: Math.round(k * 1e6 / fps), duration: Math.round(1e6 / fps) });
-        venc.encode(vf, { keyFrame: k % (fps * 2) === 0 });
-        vf.close();
-        onProgress((k + 1) / N, "frames");
-        while (venc.encodeQueueSize > 6) await new Promise((r) => { const done = () => { venc.removeEventListener && venc.removeEventListener("dequeue", done); r(); }; if (venc.addEventListener && "ondequeue" in venc) venc.addEventListener("dequeue", done, { once: true }); else idle().then(r); });
-        if (k % 4 === 3) await idle();
-      }
-      await venc.flush();
+    const muxer = new Mp4Muxer.Muxer({ target: new Mp4Muxer.ArrayBufferTarget(), video: { codec: "avc", width: W, height: H, frameRate: fps }, fastStart: "in-memory" });
+    let err = null;
+    const venc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => { err = e; } });
+    venc.configure(cfg);
+    for (let k = 0; k < N; k++) {
+      if (isCancelled()) { venc.close(); throw new Error("cancel"); }
       if (err) throw err;
-      muxer.finalize();
-      return new Blob([muxer.target.buffer], { type: "video/mp4" });
+      await render(ctx, k, W, H);
+      const vf = new VideoFrame(c, { timestamp: Math.round(k * 1e6 / fps), duration: Math.round(1e6 / fps) });
+      venc.encode(vf, { keyFrame: k % (fps * 2) === 0 });
+      vf.close();
+      onProgress((k + 1) / N, "frames");
+      while (venc.encodeQueueSize > 6) await idle();
+      if (k % 4 === 3) await idle();
     }
-    // ripiego: ffmpeg (libx264) a blocchi, poi unione senza ricodifica
-    const f = await ffmpeg(() => onProgress(0, "load"));
-    const B = 30, segs = [];
-    for (let s = 0, seg = 0; s < N; s += B, seg++) {
-      const n = Math.min(B, N - s);
-      const raw = new Uint8Array(W * H * 4 * n);
-      for (let k = 0; k < n; k++) {
-        if (isCancelled()) throw new Error("cancel");
-        await render(ctx, s + k, W, H);
-        raw.set(ctx.getImageData(0, 0, W, H).data, k * W * H * 4);
-        onProgress((s + k + 0.5) / N, "frames");
-        if (k % 3 === 2) await idle();
-      }
-      await f.writeFile("in.raw", raw);
-      const name = "s" + seg + ".mp4";
-      await f.exec(["-f", "rawvideo", "-pix_fmt", "rgba", "-s", W + "x" + H, "-r", String(fps), "-i", "in.raw",
-        "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", "-g", String(fps * 2), name]);
-      await f.deleteFile("in.raw");
-      segs.push(name);
-    }
-    await f.writeFile("list.txt", new TextEncoder().encode(segs.map((s) => "file '" + s + "'").join("\n")));
-    await f.exec(["-f", "concat", "-safe", "0", "-i", "list.txt", "-c", "copy", "-movflags", "+faststart", "out.mp4"]);
-    const out = await f.readFile("out.mp4");
-    for (const s of segs) { try { await f.deleteFile(s); } catch (e) { /* ignora */ } }
-    await f.deleteFile("out.mp4"); await f.deleteFile("list.txt");
-    return new Blob([out], { type: "video/mp4" });
+    await venc.flush();
+    if (err) throw err;
+    muxer.finalize();
+    return new Blob([muxer.target.buffer], { type: "video/mp4" });
   }
 
   window.FBExport = {
     run(job) { return job.format === "mov" ? mov(job) : mp4(job); },
     cancel: stopFF,
-    avcSupported,
-    _parseSegment: parseSegment, _buildMov: buildMov, _fixProresAlpha: fixProresAlpha,
   };
 })();

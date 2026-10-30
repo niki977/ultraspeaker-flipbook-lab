@@ -17,11 +17,9 @@
   }
 
   /* ---------- Misure del libro sul palco ---------- */
-  function geometry(aspect, layout, zoom) {
-    const z = zoom || 1;
+  function geometry(aspect, layout) {
     const single = layout === "single";
-    const maxH = SH * 0.84 * z, maxW = SW * (single ? 0.5 : 0.9) * z;
-    let H = Math.min(maxH, maxW / (single ? aspect : aspect * 2));
+    const H = Math.min(SH * 0.84, SW * (single ? 0.5 : 0.9) / (single ? aspect : aspect * 2));
     const W = H * aspect;
     return { W, H, S: SW / 2, y0: (SH - H) / 2, single };
   }
@@ -78,15 +76,15 @@
   }
 
   /* ---------- Disegno ---------- */
-  /* opts: {pageCount, aspect, layout, cover, drawPage(ctx, idx, x, y, w, h), bg (null = trasparente), shadow} */
+  /* opts: {pageCount, aspect, layout, cover, drawPage(ctx, idx, x, y, w, h), bg (null = trasparente), bgImage, cam} */
   function render(ctx, st, o) {
-    const g = geometry(o.aspect, o.layout, o.zoom);
+    const g = geometry(o.aspect, o.layout);
     const views = buildViews(o.pageCount, o.layout, o.cover);
     ctx.save();
     if (o.bg) { ctx.fillStyle = o.bg; ctx.fillRect(0, 0, SW, SH); } else ctx.clearRect(0, 0, SW, SH);
     if (o.bgImage) {
       // immagine di sfondo che riempie il palco (ritagliata, senza deformarla)
-      const im = o.bgImage, iw = im.width || im.naturalWidth, ih = im.height || im.naturalHeight;
+      const im = o.bgImage, iw = im.width, ih = im.height;
       const k = Math.max(SW / iw, SH / ih);
       ctx.drawImage(im, (SW - iw * k) / 2, (SH - ih * k) / 2, iw * k, ih * k);
     }
@@ -122,7 +120,6 @@
       ctx.restore();
     };
     const bookShadow = (rects) => {
-      if (o.shadow === false) return;
       ctx.save();
       ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = g.H * 0.035; ctx.shadowOffsetY = g.H * 0.012;
       ctx.fillStyle = "#ffffff";
@@ -214,11 +211,9 @@
     if (foldedR.length > 2) {
       ctx.save();
       if (back === PAPER) ctx.globalAlpha = paperA;
-      if (o.shadow !== false) {
-        ctx.shadowColor = "rgba(0,0,0,.30)"; ctx.shadowBlur = g.H * 0.03;
-        ctx.fillStyle = "#ffffff"; pathPoly(ctx, foldedR); ctx.fill();
-        ctx.shadowColor = "transparent";
-      }
+      ctx.shadowColor = "rgba(0,0,0,.30)"; ctx.shadowBlur = g.H * 0.03;
+      ctx.fillStyle = "#ffffff"; pathPoly(ctx, foldedR); ctx.fill();
+      ctx.shadowColor = "transparent";
       pathPoly(ctx, foldedR); ctx.clip();
       ctx.save();
       // R ∘ (specchio sul dorso): una rotazione, quindi l'immagine resta dritta
@@ -248,7 +243,7 @@
 
   /* posizione di un punto del palco su una pagina: {idx, u, v} (u,v in 0..1) */
   function hitPage(pt, st, o) {
-    const g = geometry(o.aspect, o.layout, o.zoom);
+    const g = geometry(o.aspect, o.layout);
     const views = buildViews(o.pageCount, o.layout, o.cover);
     const cur = views[st.view];
     if (!cur) return null;
@@ -261,7 +256,7 @@
 
   /* spostamento orizzontale in questo istante (serve per leggere il puntatore) */
   function offsetNow(st, o) {
-    const g = geometry(o.aspect, o.layout, o.zoom);
+    const g = geometry(o.aspect, o.layout);
     const views = buildViews(o.pageCount, o.layout, o.cover);
     const cur = views[st.view];
     const f = st.flip, target = f ? views[f.to != null ? f.to : st.view + f.dir] : null;
@@ -272,12 +267,12 @@
   }
 
   /* telecamera: dal punto sullo schermo (palco) al punto nel mondo del libro, e ritorno */
-  function toWorld(p, cam) { if (!cam) return p; return { x: (p.x - SW / 2) / cam.z + cam.x, y: (p.y - SH / 2) / cam.z + cam.y }; }
+  function toWorld(p, cam) { return { x: (p.x - SW / 2) / cam.z + cam.x, y: (p.y - SH / 2) / cam.z + cam.y }; }
   function clampCam(cam) {
     const z = Math.max(1, Math.min(5, cam.z));
     const hw = SW / 2 / z, hh = SH / 2 / z;
     return { z, x: Math.max(hw, Math.min(SW - hw, cam.x)), y: Math.max(hh, Math.min(SH - hh, cam.y)) };
   }
 
-  window.FBEngine = { SW, SH, PAPER, buildViews, geometry, offsetFor, corners, constrain, render, flipPath, hitPage, ease, offsetNow, toWorld, clampCam };
+  window.FBEngine = { SW, SH, buildViews, geometry, corners, constrain, render, flipPath, hitPage, offsetNow, toWorld, clampCam };
 })();
