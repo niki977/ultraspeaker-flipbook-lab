@@ -158,7 +158,11 @@ window.FB_I18N = {
       "x.shadow": "Ombra",
       "x.shadowOn": "Con ombra",
       "x.shadowOff": "Senza ombra",
-      "x.shadowNote": "Per PowerPoint scegli «Senza ombra»: in presentazione l’ombra diventerebbe un bordo nero."
+      "x.shadowNote": "Per PowerPoint scegli «Senza ombra»: in presentazione l’ombra diventerebbe un bordo nero.",
+      "clear.menu": "Cancella i segni o chiudi il PDF",
+      "clear.pdf": "Chiudi il PDF",
+      "clear.pdfNote": "Torni alla schermata iniziale, dove puoi aprire la guida di esempio o un altro PDF. Il PDF e i suoi segni non restano salvati.",
+      "closed": "PDF chiuso"
   },
   en: {
       "l.open": "Open a PDF from a link",
@@ -318,7 +322,11 @@ window.FB_I18N = {
       "x.shadow": "Shadow",
       "x.shadowOn": "With shadow",
       "x.shadowOff": "No shadow",
-      "x.shadowNote": "For PowerPoint choose “No shadow”: in Slide Show the shadow would turn into a black border."
+      "x.shadowNote": "For PowerPoint choose “No shadow”: in Slide Show the shadow would turn into a black border.",
+      "clear.menu": "Clear the marks or close the PDF",
+      "clear.pdf": "Close the PDF",
+      "clear.pdfNote": "You go back to the home screen, where you can open the sample guide or another PDF. The PDF and its marks are no longer saved.",
+      "closed": "PDF closed"
   },
   es: {
       "l.open": "Abrir un PDF desde un enlace",
@@ -478,7 +486,11 @@ window.FB_I18N = {
       "x.shadow": "Sombra",
       "x.shadowOn": "Con sombra",
       "x.shadowOff": "Sin sombra",
-      "x.shadowNote": "Para PowerPoint elige «Sin sombra»: en la presentación la sombra se convertiría en un borde negro."
+      "x.shadowNote": "Para PowerPoint elige «Sin sombra»: en la presentación la sombra se convertiría en un borde negro.",
+      "clear.menu": "Borrar las marcas o cerrar el PDF",
+      "clear.pdf": "Cerrar el PDF",
+      "clear.pdfNote": "Vuelves a la pantalla inicial, donde puedes abrir la guía de ejemplo u otro PDF. El PDF y sus marcas dejan de estar guardados.",
+      "closed": "PDF cerrado"
   },
   fr: {
       "l.open": "Ouvrir un PDF depuis un lien",
@@ -638,7 +650,11 @@ window.FB_I18N = {
       "x.shadow": "Ombre",
       "x.shadowOn": "Avec ombre",
       "x.shadowOff": "Sans ombre",
-      "x.shadowNote": "Pour PowerPoint, choisissez « Sans ombre » : en diaporama, l’ombre deviendrait un bord noir."
+      "x.shadowNote": "Pour PowerPoint, choisissez « Sans ombre » : en diaporama, l’ombre deviendrait un bord noir.",
+      "clear.menu": "Effacer les marques ou fermer le PDF",
+      "clear.pdf": "Fermer le PDF",
+      "clear.pdfNote": "Vous revenez à l’écran d’accueil, où vous pouvez ouvrir le guide d’exemple ou un autre PDF. Le PDF et ses marques ne sont plus enregistrés.",
+      "closed": "PDF fermé"
   },
   de: {
       "l.open": "PDF über einen Link öffnen",
@@ -798,6 +814,10 @@ window.FB_I18N = {
       "x.shadow": "Schatten",
       "x.shadowOn": "Mit Schatten",
       "x.shadowOff": "Ohne Schatten",
-      "x.shadowNote": "Für PowerPoint „Ohne Schatten“ wählen: In der Bildschirmpräsentation würde der Schatten zu einem schwarzen Rand."
+      "x.shadowNote": "Für PowerPoint „Ohne Schatten“ wählen: In der Bildschirmpräsentation würde der Schatten zu einem schwarzen Rand.",
+      "clear.menu": "Markierungen löschen oder PDF schließen",
+      "clear.pdf": "PDF schließen",
+      "clear.pdfNote": "Sie kehren zur Startseite zurück und können die Beispiel-Anleitung oder eine andere PDF öffnen. Die PDF und ihre Markierungen bleiben nicht gespeichert.",
+      "closed": "PDF geschlossen"
   },
 };

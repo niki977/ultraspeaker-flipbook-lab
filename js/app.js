@@ -23,7 +23,7 @@
     $$("[data-i18n-title]").forEach((el) => el.setAttribute("title", t(el.dataset.i18nTitle)));
     $$("[data-tool]").forEach((b) => { b.title = t("tool." + b.dataset.tool); b.setAttribute("aria-label", t("tool." + b.dataset.tool)); });
     $$("[data-mode]").forEach((b) => { b.title = t("mode." + b.dataset.mode); b.setAttribute("aria-label", t("mode." + b.dataset.mode)); });
-    $("#clearBtn").title = t("clearPage"); $("#clearBtn").setAttribute("aria-label", t("clearPage"));
+    $("#clearBtn").title = t("clear.menu"); $("#clearBtn").setAttribute("aria-label", t("clear.menu"));
     $("#lang").value = LANG;
     // chiusura e pulsante «Guida» nella lingua corrente (linea guida §4 e §6)
     $$(".us-links a").forEach((a) => { a.href = UL.linkWithLang(a.getAttribute("href"), LANG); });
@@ -602,6 +602,32 @@
     return true;
   }
 
+  /* ---------- Menu del cestino e «Chiudi il PDF» ---------- */
+  // il menu sta accanto al cestino: a destra della colonna degli strumenti, sotto la barra sul telefono
+  function clearMenu(open) {
+    const m = $("#clearMenu"), b = $("#clearBtn");
+    m.hidden = !open; b.setAttribute("aria-expanded", String(open));
+    if (!open) return;
+    $("#closePdf").disabled = !book || !!rec;
+    const w = $(".work").getBoundingClientRect(), r = b.getBoundingClientRect();
+    const side = getComputedStyle($("#tools")).flexDirection === "column";
+    m.style.left = side ? (r.right - w.left + 8) + "px" : Math.max(8, Math.min(r.left - w.left, w.width - m.offsetWidth - 8)) + "px";
+    m.style.top = side ? Math.max(8, Math.min(r.top - w.top, w.height - m.offsetHeight - 8)) + "px" : (r.bottom - w.top + 8) + "px";
+    $("#clearMarks").focus();
+  }
+  // torna alla schermata iniziale: da lì si riapre la guida di esempio o un altro PDF
+  function closeBook() {
+    if (!book || rec) return;
+    clearTimeout(saveT);
+    book = null; anim = null; queue = 0; drag = null; stroke = null; st.view = 0; st.flip = null; peek.target = peek.amt = 0;
+    PG.set([], 1, []); A.reset();
+    zoomReset(); cam = CAM0();
+    ST.clearBook();
+    $("#empty").hidden = false;
+    syncUI(); dirty = true;
+    toast(t("closed"));
+  }
+
   /* ---------- Registrazione dal vivo ---------- */
   function startRec() {
     if (!book || rec) return;
@@ -885,11 +911,15 @@
     $("#zoomPct").addEventListener("click", zoomReset);
     $$("[data-tool]").forEach((b) => b.addEventListener("click", () => setTool(b.dataset.tool)));
     $$("[data-mode]").forEach((b) => b.addEventListener("click", () => { markMode = b.dataset.mode; ST.setPref("markMode", markMode); if (!["hl", "ul", "pen"].includes(tool)) setTool("ul"); syncUI(); }));
-    $("#clearBtn").addEventListener("click", () => {
+    $("#clearBtn").addEventListener("click", (e) => { e.stopPropagation(); clearMenu(!!$("#clearMenu").hidden); });
+    $("#clearMarks").addEventListener("click", () => {
+      clearMenu(false);
       const cur = views()[st.view]; if (!cur) return;
       let n = 0; cur.forEach((p) => { if (p != null) n += A.clearPage(p, now()); });
       dirty = true; saveSoon(); toast(n ? t("cleared") : t("nothingToClear"));
     });
+    $("#closePdf").addEventListener("click", () => { clearMenu(false); closeBook(); });
+    document.addEventListener("click", (e) => { if (!$("#clearMenu").hidden && !e.target.closest("#clearMenu")) clearMenu(false); });
     const relayout = (fn) => {
       const cur = views()[st.view], first = cur ? cur.find((x) => x != null) : 0;
       fn();
@@ -989,6 +1019,7 @@
         return;
       }
       if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (!$("#clearMenu").hidden) { if (e.key === "Escape") { clearMenu(false); $("#clearBtn").focus(); } return; }
       const k = e.key;
       const map = { h: "hand", e: "hl", u: "ul", p: "pen", g: "erase", z: "zoom", v: "move" };
       if (k === " ") { e.preventDefault(); if (!spaceDown) { spaceDown = true; cv.style.cursor = "grab"; } return; }

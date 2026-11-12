@@ -34,6 +34,8 @@
       if (!p || !p.pages || !p.pages.length) return null;
       return { ...p, blobs: p.pages.map(toBlob), state: (await run("readonly", (s) => s.get("state"))) || {} };
     },
+    // «Chiudi il PDF»: il libro e i segni non si ritrovano alla prossima apertura (l'immagine di sfondo resta)
+    clearBook() { return run("readwrite", (s) => { s.delete("pages"); s.delete("state"); }); },
     async putImage(k, blob) { const x = await toBytes(blob); return run("readwrite", (s) => s.put(x, k)); },
     async getImage(k) { const x = await run("readonly", (s) => s.get(k)); return x && (x.buf || x.__bytes) ? toBlob(x) : null; },
     pref(k, d) { try { const v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },

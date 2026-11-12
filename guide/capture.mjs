@@ -85,13 +85,13 @@ for (const lang of LANGS) {
   await p.mouse.move(10, 10); await p.waitForTimeout(400);
   await p.screenshot({ path: join(dir, "overview.png") });
   pins[lang].overview = [
-    await pin(p, ".us-header-tools", 1, 1440, 900, -0.025, 0.5),
+    await pin(p, ".us-header-tools", 1, 1440, 900, -0.07, 0.5),
     await pin(p, "#tools", 2, 1440, 900, 1, 0.3),
     await pin(p, "#stage", 3, 1440, 900, 0.5, 0.06),
-    await pin(p, ".bottom .nav", 4, 1440, 900, 0.5, -0.45),
-    await pin(p, "#fmtSel", 5, 1440, 900, 0.5, -0.45),
-    await pin(p, "#segBg", 6, 1440, 900, 0.5, -0.45),
-    await pin(p, "#recBtn", 7, 1440, 900, 0.5, -0.4),
+    await pin(p, ".bottom .nav", 4, 1440, 900, 0.5, -0.95),
+    await pin(p, "#fmtSel", 5, 1440, 900, 0.5, -0.95),
+    await pin(p, "#segBg", 6, 1440, 900, 0.5, -0.95),
+    await pin(p, "#recBtn", 7, 1440, 900, 0.5, -0.95),
   ];
   // 2. finestra «Da un link»
   await p.click("#linkBtn"); await p.waitForTimeout(250);

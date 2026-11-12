@@ -15,7 +15,7 @@ Funziona nel browser, senza installare nulla, in italiano, inglese, spagnolo, fr
 
 - **Aprire un PDF:** Apri PDF, trascinamento nella finestra (un'immagine trascinata diventa lo sfondo), **Link** (Dropbox, Google Drive, OneDrive, GitHub o link diretto; il file deve essere pubblico e scaricabile da altre pagine). `?pdf=<link>` apre subito un PDF, `?lang=it|en|es|fr|de` sceglie la lingua.
 - **Sfogliare:** angolo trascinabile, clic, frecce; vista Libro (copertina da sola) o Pagina.
-- **Segni:** Evidenzia (E) e Sottolinea (U) agganciati al testo del PDF, Penna (P), Gomma (G), sei colori; segni che restano o che svaniscono dopo 3 secondi (M).
+- **Segni:** Evidenzia (E) e Sottolinea (U) agganciati al testo del PDF, Penna (P), Gomma (G), sei colori; segni che restano o che svaniscono dopo 3 secondi (M). Il cestino cancella i segni delle pagine aperte oppure chiude il PDF e torna alla schermata iniziale.
 - **Zoom:** rotellina, pizzico, pulsanti − % +, Lente (Z) e Lente − (⇧Z). Lo zoom entra nella registrazione.
 - **Formato del video:** 16:9, 4:3, 3:1 o personalizzato (larghezza × altezza in pixel, da 160 a 3840).
 - **Sposta (V):** trascina il libro sul palco; rotellina, pizzico o − % + per ingrandirlo o rimpicciolirlo; «Centra» lo rimette al centro. Serve a collocarlo sopra un'immagine di sfondo e vale anche nel video.
@@ -75,6 +75,6 @@ Servono Node e Playwright (`npm i playwright`, fuori dal repository o con `node_
 
 ## Versioni
 
-- **1.1.1 (novembre 2026):** nell'esportazione MOV la scelta **Con ombra / Senza ombra**. In modalità presentazione PowerPoint rende pieni i pixel semitrasparenti e l'ombra del libro diventa un bordo nero; senza ombra restano solo pixel pieni o trasparenti (anche il retro del foglio nella vista Pagina compare senza sfumatura).
+- **1.1.1 (novembre 2026):** nell'esportazione MOV la scelta **Con ombra / Senza ombra**. In modalità presentazione PowerPoint rende pieni i pixel semitrasparenti e l'ombra del libro diventa un bordo nero; senza ombra restano solo pixel pieni o trasparenti (anche il retro del foglio nella vista Pagina compare senza sfumatura). Il cestino apre un menu: **Cancella i segni di queste pagine** oppure **Chiudi il PDF**, che torna alla schermata iniziale (e alla guida di esempio) e toglie il PDF dalla memoria del browser.
 - **1.1 (novembre 2026):** linea guida 1.3 (kit comune, intestazione, chiusura, pagine di servizio, lingua comune, chiavi `ultraspeaker.flipbook.*`), formato del video a scelta, strumento Sposta, guida d'utilizzo PDF, manifest 1.1.0.0.
 - **1.0 (ottobre 2026):** prima versione online; Brand Book 1.0, componente aggiuntivo che apre l'app nel browser.

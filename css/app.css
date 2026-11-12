@@ -40,6 +40,10 @@ svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke
 .stage.recording{outline:2px solid var(--us-warn)}
 .stagenote{position:absolute;left:10px;top:8px;font-size:10px;font-weight:700;letter-spacing:.32em;color:var(--us-ash);pointer-events:none;text-transform:uppercase}
 
+/* menu del cestino: accanto al pulsante, sopra il palco */
+.clearmenu{position:absolute;z-index:20;width:280px;display:flex;flex-direction:column;gap:8px;border:var(--us-border)}
+.clearmenu .us-btn{justify-content:flex-start}
+
 /* posizione e grandezza del libro (strumento Sposta, V) */
 .placebar{position:absolute;right:10px;top:8px;display:flex;align-items:center;gap:2px;padding:3px;border-radius:var(--us-radius);background:var(--us-backstage);border:var(--us-border);z-index:2}
 .placebar button{height:28px;min-width:30px;padding:0 8px;border:0;border-radius:7px;background:transparent;color:var(--us-spotlight);font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
@@ -65,25 +69,32 @@ svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke
 
 /* ---------- Barra in basso ---------- */
 .bottom{display:flex;align-items:center;gap:12px;padding:10px 16px;border-top:var(--us-divider);flex-wrap:wrap}
-.nav{display:flex;align-items:center;gap:2px;padding:3px;border-radius:var(--us-radius);background:var(--us-backstage);border:var(--us-divider)}
-.nav button{width:34px;height:32px;border-radius:7px;border:0;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--us-spotlight)}
+.nav{display:flex;align-items:center;gap:2px;padding:2px;height:var(--us-h-lang);border-radius:var(--us-radius);background:var(--us-backstage);border:var(--us-divider)}
+.nav button{width:30px;height:26px;border-radius:7px;border:0;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--us-spotlight)}
 .nav button:hover:not(:disabled){background:var(--us-curtain)}
 .num{min-width:78px;text-align:center;font-weight:700;font-size:13.5px;font-variant-numeric:tabular-nums}
 #zoomPct{min-width:58px;width:auto}
 /* scelte a icone (Libro/Pagina, sfondo): il kit non ha un selettore con icone */
-.seg{display:inline-grid;grid-auto-flow:column;gap:3px;padding:3px;border-radius:var(--us-radius);background:var(--us-backstage);border:var(--us-divider)}
-.seg button{height:30px;border-radius:7px;border:0;background:transparent;color:var(--us-silver);font-size:13px;font-weight:700;padding:0 11px;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
+.seg{display:inline-grid;grid-auto-flow:column;gap:3px;padding:2px;height:var(--us-h-lang);border-radius:var(--us-radius);background:var(--us-backstage);border:var(--us-divider)}
+.seg button{height:26px;border-radius:7px;border:0;background:transparent;color:var(--us-silver);font-size:13px;font-weight:700;padding:0 11px;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
 .seg button[aria-pressed="true"]{background:var(--us-spotlight);color:var(--us-stage-black)}
 .seg svg{width:16px;height:16px}
 .grp{display:flex;align-items:center;gap:8px}
 .grp .us-label,.optrow .us-label{margin:0}
 .fmtsel{height:var(--us-h-lang);padding:0 26px 0 10px;background:var(--us-backstage) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5' fill='none' stroke='%23D0D0D0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 8px center/12px;border:var(--us-border);border-radius:var(--us-radius);font-size:13px;font-weight:700;-webkit-appearance:none;appearance:none;cursor:pointer;font-variant-numeric:tabular-nums}
+/* altezza unica: intestazione e barra in basso alte come «Guida» (32 px), anche «Registra» */
+.top .us-btn,.bottom .us-btn{height:var(--us-h-lang);font-size:13px}
+.top .us-btn--icon,.bottom .us-btn--icon{width:var(--us-h-lang);padding:0}
+/* mappamondo dentro il selettore della lingua, come l'icona dentro «Guida» */
+.us-lang{position:relative}
+.us-lang svg{position:absolute;left:10px;top:50%;width:14px;height:14px;transform:translateY(-50%);pointer-events:none}
+.us-lang select{padding-left:30px}
 .chk{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--us-silver);cursor:pointer}
 .chk input{appearance:none;-webkit-appearance:none;width:32px;height:18px;border-radius:9px;background:var(--us-graphite);position:relative;margin:0;cursor:pointer;flex:none}
 .chk input::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--us-silver);transition:transform .15s}
 .chk input:checked{background:var(--us-spotlight)}
 .chk input:checked::after{transform:translateX(14px);background:var(--us-stage-black)}
-.swatch{position:relative;width:30px;height:30px;border-radius:var(--us-radius);border:var(--us-border);overflow:hidden;cursor:pointer;display:inline-block}
+.swatch{position:relative;width:var(--us-h-lang);height:var(--us-h-lang);border-radius:var(--us-radius);border:var(--us-border);overflow:hidden;cursor:pointer;display:inline-block}
 .swatch input{position:absolute;inset:-6px;width:calc(100% + 12px);height:calc(100% + 12px);opacity:0;cursor:pointer}
 .imgsw{padding:0;background:var(--us-curtain) center/cover no-repeat}
 .checkicon{background:repeating-conic-gradient(var(--us-ash) 0 25%,var(--us-silver) 0 50%) 0 0/8px 8px;width:14px;height:14px;border-radius:3px;display:inline-block}
@@ -132,7 +143,6 @@ svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke
   .top .us-subtitle{display:none}
   .tlabel{display:none}
   .us-header-tools .us-btn{width:var(--us-h-lang);height:var(--us-h-lang);padding:0}
-  .us-lang svg{display:none}
   /* telefono: icone sulla prima riga, lingua e «Guida» sulla seconda */
   .us-header-tools{gap:6px}
   .brk{display:block;flex-basis:100%;height:0}
@@ -165,6 +175,9 @@ svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke
 .us-doc .us-header > a{flex:0 1 auto}
 
 /* ---------- Pannello di PowerPoint (addin.html) ---------- */
+/* pannello stretto: la colonna del logo cede spazio, lingua e «Guida» restano sulla stessa riga */
+body.us-addin .us-header > div:first-child{flex:1 1 auto;min-width:0}
+body.us-addin .us-header-tools{flex:none;flex-wrap:nowrap}
 .panel-main{display:flex;flex-direction:column;gap:14px}
 .panel-main p{margin:0;color:var(--us-silver)}
 .panel-main .us-title{margin:0}
