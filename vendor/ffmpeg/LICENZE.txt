@@ -1,0 +1,4 @@
+ffmpeg.wasm (@ffmpeg/ffmpeg 0.12.15) – MIT – https://github.com/ffmpegwasm/ffmpeg.wasm
+@ffmpeg/core 0.12.10 – FFmpeg compilato in WebAssembly con libx264: GPL-2.0-or-later.
+Codice sorgente: https://github.com/ffmpegwasm/ffmpeg.wasm (tag v0.12.10) e https://ffmpeg.org
+Questi file sono usati senza modifiche per codificare i video nel browser dell'utente.

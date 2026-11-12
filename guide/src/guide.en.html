@@ -1,94 +1,245 @@
 <!doctype html>
-<!-- Guida d'utilizzo del Check Lab · en · generata da make-guide.js con il modello del kit 1.4. PDF: node shared/guide/build-guide.mjs -->
+<!-- Guida d'utilizzo del Flipbook Lab (en). Stile: shared/guide/ultraspeaker-guide.css. PDF: node shared/guide/build-guide.mjs -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>The Ultraspeaker Check Lab · User guide</title>
+<title>The Ultraspeaker Flipbook Lab · User guide</title>
 <link rel="stylesheet" href="../../shared/guide/ultraspeaker-guide.css">
-<style>@page{@bottom-left{content:"THE ULTRASPEAKER  ·  CHECK LAB  ·  GUIDE";font:700 7pt "Champagne & Limousines",sans-serif;letter-spacing:.32em;color:#8E8E8E;vertical-align:top;padding-top:6mm}}</style>
+<style>@page{@bottom-left{content:"THE ULTRASPEAKER  ·  FLIPBOOK LAB  ·  GUIDE";font:700 7pt "Champagne & Limousines",sans-serif;letter-spacing:.32em;color:#8E8E8E;vertical-align:top;padding-top:6mm}}</style>
 </head>
 <body>
+
 <section class="g-cover">
   <img class="g-cover-shadow" src="../../shared/guide/the-shadow.jpg" alt="">
   <div class="g-cover-body">
-    <img class="g-cover-logo" src="../../assets/img/check-lab-logo.svg" alt="The Ultraspeaker Check Lab">
+    <img class="g-cover-logo" src="../../assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab">
     <p class="g-cover-kicker">User guide</p>
-    <h1 class="g-cover-title">Your presentation ready<br>for the AV desk</h1>
-    <p class="g-cover-sub">Check the fonts, videos, images, legibility, format and timing of a PowerPoint or Keynote presentation before you hand it over at the congress.</p>
-    <div class="g-cover-meta"><span>Version 1.3 · November 2026</span><span>theultraspeaker.com</span></div>
+    <h1 class="g-cover-title">Your .pdf becomes<br>a video for your slides</h1>
+    <p class="g-cover-sub">Flip through a document like a book, underline the sentences that matter and record a video: transparent for Keynote or with the slide background for PowerPoint.</p>
+    <div class="g-cover-meta"><span>Version 1.1 · November 2026</span><span>theultraspeaker.com</span></div>
   </div>
 </section>
+
 <section class="g-toc">
   <p class="g-label">Contents</p>
   <h1>In this guide</h1>
-  <ol><li><span>01</span><span>Before you start<small>What Check Lab checks, where to find it, what stays on your computer</small></span></li><li><span>02</span><span>The interface<small>The parts of the screen, one by one</small></span></li><li><span>03</span><span>Check your presentation<small>From the file to the report in four steps</small></span></li><li><span>04</span><span>Read the report<small>Critical, Attention, OK and your own rating</small></span></li><li><span>05</span><span>Fix the most common problems<small>What to do for each warning</small></span></li><li><span>06</span><span>Before making slides<small>The Style tab: colours, fonts, contrast</small></span></li><li><span>07</span><span>Hand-over and room test<small>File name, checklist and test kits</small></span></li><li><span>08</span><span>Tips from a speaker<small>Three habits that prevent surprises</small></span></li><li><span>09</span><span>Frequently asked questions<small>Common problems and support</small></span></li></ol>
+  <ol>
+    <li><span>01</span><span>Before you start<small>What Flipbook Lab does, where to find it, what you need</small></span></li>
+    <li><span>02</span><span>The interface<small>The parts of the screen, one by one</small></span></li>
+    <li><span>03</span><span>Open a PDF<small>From your computer, from a link, the sample guide</small></span></li>
+    <li><span>04</span><span>Flip, highlight and underline<small>Tools, colours, keyboard shortcuts</small></span></li>
+    <li><span>05</span><span>Format and position<small>16:9, 4:3, 3:1 or custom; the book wherever you want</small></span></li>
+    <li><span>06</span><span>Record the video<small>Live or automatic, MOV or MP4</small></span></li>
+    <li><span>07</span><span>Put the video on the slide<small>Keynote, PowerPoint and the pane</small></span></li>
+    <li><span>08</span><span>Speaker tips<small>How many pages, how long, what can be read in the room</small></span></li>
+    <li><span>09</span><span>Frequently asked questions<small>Common problems and solutions</small></span></li>
+  </ol>
 </section>
+
 <section class="g-chapter">
   <div class="g-chapter-head"><span class="g-chapter-num">01</span><h2 class="g-chapter-title">Before you start</h2></div>
-  <p class="g-chapter-lead">Check Lab reads your presentation and tells you what may not work on the AV desk computer: a missing font, a video that does not play, text that cannot be read from the last row.</p>
-  <div class="g-cols"><div><p class="g-label">In the browser</p><p>niki977.github.io/ultraspeaker-check-lab. Drop a .pptx (PowerPoint) or .key (Keynote) file. It works on computers, tablets and phones.</p></div><div><p class="g-label">In PowerPoint</p><p><b>Home</b> tab → <b>The Ultraspeaker</b> group → <b>Check Lab</b>. The pane checks the open presentation and takes you to the slide with the problem with “Go to slide”.</p></div></div>
-  <div class="g-note"><p class="g-label">Coming soon</p><p>The PowerPoint pane is being tested and will be available soon. Meanwhile use the web version: it runs the same checks.</p></div>
-  <table><tr><th>What it checks</th><th>Examples</th></tr><tr><td>Fonts</td><td>not embedded, Windows-only or Mac-only</td></tr><tr><td>Video and audio</td><td>linked instead of embedded, formats that do not play, 4K</td></tr><tr><td>Images</td><td>low resolution, heavy files, EPS, CMYK, HEIC</td></tr><tr><td>Legibility</td><td>contrast with the background and on photos, size for the last row, charts for people who confuse red and green</td></tr><tr><td>Format and file</td><td>screen format, empty or hidden slides, links, file size</td></tr><tr><td>Timing</td><td>seconds per slide against the allotted time</td></tr></table>
-  <div class="g-note"><p class="g-label">Privacy</p><p>The file is read only on your computer and is never uploaded to a server. The language, talk settings, checklist and your ratings of the report stay on the device.</p></div>
+<p class="g-chapter-lead">Flipbook Lab turns a .pdf into a book you can flip through on screen. As you turn the pages you underline the key sentences, then record everything as a video for your slides.</p>
+<div class="g-cols">
+  <div>
+    <p class="g-label">In the browser</p>
+    <p>Open <b>niki977.github.io/ultraspeaker-flipbook-lab</b> on a computer, tablet or phone. There is nothing to install and the PDF stays on your device.</p>
+  </div>
+  <div>
+    <p class="g-label">In PowerPoint</p>
+    <p><b>Home</b> tab → <b>The Ultraspeaker</b> group → <b>Flipbook Lab</b>. The pane opens the app in your browser, where you record and save the video.</p>
+  </div>
+</div>
+<div class="g-note"><p class="g-label">Coming soon</p><p>The PowerPoint pane is being tested and will be available soon. Chapter 07 already describes it in full.</p></div>
+<table>
+  <tr><th>Video</th><th>For</th><th>How it looks</th></tr>
+  <tr><td>Transparent MOV</td><td>Keynote, Final Cut</td><td>Just the book, on top of the slide</td></tr>
+  <tr><td>MP4 with colour or image</td><td>PowerPoint, phone</td><td>The book on the same background as the slide: it looks transparent</td></tr>
+</table>
+<table>
+  <tr><th>What you need</th><th>Details</th></tr>
+  <tr><td>Browser</td><td>An up-to-date Chrome, Edge or Safari. For the transparent MOV, Chrome or Edge on a computer work best</td></tr>
+  <tr><td>Document</td><td>Any .pdf; with selectable text the underline snaps to the lines</td></tr>
+</table>
+<div class="g-note"><p class="g-label">Privacy</p><p>The PDF and the video stay on your device and are never sent to any server.</p></div>
 </section>
 <section class="g-chapter">
   <div class="g-chapter-head"><span class="g-chapter-num">02</span><h2 class="g-chapter-title">The interface</h2></div>
-  <p class="g-chapter-lead">Four tabs at the top. You start from Check; Style is for before you make the slides, AV desk for the day of the talk.</p>
-  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/en/02-overview.png" alt=""><span class="g-pin" style="left:69.2%;top:5%">1</span><span class="g-pin" style="left:2.7%;top:24.5%">2</span><span class="g-pin" style="left:2.7%;top:50.5%">3</span><span class="g-pin" style="left:2.7%;top:80.7%">4</span></div><figcaption>Web version · computer</figcaption></figure>
-  <ol class="g-legend"><li><span>1</span><span><b>Language and guide.</b> Change the language or open this guide.</span></li><li><span>2</span><span><b>Tabs.</b> <b>Style</b>, <b>Check</b>, <b>Report</b>, <b>AV desk</b>.</span></li><li><span>3</span><span><b>The file.</b> Drop the .pptx or .key here, or <b>Choose file</b>.</span></li><li><span>4</span><span><b>Your talk.</b> AV desk computer, minutes, screen format, room light and last row.</span></li></ol>
+<p class="g-chapter-lead">In the centre is the stage: what you see there is exactly what goes into the video, with no mouse pointer and no buttons.</p>
+<figure class="g-shot">
+  <div class="g-shot-frame"><img src="../img/en/overview.png" alt="">
+      <span class="g-pin" style="left:66.5%;top:6%">1</span>
+      <span class="g-pin" style="left:4.5%;top:36.6%">2</span>
+      <span class="g-pin" style="left:52.3%;top:18.6%">3</span>
+      <span class="g-pin" style="left:7.4%;top:92%">4</span>
+      <span class="g-pin" style="left:36.9%;top:92%">5</span>
+      <span class="g-pin" style="left:50.7%;top:92%">6</span>
+      <span class="g-pin" style="left:77.6%;top:92%">7</span></div>
+  <figcaption>Web version · computer</figcaption>
+</figure>
+<ol class="g-legend">
+  <li><span>1</span><span><b>Header.</b> About, Open PDF, Link, language and “Guide”, which opens this PDF.</span></li>
+  <li><span>2</span><span><b>Tools.</b> Flip, highlight, underline, pen, eraser, magnifiers, Move; mark duration and colour.</span></li>
+  <li><span>3</span><span><b>Stage.</b> The book and the background, in the video format.</span></li>
+  <li><span>4</span><span><b>Pages.</b> First page, back, forward; then zoom and Book or Page view.</span></li>
+  <li><span>5</span><span><b>Format.</b> 16:9, 4:3, 3:1 or your own size.</span></li>
+  <li><span>6</span><span><b>Background.</b> Transparent, colour or image.</span></li>
+  <li><span>7</span><span><b>Record.</b> Next to it are “Auto video” and full screen.</span></li>
+</ol>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">03</span><h2 class="g-chapter-title">Check your presentation</h2></div>
-  <p class="g-chapter-lead">All it takes is a minute and the presentation file. The more you tell it about the talk, the more precise the report.</p>
-  <ol class="g-steps"><li><div>In <b>Your talk</b> choose <b>AV desk computer</b>. If you present from your own laptop choose <b>I use my own computer</b>: the fonts installed there are not flagged.</div></li><li><div>Enter <b>Time allotted by the congress (minutes)</b>. After the first check the field shows how many seconds you have for each slide.</div></li><li><div>Drop the file on the page. In PowerPoint press <b>Start check</b>.</div></li><li><div>At the first check the Lab asks how big the room is: choose the type of room, or <b>Skip: do not check the text size</b>.</div></li></ol>
-  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/en/03-room.png" alt=""></div><figcaption>The room question</figcaption></figure>
-  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/en/03-talk.png" alt=""></div><figcaption>Your talk, after the check</figcaption></figure><div class="g-note"><p class="g-label">Last row</p><p>Classroom, conference room or plenary hall: the minimum text size depends on the distance of the last row. If you know the measurements, choose “I know the measurements” and enter image height and distance in metres.</p></div></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">03</span><h2 class="g-chapter-title">Open a PDF</h2></div>
+<p class="g-chapter-lead">There are four ways in. They all lead to the same book, ready to flip through.</p>
+<ol class="g-steps">
+  <li><div><b>Open a PDF.</b> The button on the home screen, or <b>Open PDF</b> at the top, picks the file from your computer or phone.</div></li>
+  <li><div><b>Drop the file</b> into the window, even with a book already open. If you drop an image, it becomes the background.</div></li>
+  <li><div><b>From a link.</b> Paste the file's address: direct links to a .pdf and sharing links from Dropbox, Google Drive, OneDrive and GitHub work, as long as the file is public.</div></li>
+  <li><div><b>Open the sample guide</b> to try it straight away: an 11-page book in the app's language.</div></li>
+</ol>
+<figure class="g-shot g-shot--half">
+  <div class="g-shot-frame"><img src="../img/en/link.png" alt=""></div>
+  <figcaption>Open a PDF from a link</figcaption>
+</figure>
+<div class="g-tip"><p class="g-label">Good to know</p><p>On a computer the app remembers the last PDF, the page and the marks: next time you pick up where you left off. On a phone it always starts from the home screen.</p></div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">04</span><h2 class="g-chapter-title">Read the report</h2></div>
-  <p class="g-chapter-lead">The report gives no score: a speaker often has to compromise, and you decide how much each problem weighs.</p>
-  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/en/04-report.png" alt=""><span class="g-pin" style="left:2.8%;top:18.7%">1</span><span class="g-pin" style="left:5.4%;top:41.8%">2</span><span class="g-pin" style="left:5.4%;top:54.2%">3</span><span class="g-pin" style="left:5.4%;top:68.4%">4</span><span class="g-pin" style="left:5.4%;top:82.3%">5</span><span class="g-pin" style="left:5.4%;top:89.4%">6</span></div><figcaption>Report · web version</figcaption></figure>
-  <ol class="g-legend"><li><span>1</span><span><b>Counts.</b> Critical (red), Attention (yellow) and OK (green) items.</span></li><li><span>2</span><span><b>The item.</b> What happens, on which slides, and why it is a risk.</span></li><li><span>3</span><span><b>Show list.</b> The objects involved, with slide and name as in PowerPoint’s Selection Pane.</span></li><li><span>4</span><span><b>How to fix it.</b> The advice, only when you need it.</span></li><li><span>5</span><span><b>Your rating.</b> Move the item between Critical, Attention and OK.</span></li><li><span>6</span><span><b>Add a note.</b> The reason for your choice: it also appears in the PDF.</span></li></ol>
-  <p>Your ratings stay on this device, linked to the file: if you fix the presentation and check it again, you find them. <b>Clear my ratings</b> deletes them. With <b>Export PDF</b> or <b>Copy report</b> you take the report to the organisers or your assistant.</p>
-  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/en/04-ok.png" alt=""></div><figcaption>OK items, with “Rate”</figcaption></figure><figure class="g-shot g-shot--panel"><div class="g-shot-frame"><img src="../img/en/04-panel.png" alt=""></div><figcaption>PowerPoint pane</figcaption></figure></div>
-  <p>In the PowerPoint pane every slide in the report is clickable and takes you straight to the point to fix.</p>
+  <div class="g-chapter-head"><span class="g-chapter-num">04</span><h2 class="g-chapter-title">Flip, highlight and underline</h2></div>
+<p class="g-chapter-lead">The tools are in the column on the left. The letter next to each icon is its keyboard shortcut.</p>
+<ol class="g-steps">
+    <li><div><b>Flip (H).</b> Drag the page corner, click the page or use the arrow keys. Several quick turns are queued.</div></li>
+    <li><div><b>Highlight (E) and Underline (U).</b> Drag over a sentence: the mark snaps to the text word by word, even across lines and in columns. One click marks a word.</div></li>
+    <li><div><b>Pen (P) and Eraser (G).</b> To circle, draw arrows or remove a mark with one touch.</div></li>
+    <li><div><b>Mark duration (M).</b> The pin keeps marks on the page; the stopwatch makes them fade after 3 seconds.</div></li>
+    <li><div><b>Colours and bin.</b> Six colours. The bin offers two choices: <b>Clear the marks on these pages</b> or <b>Close the PDF</b>, which takes you back to the home screen.</div></li>
+</ol>
+<table>
+  <tr><th>Key</th><th>What it does</th></tr>
+  <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Previous or next page</td></tr>
+  <tr><td><kbd>Z</kbd> · <kbd>⇧Z</kbd></td><td>Magnifier to zoom in · to zoom out; scrolling or pinching zooms where you are</td></tr>
+  <tr><td><kbd>Space</kbd> + drag</td><td>Move around while zoomed in; <kbd>0</kbd> goes back to 100%</td></tr>
+  <tr><td><kbd>V</kbd></td><td>Move and resize the book (chapter 05)</td></tr>
+  <tr><td><kbd>R</kbd> · <kbd>Esc</kbd></td><td>Start and stop recording</td></tr>
+</table>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">05</span><h2 class="g-chapter-title">Fix the most common problems</h2></div>
-  <p class="g-chapter-lead">The most frequent warnings and the quickest fix. The full advice is always in “How to fix it”.</p>
-  <table><tr><th>Warning</th><th>What to do</th></tr><tr><td>Font not embedded</td><td>PowerPoint: File › Options › Save › “Embed fonts in the file”. If the licence does not allow it, replace the font.</td></tr><tr><td>Linked or online video</td><td>Insert it from your computer (Insert › Video › This Device): the file must be inside the presentation.</td></tr><tr><td>Video in .mov, ProRes, WMV</td><td>Convert it to MP4 H.264, for example with HandBrake, and insert it again.</td></tr><tr><td>Low-resolution images</td><td>Replace them with the original, at least as wide in pixels as indicated.</td></tr><tr><td>Text hard to read</td><td>Use the suggested colour; in the pane press “Apply”.</td></tr><tr><td>Text on a photo</td><td>Put a semi-transparent band behind the text or move the text to an even area.</td></tr><tr><td>Text too small</td><td>Enlarge it or split the content over two slides.</td></tr><tr><td>Heavy file</td><td>Picture Format › Compress Pictures, 220 ppi, delete cropped areas.</td></tr></table>
+  <div class="g-chapter-head"><span class="g-chapter-num">05</span><h2 class="g-chapter-title">Format and position</h2></div>
+<p class="g-chapter-lead">The video can have the shape of the box you need on the slide, and the book can sit wherever you like on the background.</p>
+<div class="g-cols">
+  <ol class="g-steps">
+    <li><div><b>Choose the format</b> in the menu at the bottom: <b>16:9</b> for a full slide, <b>4:3</b> for classic slides, <b>3:1</b> for a banner.</div></li>
+    <li><div><b>Custom…</b> asks for the width and height in pixels, from 160 to 3,840 per side: the video will be exactly that size.</div></li>
+    <li><div><b>Add a background:</b> “Image” uses the same image as the slide, “Colour” the same colour.</div></li>
+    <li><div><b>Move tool (V).</b> Drag the book wherever you want; scrolling, pinching or the <b>−</b> and <b>+</b> buttons make it bigger or smaller. <b>Centre</b> puts it back in the middle, at full size.</div></li>
+  </ol>
+  <figure class="g-shot g-shot--panel">
+    <div class="g-shot-frame"><img src="../img/en/custom.png" alt=""></div>
+    <figcaption>Custom format</figcaption>
+  </figure>
+</div>
+<figure class="g-shot">
+  <div class="g-shot-frame"><img src="../img/en/move.png" alt=""></div>
+  <figcaption>3:1 format, image background, book moved right at 66%</figcaption>
+</figure>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">06</span><h2 class="g-chapter-title">Before making slides</h2></div>
-  <p class="g-chapter-lead">Before making the slides, choose background, text colour and font: you see at once whether they will read in the room.</p>
-  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/en/06-style.png" alt=""><span class="g-pin" style="left:2.8%;top:10.8%">1</span><span class="g-pin" style="left:6%;top:30.6%">2</span><span class="g-pin" style="left:2.8%;top:42.6%">3</span><span class="g-pin" style="left:2.8%;top:76.1%">4</span><span class="g-pin" style="left:2.8%;top:94.6%">5</span></div><figcaption>Style tab</figcaption></figure>
-  <ol class="g-legend"><li><span>1</span><span><b>Contrast ratio.</b> How much the text stands out from the background. Click it for the explanation.</span></li><li><span>2</span><span><b>Results.</b> Text, titles and reading in the room with the chosen light.</span></li><li><span>3</span><span><b>Colours and font.</b> Background, text, swap, font. With <b>Another font…</b> pick a font on your computer or <b>Load the font file</b>.</span></li><li><span>4</span><span><b>The best text.</b> Four readable colours on your background: tap one to use it.</span></li><li><span>5</span><span><b>Go deeper.</b> Room light, minimum text size, preview for people who confuse red and green, <b>Create the .pptx template</b>.</span></li></ol>
-  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/en/06-contrast.png" alt=""></div><figcaption>The contrast ratio explained</figcaption></figure><div><table><tr><th>Ratio</th><th>Use</th></tr><tr><td>below 3 : 1</td><td>hard to read, avoid</td></tr><tr><td>from 3 : 1</td><td>large titles, arrows, charts only</td></tr><tr><td>from 4.5 : 1</td><td>normal text, lists, captions</td></tr><tr><td>from 7 : 1</td><td>excellent, small text too</td></tr></table><div class="g-note"><p class="g-label">Downloaded fonts</p><p>Before using a font from Dafont or another site, check the licence: many are “personal use only”. To embed it in PowerPoint, the licence must allow it.</p></div></div></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">06</span><h2 class="g-chapter-title">Record the video</h2></div>
+<p class="g-chapter-lead">Two ways to record. In both, the video contains only the stage: no mouse pointer, no buttons.</p>
+<ol class="g-steps">
+  <li><div><b>Record (R).</b> Flip, underline and zoom as you would in a lecture, then press <b>Stop</b>. The video repeats exactly what you did, for up to 15 minutes.</div></li>
+  <li><div><b>Auto video.</b> Choose the pages, the seconds on each page and the speed of the turn: the pages turn by themselves, at a steady pace.</div></li>
+  <li><div><b>Choose the file type:</b> <b>Transparent MOV</b> for Keynote, <b>MP4 with colour</b> for PowerPoint, with the same colour or image as the slide.</div></li>
+  <li><div><b>Resolution:</b> 1080 or 720 pixels high; with a custom format the size is the one you typed.</div></li>
+  <li><div><b>Create video</b> and keep the page open. Then <b>Download video</b> (Downloads folder) or <b>Save to…</b> to choose the folder. On a phone: <b>Save or share</b>.</div></li>
+</ol>
+<div class="g-cols">
+  <figure class="g-shot">
+    <div class="g-shot-frame"><img src="../img/en/auto.png" alt=""></div>
+    <figcaption>Auto video</figcaption>
+  </figure>
+  <figure class="g-shot">
+    <div class="g-shot-frame"><img src="../img/en/export.png" alt=""></div>
+    <figcaption>Export the video</figcaption>
+  </figure>
+</div>
+<div class="g-tip"><p class="g-label">Underlines that draw themselves</p><p>Prepare the marks first with the pin, then choose “Draw themselves”: in the video they appear one after another, in reading order, with a pause of your choice after the last one.</p></div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">07</span><h2 class="g-chapter-title">Hand-over and room test</h2></div>
-  <p class="g-chapter-lead">The <b>AV desk</b> tab prepares the hand-over: the file name, the checklist for the day and the test files to open in the room.</p>
-  <ol class="g-steps"><li><div>Fill in date, time, room, surname and short title: the file name builds itself, with no spaces or accents. <b>Copy name</b> and rename the file.</div></li><li><div>Tick the checklist for the day; you can add your own items.</div></li><li><div>In <b>Test in the room</b> create <b>My videos</b> and <b>My images</b> (your risky files, one per slide) or the <b>Generic kit</b>.</div></li><li><div>Open the kit on the AV desk computer during the rehearsal: the videos start by themselves after the transition. Mark on the last slide what works.</div></li></ol>
-  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/en/07-name.png" alt=""></div><figcaption>File name for the AV desk</figcaption></figure><figure class="g-shot"><div class="g-shot-frame"><img src="../img/en/07-kits.png" alt=""></div><figcaption>Room test</figcaption></figure></div>
-  <div class="g-note"><p class="g-label">Image kit</p><p>On the SVG slide the picture title must read “SVG”. If you see “PNG”, that computer cannot show the vector and uses the backup preview.</p></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">07</span><h2 class="g-chapter-title">Put the video on the slide</h2></div>
+<p class="g-chapter-lead">The video behaves like an ordinary slide animation: it starts by itself when you reach the slide.</p>
+<div class="g-cols">
+  <div>
+    <p class="g-label">Keynote · transparent MOV</p>
+    <ol class="g-steps">
+      <li><div>Drag the .mov file onto the slide.</div></li>
+      <li><div>In <b>Format → Movie</b> set it to start on its own.</div></li>
+      <li><div>The background is already transparent: the slide shows through.</div></li>
+    </ol>
+  </div>
+  <div>
+    <p class="g-label">PowerPoint · MP4</p>
+    <ol class="g-steps">
+      <li><div><b>Insert → Video → Video from file.</b></div></li>
+      <li><div>Give the slide the same colour or image as the video.</div></li>
+      <li><div>In <b>Playback</b> choose <b>Start automatically</b>.</div></li>
+    </ol>
+  </div>
+</div>
+<div class="g-note"><p class="g-label">Coming soon</p><p>The PowerPoint pane is being tested and will be available soon.</p></div>
+<div class="g-cols">
+  <div>
+    <p class="g-label">The PowerPoint pane</p>
+    <p><b>Home → The Ultraspeaker → Flipbook Lab</b> opens the pane. <b>Open Flipbook Lab</b> takes the app to your browser, in PowerPoint's language: there you record full screen and save the video, because PowerPoint doesn't let add-ins save files.</p>
+    <p>The pane sums up the route from book to slide in four steps and opens this guide.</p>
+  </div>
+  <figure class="g-shot g-shot--panel">
+    <div class="g-shot-frame"><img src="../img/en/panel.png" alt=""></div>
+    <figcaption>PowerPoint pane</figcaption>
+  </figure>
+</div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">08</span><h2 class="g-chapter-title">Tips from a speaker</h2></div>
-  <p class="g-chapter-lead">Check Lab finds the problems in the file. These three habits prevent the ones in the room.</p>
-  <div class="g-tip"><p class="g-label">Hand it in the day before</p><p>Send the file to the organisers at least 24 hours before, named in the AV desk format, and bring a USB stick with the presentation and a backup PDF.</p></div>
-  <div class="g-tip"><p class="g-label">Test in the room 30 minutes before</p><p>Open the “Room test” kit on the AV desk computer: in two minutes you know whether video, audio and images work.</p></div>
-  <div class="g-tip"><p class="g-label">Write for the last row</p><p>In a conference room with a 16:9 screen you need about 32 pt in PowerPoint. If a text does not fit, split it over two slides instead of shrinking it.</p></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">08</span><h2 class="g-chapter-title">Speaker tips</h2></div>
+<p class="g-chapter-lead">The flipped book is visual evidence: it shows that the source exists and where the point is. Nobody needs to read all of it.</p>
+<div class="g-tip"><p class="g-label">Speaker tip</p><p>Show three or four spreads at most and underline one sentence per page. Say it out loud as it appears: the audience looks where you look.</p></div>
+<table>
+  <tr><th>Situation</th><th>Video length</th><th>What to do</th></tr>
+  <tr><td>Quoting a source</td><td>8–12 seconds</td><td>Cover, one page, one underline, close on the cover</td></tr>
+  <tr><td>Explaining a passage</td><td>20–40 seconds</td><td>Live recording with the magnifier on the paragraph</td></tr>
+  <tr><td>Presenting a document</td><td>up to 60 seconds</td><td>Auto video, 2 seconds per page, normal turn</td></tr>
+</table>
+<ul>
+  <li><b>Legibility in the room:</b> the lines of an A4 page can't be read from the back. Zoom in on the sentence with the magnifier, or use the 3:1 format and a large book.</li>
+  <li><b>Mark colours:</b> yellow to highlight, red to underline on light pages; white only on dark pages.</li>
+  <li><b>Check in the room:</b> watch the video on the projector before you speak. On dark backgrounds an MP4 with black is the safest choice.</li>
+</ul>
 </section>
 <section class="g-chapter">
   <div class="g-chapter-head"><span class="g-chapter-num">09</span><h2 class="g-chapter-title">Frequently asked questions</h2></div>
-  <dl class="g-faq"><dt>The report says a font is not standard, but the AV desk has it.</dt><dd>Check Lab cannot see the fonts installed at the AV desk. If you are sure, move the item to OK with <b>Your rating</b> and add a note. Embedding the font is still the safest choice.</dd><dt>My Keynote file is not accepted.</dt><dd>If it is saved as a package, in Keynote choose File › Advanced › Change File Type › Single File.</dd><dt>A very large file stops.</dt><dd>The PowerPoint pane has less memory than the browser: use the web version.</dd><dt>On a Mac I cannot download the PDF from the pane.</dt><dd>PowerPoint for Mac does not allow downloads from the pane: use <b>Copy report</b> or the web version. The test kits open as a new presentation.</dd><dt>Where does my presentation go?</dt><dd>Nowhere: it is read only on your computer.</dd></dl>
-  <div class="g-note"><p class="g-label">Support</p><p>Write to info@theultraspeaker.com with your computer, PowerPoint version or browser and what appears on the screen. There is no need to send the presentation.</p></div>
+<dl class="g-faq">
+<dt>In PowerPoint the video has a black background.</dt>
+<dd>PowerPoint doesn't show transparency reliably. Export as <b>MP4 with colour</b> with the same colour or image as the slide. If you use the transparent MOV, export it with <b>No shadow</b>: in Slide Show PowerPoint would turn the shadow into a black border.</dd>
+<dt>The PDF from a link won't open.</dt>
+<dd>The file must be public and the site hosting it must allow downloads from another page. Otherwise download it and drop it into the window.</dd>
+<dt>The underline doesn't follow the lines.</dt>
+<dd>The PDF contains no text, for example a scan: the mark stays straight but free.</dd>
+<dt>The MOV isn't created or stops in Safari.</dt>
+<dd>The transparent MOV needs a lot of memory. Choose 1280 × 720 or use Chrome or Edge.</dd>
+<dt>The video has a different shape from the box on the slide.</dt>
+<dd>Choose the format before recording: 4:3, 3:1 or <b>Custom…</b> with the size of the box.</dd>
+<dt>The book is too small or in the wrong place.</dt>
+<dd>Use the <b>Move (V)</b> tool; <b>Centre</b> puts it back in the middle at full size.</dd>
+<dt>Where do I find the video?</dt>
+<dd>In the Downloads folder. With <b>Save to…</b> you choose the folder in Chrome and Edge; in Safari turn on “Ask for each download”.</dd>
+<dt>How do I get back to the sample guide?</dt>
+<dd>Bin → <b>Close the PDF</b>: on the home screen click <b>Open the sample guide</b>.</dd>
+</dl>
 </section>
+
 <section class="g-back">
   <img class="g-back-arena" src="../../shared/guide/arena-white.svg" alt="">
   <p class="g-back-claim">Knowledge is not enough.<br><i>From expert to Ultraspeaker.</i></p>
-  <a class="g-back-cta" href="mailto:info@theultraspeaker.com?subject=Ask%20for%20advice%20%E2%80%93%20Check%20Lab">Ask for advice</a>
+  <a class="g-back-cta" href="mailto:info@theultraspeaker.com?subject=Ask%20for%20advice">Ask for advice</a>
   <p class="g-back-contacts">theultraspeaker.com · info@theultraspeaker.com</p>
 </section>
+
 </body>
 </html>

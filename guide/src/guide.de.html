@@ -1,94 +1,245 @@
 <!doctype html>
-<!-- Guida d'utilizzo del Check Lab · de · generata da make-guide.js con il modello del kit 1.4. PDF: node shared/guide/build-guide.mjs -->
+<!-- Guida d'utilizzo del Flipbook Lab (de). Stile: shared/guide/ultraspeaker-guide.css. PDF: node shared/guide/build-guide.mjs -->
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>The Ultraspeaker Check Lab · Bedienungsanleitung</title>
+<title>The Ultraspeaker Flipbook Lab · Bedienungsanleitung</title>
 <link rel="stylesheet" href="../../shared/guide/ultraspeaker-guide.css">
-<style>@page{@bottom-left{content:"THE ULTRASPEAKER  ·  CHECK LAB  ·  ANLEITUNG";font:700 7pt "Champagne & Limousines",sans-serif;letter-spacing:.32em;color:#8E8E8E;vertical-align:top;padding-top:6mm}}</style>
+<style>@page{@bottom-left{content:"THE ULTRASPEAKER  ·  FLIPBOOK LAB  ·  ANLEITUNG";font:700 7pt "Champagne & Limousines",sans-serif;letter-spacing:.32em;color:#8E8E8E;vertical-align:top;padding-top:6mm}}</style>
 </head>
 <body>
+
 <section class="g-cover">
   <img class="g-cover-shadow" src="../../shared/guide/the-shadow.jpg" alt="">
   <div class="g-cover-body">
-    <img class="g-cover-logo" src="../../assets/img/check-lab-logo.svg" alt="The Ultraspeaker Check Lab">
+    <img class="g-cover-logo" src="../../assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab">
     <p class="g-cover-kicker">Bedienungsanleitung</p>
-    <h1 class="g-cover-title">Ihre Präsentation bereit<br>für die Technik</h1>
-    <p class="g-cover-sub">Prüfen Sie Schriften, Videos, Bilder, Lesbarkeit, Format und Zeit einer PowerPoint- oder Keynote-Präsentation, bevor Sie sie auf dem Kongress übergeben.</p>
-    <div class="g-cover-meta"><span>Version 1.3 · November 2026</span><span>theultraspeaker.com</span></div>
+    <h1 class="g-cover-title">Ihre .pdf wird<br>zum Video für Ihre Folien</h1>
+    <p class="g-cover-sub">Blättern Sie ein Dokument wie ein Buch durch, unterstreichen Sie die wichtigen Sätze und nehmen Sie ein Video auf: transparent für Keynote oder mit dem Folienhintergrund für PowerPoint.</p>
+    <div class="g-cover-meta"><span>Version 1.1 · November 2026</span><span>theultraspeaker.com</span></div>
   </div>
 </section>
+
 <section class="g-toc">
   <p class="g-label">Inhalt</p>
   <h1>In dieser Anleitung</h1>
-  <ol><li><span>01</span><span>Bevor Sie beginnen<small>Was Check Lab prüft, wo Sie es finden, was auf Ihrem Computer bleibt</small></span></li><li><span>02</span><span>Die Oberfläche<small>Die Bereiche des Bildschirms, einer nach dem anderen</small></span></li><li><span>03</span><span>Präsentation prüfen<small>Von der Datei zum Bericht in vier Schritten</small></span></li><li><span>04</span><span>Bericht lesen<small>Kritisch, Achtung, OK und Ihre eigene Bewertung</small></span></li><li><span>05</span><span>Die häufigsten Probleme beheben<small>Was bei jedem Hinweis zu tun ist</small></span></li><li><span>06</span><span>Vor dem Erstellen der Folien<small>Der Tab Stil: Farben, Schriften, Kontrast</small></span></li><li><span>07</span><span>Übergabe und Test im Saal<small>Dateiname, Checkliste und Testkits</small></span></li><li><span>08</span><span>Tipps aus der Praxis<small>Drei Gewohnheiten gegen Überraschungen</small></span></li><li><span>09</span><span>Häufige Fragen<small>Häufige Probleme und Support</small></span></li></ol>
+  <ol>
+    <li><span>01</span><span>Bevor Sie beginnen<small>Was Flipbook Lab macht, wo es ist, was Sie brauchen</small></span></li>
+    <li><span>02</span><span>Die Oberfläche<small>Die Teile des Bildschirms, einer nach dem anderen</small></span></li>
+    <li><span>03</span><span>Eine PDF öffnen<small>Vom Computer, über einen Link, die Beispiel-Anleitung</small></span></li>
+    <li><span>04</span><span>Blättern, markieren und unterstreichen<small>Werkzeuge, Farben, Tastenkürzel</small></span></li>
+    <li><span>05</span><span>Format und Position<small>16:9, 4:3, 3:1 oder eigene Größe; das Buch, wo Sie wollen</small></span></li>
+    <li><span>06</span><span>Das Video aufnehmen<small>Live oder automatisch, MOV oder MP4</small></span></li>
+    <li><span>07</span><span>Das Video in die Folie einfügen<small>Keynote, PowerPoint und der Bereich</small></span></li>
+    <li><span>08</span><span>Tipps für Speaker<small>Wie viele Seiten, wie lang, was im Saal lesbar ist</small></span></li>
+    <li><span>09</span><span>Häufige Fragen<small>Typische Probleme und Lösungen</small></span></li>
+  </ol>
 </section>
+
 <section class="g-chapter">
   <div class="g-chapter-head"><span class="g-chapter-num">01</span><h2 class="g-chapter-title">Bevor Sie beginnen</h2></div>
-  <p class="g-chapter-lead">Check Lab liest Ihre Präsentation und sagt Ihnen, was auf dem Technik-Computer nicht funktionieren könnte: eine fehlende Schrift, ein Video, das nicht startet, ein Text, der aus der letzten Reihe nicht lesbar ist.</p>
-  <div class="g-cols"><div><p class="g-label">Im Browser</p><p>niki977.github.io/ultraspeaker-check-lab. Ziehen Sie eine .pptx- (PowerPoint) oder .key-Datei (Keynote) hinein. Funktioniert auf Computer, Tablet und Telefon.</p></div><div><p class="g-label">In PowerPoint</p><p>Registerkarte <b>Start</b> → Gruppe <b>The Ultraspeaker</b> → <b>Check Lab</b>. Der Aufgabenbereich prüft die geöffnete Präsentation und führt mit „Zu Folie“ zur Folie mit dem Problem.</p></div></div>
-  <div class="g-note"><p class="g-label">Demnächst</p><p>Der PowerPoint-Aufgabenbereich wird gerade getestet und ist bald verfügbar. Nutzen Sie bis dahin die Webversion: Sie führt dieselben Prüfungen durch.</p></div>
-  <table><tr><th>Was geprüft wird</th><th>Beispiele</th></tr><tr><td>Schriften</td><td>nicht eingebettet, nur Windows oder nur Mac</td></tr><tr><td>Video und Audio</td><td>verknüpft statt eingebettet, Formate, die nicht starten, 4K</td></tr><tr><td>Bilder</td><td>niedrige Auflösung, schwere Dateien, EPS, CMYK, HEIC</td></tr><tr><td>Lesbarkeit</td><td>Kontrast zum Hintergrund und auf Fotos, Größe für die letzte Reihe, Diagramme bei Rot-Grün-Schwäche</td></tr><tr><td>Format und Datei</td><td>Bildformat, leere oder ausgeblendete Folien, Links, Dateigröße</td></tr><tr><td>Zeit</td><td>Sekunden pro Folie im Vergleich zur zugeteilten Zeit</td></tr></table>
-  <div class="g-note"><p class="g-label">Datenschutz</p><p>Die Datei wird nur auf Ihrem Computer gelesen und nie auf einen Server hochgeladen. Auf dem Gerät bleiben Sprache, Vortragseinstellungen, Checkliste und Ihre Bewertungen des Berichts.</p></div>
+<p class="g-chapter-lead">Flipbook Lab verwandelt eine .pdf in ein Buch, das Sie auf dem Bildschirm durchblättern. Beim Umblättern unterstreichen Sie die wichtigen Sätze und nehmen dann alles als Video für Ihre Folien auf.</p>
+<div class="g-cols">
+  <div>
+    <p class="g-label">Im Browser</p>
+    <p>Öffnen Sie <b>niki977.github.io/ultraspeaker-flipbook-lab</b> auf Computer, Tablet oder Telefon. Nichts zu installieren, und die PDF bleibt auf Ihrem Gerät.</p>
+  </div>
+  <div>
+    <p class="g-label">In PowerPoint</p>
+    <p>Registerkarte <b>Start</b> → Gruppe <b>The Ultraspeaker</b> → <b>Flipbook Lab</b>. Der Bereich öffnet die App im Browser, wo Sie das Video aufnehmen und speichern.</p>
+  </div>
+</div>
+<div class="g-note"><p class="g-label">Bald verfügbar</p><p>Der Bereich für PowerPoint wird gerade getestet und ist bald verfügbar. Kapitel 07 beschreibt ihn bereits vollständig.</p></div>
+<table>
+  <tr><th>Video</th><th>Für</th><th>Wirkung</th></tr>
+  <tr><td>Transparentes MOV</td><td>Keynote, Final Cut</td><td>Nur das Buch, über der Folie</td></tr>
+  <tr><td>MP4 mit Farbe oder Bild</td><td>PowerPoint, Telefon</td><td>Das Buch auf demselben Hintergrund wie die Folie: Es wirkt transparent</td></tr>
+</table>
+<table>
+  <tr><th>Was Sie brauchen</th><th>Details</th></tr>
+  <tr><td>Browser</td><td>Aktuelles Chrome, Edge oder Safari. Für das transparente MOV am besten Chrome oder Edge am Computer</td></tr>
+  <tr><td>Dokument</td><td>Jede .pdf; mit markierbarem Text rastet die Unterstreichung an den Zeilen ein</td></tr>
+</table>
+<div class="g-note"><p class="g-label">Datenschutz</p><p>Die PDF und das Video bleiben auf Ihrem Gerät und werden an keinen Server gesendet.</p></div>
 </section>
 <section class="g-chapter">
   <div class="g-chapter-head"><span class="g-chapter-num">02</span><h2 class="g-chapter-title">Die Oberfläche</h2></div>
-  <p class="g-chapter-lead">Vier Tabs oben. Sie beginnen mit Prüfung; Stil nutzen Sie vor dem Erstellen der Folien, Technik am Tag des Vortrags.</p>
-  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/de/02-overview.png" alt=""><span class="g-pin" style="left:67.2%;top:5%">1</span><span class="g-pin" style="left:2.7%;top:24.5%">2</span><span class="g-pin" style="left:2.7%;top:50.5%">3</span><span class="g-pin" style="left:2.7%;top:80.7%">4</span></div><figcaption>Webversion · Computer</figcaption></figure>
-  <ol class="g-legend"><li><span>1</span><span><b>Sprache und Anleitung.</b> Sprache wechseln oder diese Anleitung öffnen.</span></li><li><span>2</span><span><b>Tabs.</b> <b>Stil</b>, <b>Prüfung</b>, <b>Bericht</b>, <b>Technik</b>.</span></li><li><span>3</span><span><b>Die Datei.</b> Ziehen Sie die .pptx oder .key hierher, oder <b>Datei wählen</b>.</span></li><li><span>4</span><span><b>Ihr Vortrag.</b> Technik-Computer, Minuten, Bildformat, Licht im Saal und letzte Reihe.</span></li></ol>
+<p class="g-chapter-lead">In der Mitte liegt die Bühne: Was Sie dort sehen, landet genau so im Video, ohne Mauszeiger und ohne Schaltflächen.</p>
+<figure class="g-shot">
+  <div class="g-shot-frame"><img src="../img/de/overview.png" alt="">
+      <span class="g-pin" style="left:65.2%;top:6%">1</span>
+      <span class="g-pin" style="left:4.5%;top:36.6%">2</span>
+      <span class="g-pin" style="left:52.3%;top:18.6%">3</span>
+      <span class="g-pin" style="left:7.4%;top:92%">4</span>
+      <span class="g-pin" style="left:38.8%;top:92%">5</span>
+      <span class="g-pin" style="left:53.8%;top:92%">6</span>
+      <span class="g-pin" style="left:84.5%;top:92%">7</span></div>
+  <figcaption>Webversion · Computer</figcaption>
+</figure>
+<ol class="g-legend">
+  <li><span>1</span><span><b>Kopfzeile.</b> Informationen, PDF öffnen, Link, Sprache und „Anleitung“, die diese PDF öffnet.</span></li>
+  <li><span>2</span><span><b>Werkzeuge.</b> Blättern, markieren, unterstreichen, Stift, Radierer, Lupen, Verschieben; Dauer und Farbe der Markierungen.</span></li>
+  <li><span>3</span><span><b>Bühne.</b> Buch und Hintergrund im Format des Videos.</span></li>
+  <li><span>4</span><span><b>Seiten.</b> Erste Seite, zurück, weiter; dann Zoom und Ansicht Buch oder Seite.</span></li>
+  <li><span>5</span><span><b>Format.</b> 16:9, 4:3, 3:1 oder Ihre eigene Größe.</span></li>
+  <li><span>6</span><span><b>Hintergrund.</b> Transparent, Farbe oder Bild.</span></li>
+  <li><span>7</span><span><b>Aufnehmen.</b> Daneben „Automatisches Video“ und Vollbild.</span></li>
+</ol>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">03</span><h2 class="g-chapter-title">Präsentation prüfen</h2></div>
-  <p class="g-chapter-lead">Es braucht nur eine Minute und die Präsentationsdatei. Je mehr Sie über den Vortrag angeben, desto genauer ist der Bericht.</p>
-  <ol class="g-steps"><li><div>Wählen Sie unter <b>Ihr Vortrag</b> <b>Computer der Technik</b>. Wenn Sie von Ihrem eigenen Laptop präsentieren, wählen Sie <b>Ich nutze meinen eigenen Computer</b>: Die dort installierten Schriften werden nicht gemeldet.</div></li><li><div>Geben Sie <b>Vom Kongress zugeteilte Zeit (Minuten)</b> ein. Nach der ersten Prüfung zeigt das Feld, wie viele Sekunden Sie pro Folie haben.</div></li><li><div>Ziehen Sie die Datei auf die Seite. In PowerPoint drücken Sie <b>Prüfung starten</b>.</div></li><li><div>Bei der ersten Prüfung fragt das Lab, wie groß der Saal ist: Wählen Sie die Saalart, oder <b>Überspringen: Textgröße nicht prüfen</b>.</div></li></ol>
-  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/de/03-room.png" alt=""></div><figcaption>Die Frage nach dem Saal</figcaption></figure>
-  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/de/03-talk.png" alt=""></div><figcaption>Ihr Vortrag, nach der Prüfung</figcaption></figure><div class="g-note"><p class="g-label">Letzte Reihe</p><p>Hörsaal, Kongresssaal oder Plenarsaal: Die Mindestgröße des Texts hängt vom Abstand der letzten Reihe ab. Kennen Sie die Maße, wählen Sie „Ich kenne die Maße“ und geben Sie Bildhöhe und Abstand in Metern ein.</p></div></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">03</span><h2 class="g-chapter-title">Eine PDF öffnen</h2></div>
+<p class="g-chapter-lead">Es gibt vier Wege. Alle führen zum selben Buch, bereit zum Blättern.</p>
+<ol class="g-steps">
+  <li><div><b>PDF öffnen.</b> Die Schaltfläche auf der Startseite oder <b>PDF öffnen</b> oben wählt die Datei auf Computer oder Telefon.</div></li>
+  <li><div><b>Ziehen Sie die Datei</b> ins Fenster, auch wenn schon ein Buch offen ist. Ein hineingezogenes Bild wird zum Hintergrund.</div></li>
+  <li><div><b>Über einen Link.</b> Fügen Sie die Adresse der Datei ein: Direkte Links auf eine .pdf und Freigabelinks von Dropbox, Google Drive, OneDrive und GitHub funktionieren, wenn die Datei öffentlich ist.</div></li>
+  <li><div><b>Beispiel-Anleitung öffnen</b>, um sofort zu üben: ein Buch mit 11 Seiten in der Sprache der App.</div></li>
+</ol>
+<figure class="g-shot g-shot--half">
+  <div class="g-shot-frame"><img src="../img/de/link.png" alt=""></div>
+  <figcaption>PDF über einen Link öffnen</figcaption>
+</figure>
+<div class="g-tip"><p class="g-label">Gut zu wissen</p><p>Am Computer merkt sich die App die letzte PDF, die Seite und die Markierungen: Beim nächsten Öffnen machen Sie dort weiter. Auf dem Telefon startet sie immer auf der Startseite.</p></div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">04</span><h2 class="g-chapter-title">Bericht lesen</h2></div>
-  <p class="g-chapter-lead">Der Bericht vergibt keine Note: Vortragende müssen oft Kompromisse eingehen, und Sie entscheiden, wie schwer jedes Problem wiegt.</p>
-  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/de/04-report.png" alt=""><span class="g-pin" style="left:2.8%;top:18.1%">1</span><span class="g-pin" style="left:5.4%;top:40.5%">2</span><span class="g-pin" style="left:5.4%;top:52.5%">3</span><span class="g-pin" style="left:5.4%;top:66.3%">4</span><span class="g-pin" style="left:5.4%;top:82.9%">5</span><span class="g-pin" style="left:5.4%;top:89.7%">6</span></div><figcaption>Bericht · Webversion</figcaption></figure>
-  <ol class="g-legend"><li><span>1</span><span><b>Zählung.</b> Punkte Kritisch (rot), Achtung (gelb) und OK (grün).</span></li><li><span>2</span><span><b>Der Punkt.</b> Was passiert, auf welchen Folien und warum es ein Risiko ist.</span></li><li><span>3</span><span><b>Liste anzeigen.</b> Die betroffenen Objekte, mit Folie und Namen wie im Auswahlbereich von PowerPoint.</span></li><li><span>4</span><span><b>So beheben Sie es.</b> Der Rat, nur wenn Sie ihn brauchen.</span></li><li><span>5</span><span><b>Ihre Bewertung.</b> Verschieben Sie den Punkt zwischen Kritisch, Achtung und OK.</span></li><li><span>6</span><span><b>Notiz hinzufügen.</b> Der Grund Ihrer Wahl: Er erscheint auch im PDF.</span></li></ol>
-  <p>Ihre Bewertungen bleiben auf diesem Gerät, verknüpft mit der Datei: Wenn Sie die Präsentation korrigieren und erneut prüfen, finden Sie sie wieder. <b>Meine Bewertungen löschen</b> löscht sie. Mit <b>Als PDF exportieren</b> oder <b>Bericht kopieren</b> geben Sie den Bericht an das Sekretariat oder Ihre Assistenz weiter.</p>
-  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/de/04-ok.png" alt=""></div><figcaption>OK-Punkte, mit „Bewerten“</figcaption></figure><figure class="g-shot g-shot--panel"><div class="g-shot-frame"><img src="../img/de/04-panel.png" alt=""></div><figcaption>PowerPoint-Aufgabenbereich</figcaption></figure></div>
-  <p>Im PowerPoint-Aufgabenbereich ist jede Folie im Bericht anklickbar und führt direkt zur Stelle, die zu korrigieren ist.</p>
+  <div class="g-chapter-head"><span class="g-chapter-num">04</span><h2 class="g-chapter-title">Blättern, markieren und unterstreichen</h2></div>
+<p class="g-chapter-lead">Die Werkzeuge stehen in der linken Spalte. Der Buchstabe neben dem Symbol ist das Tastenkürzel.</p>
+<ol class="g-steps">
+    <li><div><b>Blättern (H).</b> Ziehen Sie die Seitenecke, klicken Sie auf die Seite oder nutzen Sie die Pfeiltasten. Mehrere schnelle Umblätterungen werden gesammelt.</div></li>
+    <li><div><b>Markieren (E) und Unterstreichen (U).</b> Ziehen Sie über einen Satz: Die Markierung rastet Wort für Wort am Text ein, auch über mehrere Zeilen und in Spalten. Ein Klick markiert ein Wort.</div></li>
+    <li><div><b>Stift (P) und Radierer (G).</b> Zum Einkreisen, für Pfeile oder um eine Markierung mit einem Tippen zu löschen.</div></li>
+    <li><div><b>Dauer der Markierungen (M).</b> Die Pinnnadel lässt sie auf der Seite; die Stoppuhr lässt sie nach 3 Sekunden verblassen.</div></li>
+    <li><div><b>Farben und Papierkorb.</b> Sechs Farben. Der Papierkorb bietet zwei Möglichkeiten: <b>Markierungen auf diesen Seiten löschen</b> oder <b>PDF schließen</b>, zurück zur Startseite.</div></li>
+</ol>
+<table>
+  <tr><th>Taste</th><th>Wirkung</th></tr>
+  <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Vorherige oder nächste Seite</td></tr>
+  <tr><td><kbd>Z</kbd> · <kbd>⇧Z</kbd></td><td>Lupe zum Vergrößern · zum Verkleinern; Mausrad oder Zwei-Finger-Geste zoomen an der Stelle</td></tr>
+  <tr><td><kbd>Leertaste</kbd> + ziehen</td><td>Im Zoom verschieben; <kbd>0</kbd> zurück auf 100 %</td></tr>
+  <tr><td><kbd>V</kbd></td><td>Buch verschieben und skalieren (Kapitel 05)</td></tr>
+  <tr><td><kbd>R</kbd> · <kbd>Esc</kbd></td><td>Aufnahme starten und beenden</td></tr>
+</table>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">05</span><h2 class="g-chapter-title">Die häufigsten Probleme beheben</h2></div>
-  <p class="g-chapter-lead">Die häufigsten Hinweise und die schnellste Lösung. Der vollständige Rat steht immer unter „So beheben Sie es“.</p>
-  <table><tr><th>Hinweis</th><th>Was tun</th></tr><tr><td>Schrift nicht eingebettet</td><td>PowerPoint: Datei › Optionen › Speichern › „Schriftarten in der Datei einbetten“. Erlaubt die Lizenz das nicht, ersetzen Sie die Schrift.</td></tr><tr><td>Verknüpftes oder Online-Video</td><td>Fügen Sie es vom Computer ein (Einfügen › Video › Dieses Gerät): Die Datei muss in der Präsentation liegen.</td></tr><tr><td>Video als .mov, ProRes, WMV</td><td>Wandeln Sie es in MP4 H.264 um, zum Beispiel mit HandBrake, und fügen Sie es erneut ein.</td></tr><tr><td>Bilder mit niedriger Auflösung</td><td>Ersetzen Sie sie durch das Original, mindestens in der angegebenen Breite in Pixeln.</td></tr><tr><td>Schwer lesbarer Text</td><td>Verwenden Sie die vorgeschlagene Farbe; im Aufgabenbereich drücken Sie „Anwenden“.</td></tr><tr><td>Text auf Foto</td><td>Legen Sie ein halbtransparentes Band hinter den Text oder verschieben Sie den Text auf eine gleichmäßige Fläche.</td></tr><tr><td>Text zu klein</td><td>Vergrößern Sie ihn oder verteilen Sie den Inhalt auf zwei Folien.</td></tr><tr><td>Schwere Datei</td><td>Bildformat › Bilder komprimieren, 220 ppi, zugeschnittene Bereiche löschen.</td></tr></table>
+  <div class="g-chapter-head"><span class="g-chapter-num">05</span><h2 class="g-chapter-title">Format und Position</h2></div>
+<p class="g-chapter-lead">Das Video kann die Form des Rahmens haben, den Sie auf der Folie brauchen, und das Buch kann auf dem Hintergrund stehen, wo Sie möchten.</p>
+<div class="g-cols">
+  <ol class="g-steps">
+    <li><div><b>Wählen Sie das Format</b> im Menü unten: <b>16:9</b> für eine ganze Folie, <b>4:3</b> für klassische Folien, <b>3:1</b> für ein Banner.</div></li>
+    <li><div><b>Benutzerdefiniert…</b> fragt nach Breite und Höhe in Pixeln, 160 bis 3840 je Seite: Das Video hat genau diese Größe.</div></li>
+    <li><div><b>Hintergrund wählen:</b> „Bild“ nutzt dasselbe Bild wie die Folie, „Farbe“ dieselbe Farbe.</div></li>
+    <li><div><b>Werkzeug Verschieben (V).</b> Ziehen Sie das Buch, wohin Sie wollen; Mausrad, Zwei-Finger-Geste oder die Schaltflächen <b>−</b> und <b>+</b> vergrößern oder verkleinern es. <b>Zentrieren</b> setzt es wieder in die Mitte, in voller Größe.</div></li>
+  </ol>
+  <figure class="g-shot g-shot--panel">
+    <div class="g-shot-frame"><img src="../img/de/custom.png" alt=""></div>
+    <figcaption>Benutzerdefiniertes Format</figcaption>
+  </figure>
+</div>
+<figure class="g-shot">
+  <div class="g-shot-frame"><img src="../img/de/move.png" alt=""></div>
+  <figcaption>Format 3:1, Hintergrundbild, Buch nach rechts verschoben, 66 %</figcaption>
+</figure>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">06</span><h2 class="g-chapter-title">Vor dem Erstellen der Folien</h2></div>
-  <p class="g-chapter-lead">Wählen Sie vor dem Erstellen der Folien Hintergrund, Textfarbe und Schrift: Sie sehen sofort, ob sie im Saal lesbar sind.</p>
-  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/de/06-style.png" alt=""><span class="g-pin" style="left:2.8%;top:10.8%">1</span><span class="g-pin" style="left:6%;top:30.6%">2</span><span class="g-pin" style="left:2.8%;top:42.6%">3</span><span class="g-pin" style="left:2.8%;top:76.1%">4</span><span class="g-pin" style="left:2.8%;top:94.6%">5</span></div><figcaption>Tab Stil</figcaption></figure>
-  <ol class="g-legend"><li><span>1</span><span><b>Kontrastverhältnis.</b> Wie stark sich der Text vom Hintergrund abhebt. Klicken Sie darauf für die Erklärung.</span></li><li><span>2</span><span><b>Ergebnisse.</b> Text, Titel und Lesbarkeit im Saal beim gewählten Licht.</span></li><li><span>3</span><span><b>Farben und Schrift.</b> Hintergrund, Text, tauschen, Schrift. Mit <b>Andere Schrift…</b> wählen Sie eine Schrift des Computers oder <b>Schriftdatei laden</b>.</span></li><li><span>4</span><span><b>Der beste Text.</b> Vier lesbare Farben auf Ihrem Hintergrund: Tippen Sie eine an, um sie zu verwenden.</span></li><li><span>5</span><span><b>Vertiefen.</b> Saallicht, Mindesttextgröße, Vorschau bei Rot-Grün-Schwäche, <b>.pptx-Vorlage erstellen</b>.</span></li></ol>
-  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/de/06-contrast.png" alt=""></div><figcaption>Das Kontrastverhältnis erklärt</figcaption></figure><div><table><tr><th>Verhältnis</th><th>Verwendung</th></tr><tr><td>unter 3 : 1</td><td>schwer lesbar, vermeiden</td></tr><tr><td>ab 3 : 1</td><td>nur große Titel, Pfeile, Diagramme</td></tr><tr><td>ab 4,5 : 1</td><td>normaler Text, Listen, Bildunterschriften</td></tr><tr><td>ab 7 : 1</td><td>ausgezeichnet, auch kleiner Text</td></tr></table><div class="g-note"><p class="g-label">Heruntergeladene Schriften</p><p>Prüfen Sie vor der Verwendung einer Schrift von Dafont oder einer anderen Website die Lizenz: Viele sind „nur für den privaten Gebrauch“. Zum Einbetten in PowerPoint muss die Lizenz dies erlauben.</p></div></div></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">06</span><h2 class="g-chapter-title">Das Video aufnehmen</h2></div>
+<p class="g-chapter-lead">Zwei Arten der Aufnahme. Das Video zeigt nur die Bühne, ohne Mauszeiger.</p>
+<ol class="g-steps">
+  <li><div><b>Aufnehmen (R).</b> Blättern, unterstreichen und zoomen Sie wie in einer Vorlesung, dann <b>Stopp</b>. Das Video wiederholt genau, was Sie getan haben.</div></li>
+  <li><div><b>Automatisches Video.</b> Seiten, Sekunden pro Seite und Tempo wählen: Die Seiten blättern von selbst.</div></li>
+  <li><div><b>Dateityp wählen:</b> <b>Transparentes MOV</b> für Keynote, <b>MP4 mit Farbe</b> für PowerPoint, mit dem Hintergrund der Folie.</div></li>
+  <li><div><b>Auflösung:</b> 1080 oder 720 Pixel hoch; beim benutzerdefinierten Format gilt die eingegebene Größe.</div></li>
+  <li><div><b>Video erstellen</b> und die Seite geöffnet lassen. Dann <b>Video herunterladen</b> (Downloads) oder <b>Speichern unter…</b>. Auf dem Telefon: <b>Sichern oder teilen</b>.</div></li>
+</ol>
+<div class="g-cols">
+  <figure class="g-shot">
+    <div class="g-shot-frame"><img src="../img/de/auto.png" alt=""></div>
+    <figcaption>Automatisches Video</figcaption>
+  </figure>
+  <figure class="g-shot">
+    <div class="g-shot-frame"><img src="../img/de/export.png" alt=""></div>
+    <figcaption>Video exportieren</figcaption>
+  </figure>
+</div>
+<div class="g-tip"><p class="g-label">Unterstreichungen, die sich selbst zeichnen</p><p>Markierungen vorher mit der Pinnnadel setzen, dann „Zeichnen sich selbst“ wählen: Im Video erscheinen sie nacheinander in Leserichtung.</p></div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">07</span><h2 class="g-chapter-title">Übergabe und Test im Saal</h2></div>
-  <p class="g-chapter-lead">Der Bereich <b>Technik</b> bereitet die Übergabe vor: den Dateinamen, die Checkliste des Tages und die Testdateien für den Saal.</p>
-  <ol class="g-steps"><li><div>Füllen Sie Datum, Uhrzeit, Saal, Nachname und Kurztitel aus: Der Dateiname setzt sich von selbst zusammen, ohne Leerzeichen und Akzente. <b>Namen kopieren</b> und benennen Sie die Datei um.</div></li><li><div>Haken Sie die Checkliste des Tages ab; Sie können eigene Punkte hinzufügen.</div></li><li><div>Erstellen Sie unter <b>Test im Saal</b> <b>Meine Videos</b> und <b>Meine Bilder</b> (Ihre riskanten Dateien, eine pro Folie) oder das <b>Allgemeines Kit</b>.</div></li><li><div>Öffnen Sie das Kit während der Probe auf dem Technik-Computer: Die Videos starten nach dem Übergang von selbst. Notieren Sie auf der letzten Folie, was funktioniert.</div></li></ol>
-  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/de/07-name.png" alt=""></div><figcaption>Dateiname für die Technik</figcaption></figure><figure class="g-shot"><div class="g-shot-frame"><img src="../img/de/07-kits.png" alt=""></div><figcaption>Test im Saal</figcaption></figure></div>
-  <div class="g-note"><p class="g-label">Bilder-Kit</p><p>Auf der SVG-Folie muss der Bildtitel „SVG“ lauten. Lesen Sie „PNG“, zeigt dieser Computer den Vektor nicht an und verwendet die Ersatzvorschau.</p></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">07</span><h2 class="g-chapter-title">Das Video in die Folie einfügen</h2></div>
+<p class="g-chapter-lead">Das Video verhält sich wie eine normale Folienanimation: Es startet von selbst, wenn Sie die Folie erreichen.</p>
+<div class="g-cols">
+  <div>
+    <p class="g-label">Keynote · transparentes MOV</p>
+    <ol class="g-steps">
+      <li><div>Ziehen Sie die .mov-Datei auf die Folie.</div></li>
+      <li><div>Unter <b>Format → Film</b> den automatischen Start einstellen.</div></li>
+      <li><div>Der Hintergrund ist schon transparent: Die Folie scheint durch.</div></li>
+    </ol>
+  </div>
+  <div>
+    <p class="g-label">PowerPoint · MP4</p>
+    <ol class="g-steps">
+      <li><div><b>Einfügen → Video → Video aus Datei.</b></div></li>
+      <li><div>Geben Sie der Folie dieselbe Farbe oder dasselbe Bild wie dem Video.</div></li>
+      <li><div>Unter <b>Wiedergabe</b> <b>Automatisch starten</b> wählen.</div></li>
+    </ol>
+  </div>
+</div>
+<div class="g-note"><p class="g-label">Bald verfügbar</p><p>Der Bereich für PowerPoint wird gerade getestet und ist bald verfügbar.</p></div>
+<div class="g-cols">
+  <div>
+    <p class="g-label">Der PowerPoint-Bereich</p>
+    <p><b>Start → The Ultraspeaker → Flipbook Lab</b> öffnet den Bereich. <b>Flipbook Lab öffnen</b> bringt die App in den Browser, in der Sprache von PowerPoint: Dort nehmen Sie im Vollbild auf und speichern das Video, denn PowerPoint erlaubt Add-ins nicht, Dateien zu speichern.</p>
+    <p>Der Bereich fasst den Weg vom Buch zur Folie in vier Schritten zusammen und öffnet diese Anleitung.</p>
+  </div>
+  <figure class="g-shot g-shot--panel">
+    <div class="g-shot-frame"><img src="../img/de/panel.png" alt=""></div>
+    <figcaption>PowerPoint-Bereich</figcaption>
+  </figure>
+</div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">08</span><h2 class="g-chapter-title">Tipps aus der Praxis</h2></div>
-  <p class="g-chapter-lead">Check Lab findet die Probleme der Datei. Diese drei Gewohnheiten verhindern die im Saal.</p>
-  <div class="g-tip"><p class="g-label">Am Vortag abgeben</p><p>Senden Sie die Datei mindestens 24 Stunden vorher an das Sekretariat, im Namensformat der Technik, und bringen Sie einen USB-Stick mit der Präsentation und einem Ersatz-PDF mit.</p></div>
-  <div class="g-tip"><p class="g-label">30 Minuten vorher im Saal testen</p><p>Öffnen Sie das Kit „Test im Saal“ auf dem Technik-Computer: In zwei Minuten wissen Sie, ob Video, Audio und Bilder funktionieren.</p></div>
-  <div class="g-tip"><p class="g-label">Für die letzte Reihe schreiben</p><p>In einem Kongresssaal mit 16:9-Leinwand brauchen Sie in PowerPoint etwa 32 pt. Passt ein Text nicht, verteilen Sie ihn auf zwei Folien, statt ihn zu verkleinern.</p></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">08</span><h2 class="g-chapter-title">Tipps für Speaker</h2></div>
+<p class="g-chapter-lead">Das geblätterte Buch ist ein visueller Beleg: Es zeigt, dass es die Quelle gibt und wo die Stelle steht. Niemand muss alles lesen.</p>
+<div class="g-tip"><p class="g-label">Tipp für Speaker</p><p>Zeigen Sie höchstens drei oder vier Doppelseiten und unterstreichen Sie nur einen Satz pro Seite. Sprechen Sie ihn aus, während er erscheint: Das Publikum schaut dorthin, wo Sie hinschauen.</p></div>
+<table>
+  <tr><th>Situation</th><th>Videolänge</th><th>Vorgehen</th></tr>
+  <tr><td>Eine Quelle zitieren</td><td>8–12 Sekunden</td><td>Titelseite, eine Seite, eine Unterstreichung, zurück zur Titelseite</td></tr>
+  <tr><td>Eine Passage erklären</td><td>20–40 Sekunden</td><td>Live-Aufnahme mit der Lupe auf dem Absatz</td></tr>
+  <tr><td>Ein Dokument vorstellen</td><td>bis 60 Sekunden</td><td>Automatisches Video, 2 Sekunden pro Seite, normales Umblättern</td></tr>
+</table>
+<ul>
+  <li><b>Lesbarkeit im Saal:</b> Die Zeilen einer A4-Seite sind von hinten nicht lesbar. Vergrößern Sie den Satz mit der Lupe oder nutzen Sie das Format 3:1 mit einem großen Buch.</li>
+  <li><b>Farbe der Markierungen:</b> Gelb zum Markieren, Rot zum Unterstreichen auf hellen Seiten; Weiß nur auf dunklen Seiten.</li>
+  <li><b>Probe im Saal:</b> Sehen Sie sich das Video vor dem Vortrag am Beamer an. Auf dunklen Hintergründen ist ein MP4 mit Schwarz am sichersten.</li>
+</ul>
 </section>
 <section class="g-chapter">
   <div class="g-chapter-head"><span class="g-chapter-num">09</span><h2 class="g-chapter-title">Häufige Fragen</h2></div>
-  <dl class="g-faq"><dt>Der Bericht sagt, eine Schrift sei kein Standard, aber die Technik hat sie.</dt><dd>Check Lab sieht die in der Technik installierten Schriften nicht. Wenn Sie sicher sind, verschieben Sie den Punkt mit <b>Ihre Bewertung</b> auf OK und fügen eine Notiz hinzu. Die Schrift einzubetten bleibt die sicherste Wahl.</dd><dt>Meine Keynote-Datei wird nicht angenommen.</dt><dd>Ist sie als Paket gespeichert, wählen Sie in Keynote Ablage › Erweitert › Dateityp ändern › Einzelne Datei.</dd><dt>Eine sehr große Datei bricht ab.</dt><dd>Der PowerPoint-Aufgabenbereich hat weniger Speicher als der Browser: Nutzen Sie die Webversion.</dd><dt>Auf dem Mac kann ich das PDF im Aufgabenbereich nicht herunterladen.</dt><dd>PowerPoint für Mac erlaubt keine Downloads aus dem Aufgabenbereich: Nutzen Sie <b>Bericht kopieren</b> oder die Webversion. Die Testkits öffnen sich als neue Präsentation.</dd><dt>Wohin geht meine Präsentation?</dt><dd>Nirgendwohin: Sie wird nur auf Ihrem Computer gelesen.</dd></dl>
-  <div class="g-note"><p class="g-label">Support</p><p>Schreiben Sie an info@theultraspeaker.com mit Computer, PowerPoint-Version oder Browser und dem, was auf dem Bildschirm erscheint. Die Präsentation müssen Sie nicht senden.</p></div>
+<dl class="g-faq">
+<dt>In PowerPoint hat das Video einen schwarzen Hintergrund.</dt>
+<dd>PowerPoint zeigt Transparenz nicht zuverlässig an. Exportieren Sie als <b>MP4 mit Farbe</b> mit derselben Farbe oder demselben Bild wie die Folie. Wenn Sie das transparente MOV verwenden, exportieren Sie es <b>Ohne Schatten</b>: In der Bildschirmpräsentation würde PowerPoint den Schatten zu einem schwarzen Rand machen.</dd>
+<dt>Die PDF über einen Link öffnet sich nicht.</dt>
+<dd>Die Datei muss öffentlich sein und die Website muss den Download von einer anderen Seite erlauben. Sonst laden Sie sie herunter und ziehen sie ins Fenster.</dd>
+<dt>Die Unterstreichung folgt nicht den Zeilen.</dt>
+<dd>Die PDF enthält keinen Text, zum Beispiel ein Scan: Der Strich bleibt gerade, aber frei.</dd>
+<dt>Das MOV entsteht nicht oder bricht in Safari ab.</dt>
+<dd>Das transparente MOV braucht viel Speicher. Wählen Sie 1280 × 720 oder nutzen Sie Chrome oder Edge.</dd>
+<dt>Das Video hat eine andere Form als der Rahmen auf der Folie.</dt>
+<dd>Wählen Sie das Format vor der Aufnahme: 4:3, 3:1 oder <b>Benutzerdefiniert…</b> mit der Größe des Rahmens.</dd>
+<dt>Das Buch ist zu klein oder an der falschen Stelle.</dt>
+<dd>Nutzen Sie das Werkzeug <b>Verschieben (V)</b>; <b>Zentrieren</b> setzt es in voller Größe in die Mitte.</dd>
+<dt>Wo finde ich das Video?</dt>
+<dd>Im Ordner Downloads. Mit <b>Speichern unter…</b> wählen Sie den Ordner in Chrome und Edge; in Safari aktivieren Sie „Bei jedem Download fragen“.</dd>
+<dt>Wie komme ich zur Beispiel-Anleitung zurück?</dt>
+<dd>Papierkorb → <b>PDF schließen</b>: Auf der Startseite klicken Sie auf <b>Beispiel-Anleitung öffnen</b>.</dd>
+</dl>
 </section>
+
 <section class="g-back">
   <img class="g-back-arena" src="../../shared/guide/arena-white.svg" alt="">
   <p class="g-back-claim">Knowledge is not enough.<br><i>From expert to Ultraspeaker.</i></p>
-  <a class="g-back-cta" href="mailto:info@theultraspeaker.com?subject=Rat%20einholen%20%E2%80%93%20Check%20Lab">Rat einholen</a>
+  <a class="g-back-cta" href="mailto:info@theultraspeaker.com?subject=Rat%20einholen">Rat einholen</a>
   <p class="g-back-contacts">theultraspeaker.com · info@theultraspeaker.com</p>
 </section>
+
 </body>
 </html>
