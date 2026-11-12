@@ -258,8 +258,12 @@
   async function mp4(job) {
     const { width: W, height: H, fps, frames: N, render, onProgress, isCancelled } = job;
     let cfg = null;
-    for (const codec of ["avc1.640028", "avc1.4d0028", "avc1.42e028"]) {          // High, Main, Baseline
-      const c = { codec, width: W, height: H, bitrate: W >= 1900 ? 14e6 : 8e6, framerate: fps, avc: { format: "avc" } };
+    // livello H.264 secondo la misura: 4.0 basta fino a 1920 × 1080, i formati larghi (3:1, personalizzati) chiedono 5.0 o 5.1
+    const mbs = Math.ceil(W / 16) * Math.ceil(H / 16);
+    const lv = mbs <= 8192 ? "28" : mbs <= 22080 ? "32" : "33";
+    const bitrate = Math.round(Math.max(8e6, Math.min(30e6, 14e6 * W * H / (1920 * 1080))));
+    for (const codec of ["avc1.6400" + lv, "avc1.4d00" + lv, "avc1.42e0" + lv]) {          // High, Main, Baseline
+      const c = { codec, width: W, height: H, bitrate: W * H >= 1900 * 1000 ? bitrate : 8e6, framerate: fps, avc: { format: "avc" } };
       try { if ((await VideoEncoder.isConfigSupported(c)).supported) { cfg = c; break; } } catch (e) { /* il successivo */ }
     }
     if (!cfg) throw new Error("H.264 non disponibile in questo browser");

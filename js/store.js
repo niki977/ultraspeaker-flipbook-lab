@@ -36,7 +36,18 @@
     },
     async putImage(k, blob) { const x = await toBytes(blob); return run("readwrite", (s) => s.put(x, k)); },
     async getImage(k) { const x = await run("readonly", (s) => s.get(k)); return x && (x.buf || x.__bytes) ? toBlob(x) : null; },
-    pref(k, d) { try { const v = localStorage.getItem("flipbooklab." + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
-    setPref(k, v) { try { localStorage.setItem("flipbooklab." + k, JSON.stringify(v)); } catch (e) { /* ignora */ } },
+    pref(k, d) { try { const v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    setPref(k, v) { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch (e) { /* ignora */ } },
   };
+
+  /* Preferenze: chiavi ultraspeaker.flipbook.<nome> (linea guida §10). Le vecchie flipbooklab.<nome> si copiano
+     una volta e poi si cancellano, così nessuno perde le proprie scelte. La lingua la migra ultraspeaker-lang.js. */
+  const P = "ultraspeaker.flipbook.", OLD = "flipbooklab.";
+  try {
+    Object.keys(localStorage).filter((k) => k.startsWith(OLD) && k !== OLD + "lang").forEach((k) => {
+      const nk = P + k.slice(OLD.length);
+      if (localStorage.getItem(nk) == null) localStorage.setItem(nk, localStorage.getItem(k));
+      localStorage.removeItem(k);
+    });
+  } catch (e) { /* memoria non disponibile */ }
 })();

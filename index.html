@@ -1,214 +1,44 @@
 <!doctype html>
-<html lang="it">
+<html lang="it" class="fb">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Ultraspeaker Flipbook Lab</title>
-<meta name="description" content="Trasforma un PDF in un flipbook: sfoglialo, sottolinealo e registra un video con sfondo trasparente per Keynote o con il colore della slide per PowerPoint.">
-<link rel="icon" href="assets/flipbook-lab-icon-64.png">
-<!-- icona e nome quando si salva la pagina nella schermata Home (iPhone/iPad; Android legge manifest.webmanifest) -->
-<link rel="apple-touch-icon" href="assets/flipbook-lab-icon-180.png">
-<meta name="apple-mobile-web-app-title" content="Flipbook Lab">
-<link rel="manifest" href="manifest.webmanifest">
+<meta name="description" content="Turn a PDF into a flip book: flip it, underline it and record a video with a transparent background for Keynote or with the slide colour for PowerPoint.">
 <meta name="theme-color" content="#000000">
-<style>
-/* Brand Book 1.0: Champagne & Limousines in quattro stili (Regular, Italic, Bold, Bold Italic) */
-@font-face{font-family:"Champagne & Limousines";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/champagne-limousines-regular.woff2) format("woff2")}
-@font-face{font-family:"Champagne & Limousines";font-weight:700;font-style:normal;font-display:swap;src:url(fonts/champagne-limousines-bold.woff2) format("woff2")}
-@font-face{font-family:"Champagne & Limousines";font-weight:400;font-style:italic;font-display:swap;src:url(fonts/champagne-limousines-italic.woff2) format("woff2")}
-@font-face{font-family:"Champagne & Limousines";font-weight:700;font-style:italic;font-display:swap;src:url(fonts/champagne-limousines-bolditalic.woff2) format("woff2")}
-:root{
-  /* palette del Brand Book: Stage Black, Backstage, Curtain, Graphite, Ash, Silver, House Lights, Spotlight */
-  --bg:#000000; --surface:#111111; --surface-2:#111111; --surface-3:#1B1B1B; --ink:#FFFFFF; --ink-2:#D0D0D0; --ink-3:#8E8E8E;
-  --line:#1B1B1B; --line-2:#1B1B1B; --line-3:#3A3A3A; --paper:#F3F3F3;
-  /* colori funzionali, solo nell'interfaccia: ambra per gli avvisi, blu per il focus */
-  --warn:#FFCF80; --focus:#4F8DFF; --radius:10px;
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--ink);font:400 14px/1.45 "Champagne & Limousines","Avenir Next","Segoe UI",-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
-button,select,input{font:inherit;color:inherit}
-button{cursor:pointer}
-button:disabled{cursor:default;opacity:.4}
-:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
-[hidden]{display:none!important}
-svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.app{height:100%;display:grid;grid-template-rows:auto 1fr auto}
-
-/* ---------- Intestazione ---------- */
-.top{display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid var(--line);min-width:0}
-.top .lockup{width:168px;height:auto;flex:none;display:block}
-.top .arena{display:none;width:34px;height:auto}
-.brandlink{display:inline-flex;flex:none;border-radius:6px;transition:opacity .15s}
-.brandlink:hover{opacity:.75}
-.brandlink:focus-visible{outline:2px solid var(--focus);outline-offset:4px}
-.empty .brandlink{width:min(360px,60%);justify-content:center}
-.empty .brandlink img{width:100%}
-.doc{min-width:0;display:flex;flex-direction:column;line-height:1.25;margin-left:6px;padding-left:14px;border-left:1px solid var(--line-2)}
-.doc b{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.doc span{font-size:11px;color:var(--ink-3)}
-.spacer{flex:1}
-.btn{height:36px;padding:0 14px;border-radius:var(--radius);font-size:13.5px;font-weight:700;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;border:1px solid var(--line-3);background:transparent;color:#FFFFFF}
-.btn.pri{background:#FFFFFF;color:#000000;border-color:#FFFFFF}
-.btn.rec{background:#FFFFFF;border-color:#FFFFFF;color:#000000}
-.btn.big{height:44px;padding:0 20px;font-size:15px;border-radius:var(--radius)}
-.lang{display:flex;align-items:center;gap:6px}
-.lang svg{width:15px;height:15px;stroke:#8E8E8E;fill:none;stroke-width:1.8}
-select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;border:1px solid #3A3A3A;font-size:13px;font-weight:700}
-.recpill{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:var(--radius);background:rgba(255,207,128,.12);border:1px solid var(--warn);color:var(--warn);font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em}
-.recpill i{width:9px;height:9px;border-radius:50%;background:var(--warn);animation:blink 1s steps(2) infinite}
-@keyframes blink{50%{opacity:.25}}
-
-/* ---------- Area di lavoro ---------- */
-.work{position:relative;display:grid;grid-template-columns:auto 1fr;min-height:0}
-.tools{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;border-right:1px solid var(--line);overflow:auto}
-.tool{width:42px;height:42px;border-radius:var(--radius);border:1px solid transparent;background:transparent;color:var(--ink-2);display:inline-flex;align-items:center;justify-content:center;position:relative}
-.tool:hover{background:var(--surface-3)}
-.tool[aria-pressed="true"]{background:#FFFFFF;color:#000000}
-.tool svg{width:20px;height:20px}
-.tool .k{position:absolute;right:3px;bottom:1px;font-size:8.5px;font-weight:700;opacity:.55}
-.tsep{width:26px;height:1px;background:var(--line-2);margin:4px 0;flex:none}
-.dots{display:grid;grid-template-columns:repeat(2,18px);gap:7px;padding:4px 0}
-.dot{width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,.25);padding:0}
-.dot[aria-pressed="true"]{outline:2px solid #FFFFFF;outline-offset:2px}
-.mode{display:flex;flex-direction:column;gap:4px;padding:3px;border-radius:var(--radius);background:var(--surface-2);border:1px solid var(--line-2)}
-.mode .tool{width:36px;height:34px;border-radius:7px}
-
-.stagewrap{position:relative;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;padding:18px}
-.stage{position:relative;flex:none;width:320px;height:180px;border-radius:var(--radius);overflow:hidden;outline:1px solid var(--line-2)}
-.stagewrap:fullscreen{padding:0;background:#000000}
-.stagewrap:-webkit-full-screen{padding:0;background:#000000;width:100%;height:100%}
-.stagewrap:fullscreen .stage{border-radius:0;outline:0}
-.stage.checker{background:repeating-conic-gradient(#1B1B1B 0 25%,#111111 0 50%) 0 0/22px 22px}
-.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
-.stage.recording{outline:2px solid var(--warn)}
-.stagenote{position:absolute;left:10px;top:8px;font-size:10px;font-weight:700;letter-spacing:.32em;color:rgba(255,255,255,.45);pointer-events:none;text-transform:uppercase}
-.stage.light .stagenote{color:rgba(0,0,0,.4)}
-
-/* stato vuoto */
-.empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:24px;background:#000000}
-.empty img{width:min(360px,60%);height:auto}
-.empty h1{margin:6px 0 0;font-size:clamp(18px,2.4vw,24px);font-weight:700;line-height:1.2;text-wrap:balance}
-.empty p{margin:0;color:var(--ink-2);max-width:520px;font-size:14.5px;line-height:1.6}
-.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center}
-.dropzone{display:flex;flex-direction:column;align-items:center;gap:12px;padding:22px 28px;border:2px dashed #3A3A3A;border-radius:var(--radius);transition:border-color .15s,background .15s}
-.dropzone svg{width:26px;height:26px;color:var(--ink-3)}
-.dropzone b{font-size:14px;color:var(--ink-2)}
-.dropzone.over{border-color:#FFFFFF;background:rgba(255,255,255,.05)}
-.busy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(0,0,0,.88);z-index:5}
-.busy img{width:90px;animation:pulse 1.6s ease-in-out infinite}
-@keyframes pulse{50%{opacity:.45}}
-.bar{width:min(320px,70%);height:4px;border-radius:2px;background:#3A3A3A;overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:#FFFFFF;transition:width .15s}
-
-/* ---------- Barra in basso ---------- */
-.bottom{display:flex;align-items:center;gap:12px;padding:10px 16px;border-top:1px solid var(--line);flex-wrap:wrap}
-.nav{display:flex;align-items:center;gap:2px;padding:3px;border-radius:var(--radius);background:var(--surface-2);border:1px solid var(--line-2)}
-.nav button{width:34px;height:32px;border-radius:7px;border:0;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:#FFFFFF}
-.nav button:hover:not(:disabled){background:var(--surface-3)}
-.num{min-width:78px;text-align:center;font-weight:700;font-size:13.5px;font-variant-numeric:tabular-nums}
-.seg{display:inline-grid;grid-auto-flow:column;gap:3px;padding:3px;border-radius:var(--radius);background:var(--surface-2);border:1px solid var(--line-2)}
-.seg button{height:30px;border-radius:7px;border:0;background:transparent;color:var(--ink-2);font-size:13px;font-weight:700;padding:0 11px;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
-.seg button[aria-pressed="true"]{background:#FFFFFF;color:#000000}
-.seg svg{width:16px;height:16px}
-.lbl{font-size:10.5px;font-weight:700;letter-spacing:.32em;color:var(--ink-3);text-transform:uppercase}
-.grp{display:flex;align-items:center;gap:8px}
-.chk{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer}
-.chk input{appearance:none;-webkit-appearance:none;width:32px;height:18px;border-radius:9px;background:#3A3A3A;position:relative;margin:0;cursor:pointer}
-.chk input::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#D0D0D0;transition:transform .15s}
-.chk input:checked{background:#FFFFFF}
-.chk input:checked::after{transform:translateX(14px);background:#000000}
-.swatch{position:relative;width:30px;height:30px;border-radius:var(--radius);border:1px solid #3A3A3A;overflow:hidden;cursor:pointer;display:inline-block}
-.swatch input{position:absolute;inset:-6px;width:calc(100% + 12px);height:calc(100% + 12px);opacity:0;cursor:pointer}
-.imgsw{padding:0;background:#1B1B1B center/cover no-repeat}
-.checkicon{background:repeating-conic-gradient(#8E8E8E 0 25%,#D0D0D0 0 50%) 0 0/8px 8px;width:14px;height:14px;border-radius:3px;display:inline-block}
-
-/* ---------- Finestre ---------- */
-.veil{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:30;display:flex;align-items:center;justify-content:center;padding:16px}
-.dlg{width:min(560px,100%);max-height:100%;overflow:auto;background:#111111;border:1px solid #3A3A3A;border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;gap:16px}
-.dlg h2{margin:0;font-size:20px;font-weight:700;line-height:1.2}
-.dlg .sub{margin:-8px 0 0;color:var(--ink-2);font-size:14px;line-height:1.6}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.card{text-align:left;padding:14px;border-radius:var(--radius);border:1px solid var(--line-3);background:#000000;display:flex;flex-direction:column;gap:6px;color:#FFFFFF}
-.card[aria-pressed="true"]{border-color:#FFFFFF;background:#1B1B1B;outline:1px solid #FFFFFF}
-.card b{font-size:15.5px}
-.card span{font-size:13px;color:var(--ink-2);line-height:1.5}
-.card .tag{align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:.32em;padding:3px 7px;border-radius:5px;background:#1B1B1B;color:var(--ink-2)}
-.card .prev{height:46px;border-radius:7px;display:flex;align-items:center;justify-content:center;border:1px solid #1B1B1B}
-.card .prev i{width:44px;height:30px;border-radius:3px;background:linear-gradient(90deg,#F3F3F3 49%,#8E8E8E 50%,#F3F3F3 51%)}
-.checker2{background:repeating-conic-gradient(#3A3A3A 0 25%,#1B1B1B 0 50%) 0 0/12px 12px}
-.opts{display:flex;flex-direction:column;gap:10px}
-.optrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.optrow .lbl{min-width:96px}
-.chips{display:flex;gap:5px;flex-wrap:wrap}
-.chip{height:30px;padding:0 11px;border-radius:var(--radius);border:1px solid #3A3A3A;background:var(--surface-2);color:var(--ink-2);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
-.chip[aria-pressed="true"]{border-color:#FFFFFF;color:#000000;background:#FFFFFF}
-.note{margin:0;font-size:13px;line-height:1.6;color:var(--ink-3)}
-.hint{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink-2);background:#000000;border:1px solid #3A3A3A;border-radius:var(--radius);padding:10px 12px}
-.acts{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
-#expDl{text-decoration:none}
-.url-in{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:12px 14px;border-radius:var(--radius);border:1px solid var(--line-3);background:var(--surface-2);color:var(--ink)}
-.url-in:focus{outline:2px solid var(--focus);outline-offset:1px}
-@media (max-width:640px){#expDlg .acts{flex-direction:column;align-items:stretch}#expDlg .acts .btn{width:100%;justify-content:center}#expGo,#expShare{order:1}#expDl{order:2}#expSaveAs{order:3}#expOther{order:4}#expCancel{order:5}}
-.num-in{width:64px;height:32px;border-radius:var(--radius);border:1px solid #3A3A3A;background:#000000;padding:0 8px;font-weight:700;font-variant-numeric:tabular-nums}
-.done{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
-.done video{width:100%;max-height:220px;border-radius:var(--radius);background:repeating-conic-gradient(#1B1B1B 0 25%,#111111 0 50%) 0 0/16px 16px}
-
-.drop{position:fixed;inset:10px;z-index:40;border:2px dashed #FFFFFF;border-radius:var(--radius);background:rgba(0,0,0,.84);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:16px;font-weight:700;pointer-events:none}
-.drop img{width:96px}
-.toast{position:fixed;left:50%;top:84px;transform:translate(-50%,-10px);background:#FFFFFF;color:#000000;font-weight:700;font-size:14px;padding:10px 16px;border-radius:10px;opacity:0;pointer-events:none;transition:.2s;max-width:calc(100% - 32px);text-align:center;z-index:50}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-.toast.err{background:var(--warn);color:#000000}
-
-@media (max-width:1500px){.hide-m{display:none!important}}
-@media (max-width:760px){
-  .top .lockup{width:160px}
-  .doc{display:none}
-  .work{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-  .tools{flex-direction:row;border-right:0;border-bottom:1px solid var(--line);padding:8px 12px;overflow-x:auto}
-  .tsep{width:1px;height:26px;margin:0 4px}
-  .mode{flex-direction:row}
-  .dots{grid-template-columns:repeat(6,18px)}
-  .stagewrap{padding:10px}
-  .cards{grid-template-columns:1fr}
-  .hide-s{display:none!important}
-  /* schermata iniziale: usa tutto lo spazio (non solo il riquadro 16:9 del libro) e scorre se serve */
-  .stagewrap:has(.empty:not([hidden])) .stage{width:100%!important;height:100%!important}
-  .empty{justify-content:safe center;overflow-y:auto;gap:10px;padding:18px 16px}
-  .empty .brandlink{width:min(220px,62%)}
-  .empty h1{font-size:17px;margin:2px 0 0}
-  .empty p{font-size:14px;line-height:1.5;color:var(--ink-2)}
-  .dropzone{padding:14px 12px;gap:10px;width:100%;max-width:420px}
-  .row .btn.big{flex:1 1 auto}
-  /* finché non c'è un PDF i comandi in basso non servono: sul telefono lasciano spazio alla pagina iniziale */
-  .app:has(.empty:not([hidden])) .bottom{display:none}
-}
-/* sul telefono non si trascinano file: riquadro senza tratteggio e senza «Trascina qui» */
-@media (pointer:coarse){.dropzone{border:0;padding:4px 0}.dropzone > svg,.dropzone > b{display:none}}
-@media (max-width:480px){.top .lockup{display:none}.top .arena{display:block}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-</style>
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-title" content="Flipbook Lab">
+<meta name="application-name" content="Flipbook Lab">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261112">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/flipbook-lab-icon-32.png?v=20261112">
+<link rel="apple-touch-icon" href="assets/flipbook-lab-icon-180.png?v=20261112">
+<link rel="manifest" href="site.webmanifest">
+<link rel="stylesheet" href="shared/ultraspeaker-lab.css?v=20261112">
+<link rel="stylesheet" href="css/app.css?v=20261112">
+<script src="shared/ultraspeaker-lang.js?v=20261112"></script>
 </head>
 <body>
 <div class="app">
-  <header class="top">
-    <a class="brandlink" href="https://www.theultraspeaker.com" target="_blank" rel="noopener" title="theultraspeaker.com"><img class="lockup" src="assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab – theultraspeaker.com"><img class="arena" src="assets/arena.svg" alt="The Ultraspeaker – theultraspeaker.com"></a>
-    <div class="doc" id="doc" hidden><b id="docName"></b><span id="docInfo"></span></div>
-    <div class="spacer"></div>
-    <span class="recpill" id="recPill" hidden><i></i><span id="recTime">00:00</span></span>
-    <button type="button" class="btn" id="openBtn">
-      <svg class="i" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9 14l3-3 3 3"/></svg>
-      <span data-i18n="open"></span>
-    </button>
-    <button type="button" class="btn" id="linkBtn" data-i18n-title="l.open" data-i18n-aria="l.open">
-      <svg class="i" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>
-      <span class="hide-s" data-i18n="l.short"></span>
-    </button>
-    <label class="lang hide-s">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
-      <select id="lang" data-i18n-aria="lang"></select>
-    </label>
+  <header class="us-header top">
+    <div>
+      <a class="us-logo" href="https://www.theultraspeaker.com" target="_blank" rel="noopener"><img src="assets/logo-flipbook-lab-white.svg?v=20261112" alt="The Ultraspeaker Flipbook Lab" width="181" height="60"></a>
+      <p class="us-subtitle"><i class="us-dot"></i><span id="docLine"></span></p>
+    </div>
+    <div class="us-header-tools">
+      <span class="recpill" id="recPill" hidden><i></i><span id="recTime">00:00</span></span>
+      <button type="button" class="us-btn" id="infoBtn" data-i18n-aria="info" data-i18n-title="info"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
+      <button type="button" class="us-btn" id="openBtn" data-i18n-aria="open">
+        <svg class="i" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9 14l3-3 3 3"/></svg>
+        <span class="tlabel" data-i18n="open"></span>
+      </button>
+      <button type="button" class="us-btn" id="linkBtn" data-i18n-title="l.open" data-i18n-aria="l.open">
+        <svg class="i" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>
+        <span class="tlabel" data-i18n="l.short"></span>
+      </button>
+      <span class="brk" aria-hidden="true"></span>
+      <label class="us-lang"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="us-sr" data-i18n="us.language"></span><select id="lang"></select></label>
+      <a class="us-btn us-guide" id="usGuide" href="guide/flipbook-lab-guide-en.pdf" target="_blank" rel="noopener" data-i18n-aria="us.guide.title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-i18n="us.guide"></span></a>
+    </div>
   </header>
 
   <div class="work">
@@ -220,6 +50,7 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
       <button type="button" class="tool" data-tool="erase"><svg viewBox="0 0 24 24" class="i"><path d="M20 20H9L4 15a2 2 0 0 1 0-2.8L13.2 3a2 2 0 0 1 2.8 0L21 8a2 2 0 0 1 0 2.8L12 20M7.5 9.5l7 7"/></svg><span class="k">G</span></button>
       <button type="button" class="tool" data-tool="zoom"><svg viewBox="0 0 24 24" class="i"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg><span class="k">Z</span></button>
       <button type="button" class="tool" data-tool="zoomout"><svg viewBox="0 0 24 24" class="i"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6"/></svg><span class="k">⇧Z</span></button>
+      <button type="button" class="tool" data-tool="move"><svg viewBox="0 0 24 24" class="i"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/></svg><span class="k">V</span></button>
       <div class="tsep"></div>
       <div class="mode" role="group" data-i18n-aria="markMode">
         <button type="button" class="tool" data-mode="keep"><svg viewBox="0 0 24 24" class="i"><path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3z"/></svg></button>
@@ -235,19 +66,28 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
       <div class="stage checker" id="stage">
         <canvas id="cv"></canvas>
         <div class="stagenote" id="stagenote"></div>
-        <section class="empty" id="empty" hidden>
-          <a class="brandlink" href="https://www.theultraspeaker.com" target="_blank" rel="noopener" title="theultraspeaker.com"><img src="assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab – theultraspeaker.com"></a>
+        <div class="placebar" id="placebar" hidden>
+          <button type="button" id="placeOut" data-i18n-aria="place.smaller" data-i18n-title="place.smaller"><svg class="i" viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button>
+          <button type="button" id="placePct" data-i18n-title="place.size">100%</button>
+          <button type="button" id="placeIn" data-i18n-aria="place.bigger" data-i18n-title="place.bigger"><svg class="i" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></button>
+          <button type="button" id="placeReset" data-i18n="place.reset" data-i18n-title="place.resetTitle"></button>
+        </div>
+        <section class="empty us-spotlight" id="empty" hidden>
           <h1 data-i18n="empty.title"></h1>
           <p data-i18n="empty.text"></p>
           <div class="dropzone" id="dropzone">
             <svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
             <b data-i18n="dropBox"></b>
             <div class="row">
-              <button type="button" class="btn pri big" id="chooseBtn"><span data-i18n="choose"></span></button>
-              <button type="button" class="btn big" id="linkBtn2" data-i18n="l.fromLink"></button>
-              <button type="button" class="btn big" id="sampleBtn" data-i18n="sample"></button>
+              <button type="button" class="us-btn us-btn--primary" id="chooseBtn"><span data-i18n="choose"></span></button>
+              <button type="button" class="us-btn" id="linkBtn2" data-i18n="l.fromLink"></button>
+              <button type="button" class="us-btn" id="sampleBtn" data-i18n="sample"></button>
             </div>
           </div>
+          <footer class="us-footer">
+            <a class="us-cta" href="mailto:info@theultraspeaker.com"><img src="assets/arena-white.svg" alt=""><span data-i18n="us.cta"></span></a>
+            <p class="us-links"><a href="support.html" target="_blank" data-i18n="us.support"></a><a href="privacy.html" target="_blank" data-i18n="us.privacy"></a><a href="terms.html" target="_blank" data-i18n="us.terms"></a><a href="GUIDA-INSTALLAZIONE.html" target="_blank" data-i18n="us.install"></a></p>
+          </footer>
         </section>
         <section class="busy" id="busy" hidden>
           <img src="assets/flipbook-logetto.svg" alt="">
@@ -267,7 +107,7 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
     </div>
     <div class="nav" id="zoomGrp">
       <button type="button" id="zoomOut" data-i18n-aria="zoomOut" data-i18n-title="zoomOut"><svg class="i" viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button>
-      <button type="button" class="num" id="zoomPct" style="min-width:58px;width:auto" data-i18n-title="zoomReset">100%</button>
+      <button type="button" class="num" id="zoomPct" data-i18n-title="zoomReset">100%</button>
       <button type="button" id="zoomIn" data-i18n-aria="zoomIn" data-i18n-title="zoomIn"><svg class="i" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></button>
     </div>
     <div class="grp">
@@ -278,7 +118,11 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
       <label class="chk" id="coverWrap" data-i18n-title="cover"><input type="checkbox" id="optCover"><span class="hide-s hide-m" data-i18n="cover"></span></label>
     </div>
     <div class="grp">
-      <span class="lbl hide-s hide-m" data-i18n="bg"></span>
+      <span class="us-label hide-s hide-m" data-i18n="fmt"></span>
+      <select class="fmtsel" id="fmtSel" data-i18n-aria="fmt" data-i18n-title="fmt.title"></select>
+    </div>
+    <div class="grp">
+      <span class="us-label hide-s hide-m" data-i18n="bg"></span>
       <div class="seg" id="segBg">
         <button type="button" data-v="clear"><i class="checkicon"></i><span data-i18n="bg.clear"></span></button>
         <button type="button" data-v="color"><i class="checkicon" id="bgChip" style="background:#000000"></i><span data-i18n="bg.color"></span></button>
@@ -289,44 +133,44 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
       <input type="file" id="bgFile" accept="image/*" hidden>
     </div>
     <div class="spacer"></div>
-    <button type="button" class="btn hide-s" id="fsBtn" data-i18n-title="full"><svg class="i" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
-    <button type="button" class="btn" id="autoBtn"><svg class="i" viewBox="0 0 24 24"><path d="M5 4l10 8-10 8zM19 5v14"/></svg><span data-i18n="auto"></span></button>
-    <button type="button" class="btn rec" id="recBtn"><svg class="i" viewBox="0 0 24 24" id="recIco"><circle cx="12" cy="12" r="6" fill="currentColor" stroke="none"/></svg><span id="recLabel"></span></button>
+    <button type="button" class="us-btn us-btn--icon hide-s" id="fsBtn" data-i18n-title="full"><svg class="i" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    <button type="button" class="us-btn" id="autoBtn"><svg class="i" viewBox="0 0 24 24"><path d="M5 4l10 8-10 8zM19 5v14"/></svg><span data-i18n="auto"></span></button>
+    <button type="button" class="us-btn us-btn--primary" id="recBtn"><svg class="i" viewBox="0 0 24 24" id="recIco"><circle cx="12" cy="12" r="6" fill="currentColor" stroke="none"/></svg><span id="recLabel"></span></button>
   </footer>
 </div>
 
 <!-- Registrazione automatica -->
 <div class="veil" id="autoDlg" hidden>
-  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="autoTitle">
+  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="autoTitle">
     <h2 id="autoTitle" data-i18n="a.title"></h2>
     <p class="sub" data-i18n="a.sub"></p>
     <div class="opts">
-      <div class="optrow"><span class="lbl" data-i18n="a.pages"></span>
-        <input class="num-in" type="number" id="aFrom" min="1" value="1"> <span>–</span> <input class="num-in" type="number" id="aTo" min="1" value="1">
+      <div class="optrow"><span class="us-label" data-i18n="a.pages"></span>
+        <input class="us-field num-in" type="number" id="aFrom" min="1" value="1"> <span>–</span> <input class="us-field num-in" type="number" id="aTo" min="1" value="1">
       </div>
-      <div class="optrow"><span class="lbl" data-i18n="a.hold"></span><div class="chips" id="aHold"></div></div>
-      <div class="optrow"><span class="lbl" data-i18n="a.speed"></span><div class="chips" id="aSpeed"></div></div>
-      <div class="optrow"><span class="lbl" data-i18n="a.marks"></span>
+      <div class="optrow"><span class="us-label" data-i18n="a.hold"></span><div class="chips" id="aHold"></div></div>
+      <div class="optrow"><span class="us-label" data-i18n="a.speed"></span><div class="chips" id="aSpeed"></div></div>
+      <div class="optrow"><span class="us-label" data-i18n="a.marks"></span>
         <div class="seg" id="aMarks">
           <button type="button" data-v="draw" data-i18n="a.marksDraw"></button>
           <button type="button" data-v="show" data-i18n="a.marksShow"></button>
         </div>
       </div>
-      <div class="optrow" id="aAfterRow"><span class="lbl" data-i18n="a.after"></span><div class="chips" id="aAfter"></div></div>
-      <p class="hint" id="aMarksInfo"></p>
+      <div class="optrow" id="aAfterRow"><span class="us-label" data-i18n="a.after"></span><div class="chips" id="aAfter"></div></div>
+      <p class="us-note" id="aMarksInfo"></p>
       <label class="chk"><input type="checkbox" id="aClose"><span data-i18n="a.close"></span></label>
     </div>
     <p class="note" id="aInfo"></p>
     <div class="acts">
-      <button type="button" class="btn" data-close data-i18n="cancel"></button>
-      <button type="button" class="btn pri" id="aGo" data-i18n="a.go"></button>
+      <button type="button" class="us-btn" data-close data-i18n="cancel"></button>
+      <button type="button" class="us-btn us-btn--primary" id="aGo" data-i18n="a.go"></button>
     </div>
   </div>
 </div>
 
 <!-- Esportazione -->
 <div class="veil" id="expDlg" hidden>
-  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="expTitle">
+  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="expTitle">
     <h2 id="expTitle" data-i18n="x.title"></h2>
     <p class="sub" id="expSub"></p>
     <div id="expForm" class="opts">
@@ -344,7 +188,7 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
           <span data-i18n="x.mp4Text"></span>
         </button>
       </div>
-      <div class="optrow" id="mp4ColorRow"><span class="lbl" data-i18n="bg"></span>
+      <div class="optrow" id="mp4ColorRow"><span class="us-label" data-i18n="bg"></span>
         <div class="seg" id="mp4Bg">
           <button type="button" data-v="color" data-i18n="bg.color"></button>
           <button type="button" data-v="image" data-i18n="bg.image"></button>
@@ -352,7 +196,7 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
         <label class="swatch" id="mp4Sw"><input type="color" id="mp4Color" value="#000000"></label>
         <span class="note" id="mp4BgNote"></span>
       </div>
-      <div class="optrow"><span class="lbl" data-i18n="x.res"></span><div class="chips" id="resChips"></div></div>
+      <div class="optrow"><span class="us-label" data-i18n="x.res"></span><div class="chips" id="resChips"></div></div>
       <p class="note" id="expNote"></p>
     </div>
     <div id="expRun" class="opts" hidden>
@@ -364,31 +208,66 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
       <video id="expVideo" controls muted playsinline></video>
       <div><b id="expFile"></b> <span class="note" id="expSize"></span></div>
       <p class="note" id="expWhere" hidden></p>
-      <p class="hint" id="expHow"></p>
+      <p class="us-note" id="expHow"></p>
     </div>
     <div class="acts">
-      <button type="button" class="btn" id="expCancel" data-i18n="cancel"></button>
-      <button type="button" class="btn" id="expOther" hidden></button>
-      <button type="button" class="btn pri" id="expGo" data-i18n="x.go"></button>
-      <button type="button" class="btn pri" id="expShare" hidden><svg class="i" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M6 12H5v8h14v-8h-1"/></svg><span data-i18n="x.share"></span></button>
-      <button type="button" class="btn" id="expSaveAs" hidden><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13l3 3 3-3"/></svg><span data-i18n="x.saveAs"></span></button>
-      <a class="btn pri" id="expDl" hidden download><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-i18n="x.download"></span></a>
+      <button type="button" class="us-btn" id="expCancel" data-i18n="cancel"></button>
+      <button type="button" class="us-btn" id="expOther" hidden></button>
+      <button type="button" class="us-btn us-btn--primary" id="expGo" data-i18n="x.go"></button>
+      <button type="button" class="us-btn us-btn--primary" id="expShare" hidden><svg class="i" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M6 12H5v8h14v-8h-1"/></svg><span data-i18n="x.share"></span></button>
+      <button type="button" class="us-btn" id="expSaveAs" hidden><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13l3 3 3-3"/></svg><span data-i18n="x.saveAs"></span></button>
+      <a class="us-btn us-btn--primary" id="expDl" hidden download><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-i18n="x.download"></span></a>
     </div>
   </div>
 </div>
 
 <div class="veil" id="linkDlg" hidden>
-  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="linkTitle">
+  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="linkTitle">
     <h2 id="linkTitle" data-i18n="l.title"></h2>
     <p class="sub" data-i18n="l.sub"></p>
     <form class="opts" id="linkForm" autocomplete="off">
-      <input class="url-in" type="url" id="linkUrl" inputmode="url" spellcheck="false" placeholder="https://…" required>
-      <p class="hint" data-i18n="l.hint"></p>
+      <input class="us-field url-in" type="url" id="linkUrl" inputmode="url" spellcheck="false" placeholder="https://…" required>
+      <p class="us-note" data-i18n="l.hint"></p>
     </form>
     <div class="acts">
-      <button type="button" class="btn" id="linkCancel" data-i18n="cancel"></button>
-      <button type="submit" form="linkForm" class="btn pri" id="linkGo" data-i18n="l.go"></button>
+      <button type="button" class="us-btn" id="linkCancel" data-i18n="cancel"></button>
+      <button type="submit" form="linkForm" class="us-btn us-btn--primary" id="linkGo" data-i18n="l.go"></button>
     </div>
+  </div>
+</div>
+
+<!-- Formato personalizzato del video -->
+<div class="veil" id="fmtDlg" hidden>
+  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="fmtTitle">
+    <h2 id="fmtTitle" data-i18n="fmt.dlgTitle"></h2>
+    <p class="sub" data-i18n="fmt.sub"></p>
+    <form class="opts" id="fmtForm" autocomplete="off">
+      <div class="fmtrow">
+        <label class="us-sr" for="fmtW" data-i18n="fmt.w"></label><input class="us-field num-in" type="number" id="fmtW" min="160" max="3840" step="2" required>
+        <span>×</span>
+        <label class="us-sr" for="fmtH" data-i18n="fmt.h"></label><input class="us-field num-in" type="number" id="fmtH" min="160" max="3840" step="2" required>
+        <span class="note">px</span>
+      </div>
+      <p class="note" id="fmtInfo"></p>
+    </form>
+    <div class="acts">
+      <button type="button" class="us-btn" data-close data-i18n="cancel"></button>
+      <button type="submit" form="fmtForm" class="us-btn us-btn--primary" data-i18n="fmt.go"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Informazioni: chiusura con Richiedi un consiglio e i link di servizio -->
+<div class="veil" id="infoDlg" hidden>
+  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+    <h2 id="infoTitle">The Ultraspeaker Flipbook Lab</h2>
+    <p class="sub" data-i18n="empty.text"></p>
+    <p class="note" data-i18n="info.version"></p>
+    <footer class="us-footer">
+            <a class="us-cta" href="mailto:info@theultraspeaker.com"><img src="assets/arena-white.svg" alt=""><span data-i18n="us.cta"></span></a>
+            <p class="us-links"><a href="support.html" target="_blank" data-i18n="us.support"></a><a href="privacy.html" target="_blank" data-i18n="us.privacy"></a><a href="terms.html" target="_blank" data-i18n="us.terms"></a><a href="GUIDA-INSTALLAZIONE.html" target="_blank" data-i18n="us.install"></a></p>
+          </footer>
+    <div class="acts"><button type="button" class="us-btn" data-close data-i18n="close"></button></div>
   </div>
 </div>
 
@@ -396,15 +275,15 @@ select{height:32px;padding:0 6px;border-radius:var(--radius);background:#111111;
 <div class="drop" id="drop" hidden><img src="assets/flipbook-logetto.svg" alt=""><span data-i18n="dropHere"></span></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="vendor/pdf.min.js"></script>
-<script src="vendor/mp4-muxer.js"></script>
-<script src="vendor/ffmpeg/ffmpeg.js"></script>
-<script src="js/i18n.js"></script>
-<script src="js/engine.js"></script>
-<script src="js/annot.js"></script>
-<script src="js/pages.js"></script>
-<script src="js/store.js"></script>
-<script src="js/export.js"></script>
-<script src="js/app.js"></script>
+<script src="vendor/pdf.min.js?v=20261112"></script>
+<script src="vendor/mp4-muxer.js?v=20261112"></script>
+<script src="vendor/ffmpeg/ffmpeg.js?v=20261112"></script>
+<script src="js/i18n.js?v=20261112"></script>
+<script src="js/engine.js?v=20261112"></script>
+<script src="js/annot.js?v=20261112"></script>
+<script src="js/pages.js?v=20261112"></script>
+<script src="js/store.js?v=20261112"></script>
+<script src="js/export.js?v=20261112"></script>
+<script src="js/app.js?v=20261112"></script>
 </body>
 </html>

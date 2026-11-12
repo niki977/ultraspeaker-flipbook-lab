@@ -9,22 +9,13 @@
   const CAM0 = () => ({ z: 1, x: E.SW / 2, y: E.SH / 2 });
 
   /* ---------- Lingua ---------- */
-  const I18N = window.FB_I18N;
-  const LANGS = I18N.langs.map((l) => l[0]);
-  let LANG = "it";
+  const I18N = window.FB_I18N, UL = window.UltraspeakerLang;
+  let LANG = "en";
   const t = (k, v) => {
-    let s = (I18N[LANG] && I18N[LANG][k]) || I18N.it[k] || k;
+    let s = (I18N[LANG] && I18N[LANG][k]) || I18N.en[k] || k;
     if (v) Object.keys(v).forEach((x) => { s = s.split("{" + x + "}").join(v[x]); });
     return s;
   };
-  function detectLang() {
-    // ?lang=xx nell'indirizzo (per esempio quando si apre dal pannello di PowerPoint), poi la scelta salvata, poi il browser
-    for (const l of [new URLSearchParams(location.search).get("lang"), ST.pref("lang", null), navigator.language]) {
-      const x = (l || "").slice(0, 2).toLowerCase();
-      if (LANGS.includes(x)) return x;
-    }
-    return "en";
-  }
   function applyStatic() {
     document.documentElement.lang = LANG;
     $$("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
@@ -34,7 +25,11 @@
     $$("[data-mode]").forEach((b) => { b.title = t("mode." + b.dataset.mode); b.setAttribute("aria-label", t("mode." + b.dataset.mode)); });
     $("#clearBtn").title = t("clearPage"); $("#clearBtn").setAttribute("aria-label", t("clearPage"));
     $("#lang").value = LANG;
-    buildDots(); syncUI();
+    // chiusura e pulsante «Guida» nella lingua corrente (linea guida §4 e §6)
+    $$(".us-links a").forEach((a) => { a.href = UL.linkWithLang(a.getAttribute("href"), LANG); });
+    $$(".us-cta").forEach((a) => { a.href = "mailto:info@theultraspeaker.com?subject=" + encodeURIComponent(t("us.cta")); });
+    $("#usGuide").href = UL.guideHref("flipbook", LANG);
+    buildFormats(); buildDots(); syncUI();
   }
 
   /* ---------- Stato ---------- */
@@ -46,6 +41,8 @@
   let tool = "hand", color = ST.pref("color", "#ffd400"), markMode = ST.pref("markMode", "keep");
   let anim = null, queue = 0, drag = null, stroke = null, pan = null, peek = { dir: 0, corner: "bottom", amt: 0, target: 0 };
   let cam = CAM0(), camT = CAM0();                   // zoom: posizione attuale e di arrivo
+  let place = E.clampPlace(ST.pref("place", E.PLACE0)); // posizione e grandezza del libro sul palco
+  let fmt = ST.pref("format", "16:9"), fmtW = ST.pref("formatW", 1500), fmtH = ST.pref("formatH", 500);
   let spaceDown = false;
   let rec = null, take = null;
   let dirty = true;
@@ -70,23 +67,84 @@
       layout: o.layout || layout, cover: o.cover == null ? cover : o.cover,
       drawPage: drawPageFor(o.T == null ? now() : o.T, o.reveal),
       bg: o.bg || null, bgImage: o.bgImage || null, cam: o.cam || null,
+      place: o.place || place, outline: o.outline || null,
     };
   }
   function displayOpts(T) {
-    return opts({ T, cam, bg: bgMode === "color" ? bgColor : null, bgImage: bgMode === "image" ? bgImg : null });
+    return opts({ T, cam, bg: bgMode === "color" ? bgColor : null, bgImage: bgMode === "image" ? bgImg : null, outline: tool === "move" ? FOCUS : null });
+  }
+
+  // il bordo del libro con lo strumento Sposta usa il blu del focus della linea guida
+  const FOCUS = getComputedStyle(document.documentElement).getPropertyValue("--us-focus").trim() || "#4F8DFF";
+
+  /* ---------- Formato del video: 16:9, 4:3, 3:1 o misura personalizzata ---------- */
+  const FORMATS = { "16:9": 16 / 9, "4:3": 4 / 3, "3:1": 3 };
+  const even = (n) => Math.max(2, Math.round(n / 2) * 2);
+  const ratio = () => (fmt === "custom" ? fmtW / fmtH : FORMATS[fmt] || 16 / 9);
+  // il palco resta alto 1080: cambia solo la larghezza, così il libro tiene la stessa grandezza
+  function applyFormat() {
+    E.setStage(Math.round(1080 * ratio()), 1080);
+    cam = CAM0(); camT = CAM0();
+    resize(); dirty = true;
+  }
+  function buildFormats() {
+    const sel = $("#fmtSel");
+    sel.innerHTML = Object.keys(FORMATS).map((k) => `<option value="${k}">${k}</option>`).join("") +
+      `<option value="custom">${fmt === "custom" ? fmtW + " × " + fmtH : t("fmt.custom")}</option>`;
+    sel.value = fmt;
+  }
+  function setFormat(k) {
+    fmt = k; ST.setPref("format", fmt);
+    buildFormats(); applyFormat();
+  }
+  function fmtSync() {
+    const w = +$("#fmtW").value, h = +$("#fmtH").value;
+    const ok = w >= 160 && w <= 3840 && h >= 160 && h <= 3840;
+    const r = ok ? (w / h).toFixed(2).replace(/\.?0+$/, "") + ":1" : "–";
+    $("#fmtInfo").textContent = ok ? t("fmt.info", { r }) : t("fmt.err");
+    return ok;
+  }
+  function openFmtDlg() {
+    $("#fmtW").value = fmtW; $("#fmtH").value = fmtH; fmtSync();
+    showDlg("#fmtDlg");
+  }
+  /* misura del video: con un formato fisso l'altezza scelta (1080 o 720), con quello personalizzato la misura esatta */
+  function exportSize(res) {
+    if (fmt === "custom") return { W: even(fmtW), H: even(fmtH) };
+    return { W: even(res * ratio()), H: res };
+  }
+
+  /* ---------- Posizione e grandezza del libro (strumento Sposta) ---------- */
+  let placeT;
+  function setPlace(p) {
+    place = E.clampPlace(p); dirty = true; syncPlace();
+    clearTimeout(placeT); placeT = setTimeout(() => ST.setPref("place", place), 400);
+  }
+  // ingrandisce o riduce il libro tenendo fermo il punto q del palco (sotto il puntatore o tra le dita)
+  function scaleBook(q, s, from, q1) {
+    from = from || place; q1 = q1 || q;
+    const c = { x: E.SW / 2, y: E.SH / 2 }, t0 = { x: from.x * E.SW, y: from.y * E.SH };
+    s = Math.max(0.2, Math.min(3, s));
+    const tx = q1.x - c.x - s * (q.x - c.x - t0.x) / from.s, ty = q1.y - c.y - s * (q.y - c.y - t0.y) / from.s;
+    setPlace({ x: tx / E.SW, y: ty / E.SH, s });
+  }
+  function syncPlace() {
+    $("#placebar").hidden = !(book && tool === "move");
+    $("#placePct").textContent = Math.round(place.s * 100) + "%";
   }
 
   /* ---------- Disegno sullo schermo ---------- */
   const cv = $("#cv"), ctx = cv.getContext("2d");
-  // il palco è sempre 16:9: la misura più grande che entra nello spazio disponibile, senza deformarsi
+  // il palco ha la proporzione del formato scelto: la misura più grande che entra nello spazio disponibile
   function fitStage() {
     const wrap = $("#stagewrap"), stage = $("#stage");
     const cs = getComputedStyle(wrap);
     const aw = wrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     const ah = wrap.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
     if (aw <= 0 || ah <= 0) return;
-    let w = aw, h = aw * 9 / 16;
-    if (h > ah) { h = ah; w = ah * 16 / 9; }
+    const r = E.SW / E.SH;
+    let w = aw, h = aw / r;
+    if (h > ah) { h = ah; w = ah * r; }
     stage.style.width = Math.floor(w) + "px"; stage.style.height = Math.floor(h) + "px";
   }
   function resize() {
@@ -129,7 +187,7 @@
       }
       if (rec) {
         busyAnim = true;
-        rec.snaps.push({ t: T - rec.t0, view: st.view, cam: { ...cam }, flip: st.flip ? { dir: st.flip.dir, corner: st.flip.corner, P: { x: st.flip.P.x, y: st.flip.P.y } } : null });
+        rec.snaps.push({ t: T - rec.t0, view: st.view, cam: { ...cam }, place, flip: st.flip ? { dir: st.flip.dir, corner: st.flip.corner, P: { x: st.flip.P.x, y: st.flip.P.y } } : null });
         const s = Math.floor((T - rec.t0) / 1000);
         $("#recTime").textContent = String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
         if (T - rec.t0 > 15 * 60 * 1000) stopRec();
@@ -203,6 +261,7 @@
   let pinch = null, pinchLock = false;
   function pinchStart() {
     const [a, b] = [...touches.values()];
+    if (moving) moving = null;
     if (stroke) {                                            // il segno iniziato col primo dito non vale
       if (!stroke.erase) { A.end(stroke.s, now()); stroke.s.del = stroke.s.t0; }
       stroke = null; dirty = true;
@@ -210,13 +269,16 @@
     if (drag) { drag = null; st.flip = null; dirty = true; }
     pan = null; peek.target = peek.amt = 0;
     const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-    pinch = { d0: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)), w0: E.toWorld(mid, camT), z0: camT.z };
+    pinch = { d0: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)), w0: E.toWorld(mid, camT), z0: camT.z, pl0: tool === "move" ? { ...place } : null };
     pinchLock = true;
   }
   function pinchMove() {
     const [a, b] = [...touches.values()];
     const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-    const z = Math.max(1, Math.min(5, pinch.z0 * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d0));
+    const k = Math.hypot(a.x - b.x, a.y - b.y) / pinch.d0;
+    // con lo strumento Sposta il pizzico cambia la grandezza del libro, non lo zoom
+    if (pinch.pl0) { scaleBook(pinch.w0, pinch.pl0.s * k, pinch.pl0, E.toWorld(mid, cam)); return; }
+    const z = Math.max(1, Math.min(5, pinch.z0 * k));
     camT = E.clampCam({ z, x: pinch.w0.x - (mid.x - E.SW / 2) / z, y: pinch.w0.y - (mid.y - E.SH / 2) / z });
     cam = { ...camT };
     dirty = true;
@@ -228,7 +290,8 @@
     const r = cv.getBoundingClientRect();
     return { x: (e.clientX - r.left) / r.width * E.SW, y: (e.clientY - r.top) / r.height * E.SH };
   }
-  const worldPt = (e) => E.toWorld(screenPt(e), cam);
+  const worldPt = (e) => E.toBook(screenPt(e), cam, place);
+  let moving = null;                                   // trascinamento del libro con lo strumento Sposta
   function pageRectX(side) { const g = geo(); return (side ? g.S : g.S - g.W) + E.offsetNow({ view: st.view, flip: null }, opts()); }
   function sideAt(p) {
     const g = geo(), ox = E.offsetNow({ view: st.view, flip: null }, opts());
@@ -252,6 +315,7 @@
     const p = worldPt(e);
     // spostarsi nell'ingrandimento: barra spaziatrice, tasto centrale, o strumento lente
     if (spaceDown || e.button === 1 || tool === "zoom" || tool === "zoomout") { startPan(e); return; }
+    if (tool === "move") { moving = { sp: screenPt(e), pl0: { ...place } }; cv.style.cursor = "grabbing"; return; }
     if (tool === "hand") {
       if (anim) return;
       const s = sideAt(p);
@@ -281,6 +345,11 @@
       camT = E.clampCam({ z: pan.cam.z, x: pan.cam.x - dx / pan.cam.z, y: pan.cam.y - dy / pan.cam.z });
       cam = { ...camT };
       dirty = true;
+      return;
+    }
+    if (moving) {
+      const sp = screenPt(e);
+      setPlace({ ...moving.pl0, x: moving.pl0.x + (sp.x - moving.sp.x) / cam.z / E.SW, y: moving.pl0.y + (sp.y - moving.sp.y) / cam.z / E.SH });
       return;
     }
     const p = worldPt(e);
@@ -317,6 +386,7 @@
     }
   }
   function onUp(e) {
+    if (moving) { moving = null; toolCursor(); return; }
     if (pan) {
       const p = pan; pan = null; toolCursor();
       if (!p.moved && (tool === "zoom" || tool === "zoomout")) zoomAt(screenPt(e), ((tool === "zoomout") !== (e.altKey || e.shiftKey)) ? 1 / 1.6 : 1.6);
@@ -342,10 +412,11 @@
     if (!book) return;
     e.preventDefault();
     const f = Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0018));
+    if (tool === "move") { scaleBook(E.toWorld(screenPt(e), cam), place.s * f); return; }
     zoomAt(screenPt(e), f);
   }
   function toolCursor() {
-    cv.style.cursor = tool === "hand" ? "default" : tool === "erase" ? "cell" : tool === "zoom" ? "zoom-in" : tool === "zoomout" ? "zoom-out" : "crosshair";
+    cv.style.cursor = tool === "hand" ? "default" : tool === "move" ? "move" : tool === "erase" ? "cell" : tool === "zoom" ? "zoom-in" : tool === "zoomout" ? "zoom-out" : "crosshair";
   }
 
   /* ---------- Strumenti ---------- */
@@ -377,7 +448,6 @@
     const stage = $("#stage");
     stage.classList.toggle("checker", bgMode === "clear");
     stage.style.background = bgMode === "color" ? bgColor : bgMode === "image" ? "#000000" : "";
-    stage.classList.toggle("light", bgMode === "color" && lum(bgColor) > 0.6);
     $("#stagenote").textContent = !book ? "" : t("note." + bgMode);
     const recording = !!rec;
     $("#recLabel").textContent = recording ? t("stop") : t("rec");
@@ -386,15 +456,13 @@
     stage.classList.toggle("recording", recording);
     ["#openBtn", "#autoBtn", "#optCover"].forEach((s) => { $(s).disabled = recording || (!book && s !== "#openBtn"); });
     $$("#segLayout button, #segBg button").forEach((b) => { b.disabled = recording; });
-    $("#bgColor").disabled = recording; $("#bgImgBtn").disabled = recording;
+    $("#bgColor").disabled = recording; $("#bgImgBtn").disabled = recording; $("#fmtSel").disabled = recording;
     $("#recBtn").disabled = !book;
     $$("#zoomGrp button").forEach((b) => { b.disabled = !book; });
-    $("#doc").hidden = !book;
-    if (book) { $("#docName").textContent = book.name; $("#docInfo").textContent = t("pages", { n: PG.count }); }
-    syncNav();
+    $("#docLine").textContent = book ? book.name + " · " + t("pages", { n: PG.count }) : t("app.sub");
+    syncPlace(); syncNav();
     dirty = true;
   }
-  function lum(hex) { const n = parseInt(hex.slice(1), 16); return (0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255)) / 255; }
 
   /* ---------- Sfondo immagine ---------- */
   // fromUser: scelta adesso (diventa lo sfondo e si ricorda); altrimenti è quella ricordata dall'ultima volta
@@ -555,8 +623,8 @@
       stateAt(ms) {
         let lo = 0, hi = snaps.length - 1;
         while (lo < hi) { const m = (lo + hi + 1) >> 1; if (snaps[m].t <= ms) lo = m; else hi = m - 1; }
-        const s = snaps[lo] || { view: 0, flip: null, cam: CAM0() };
-        return { st: { view: s.view, flip: s.flip }, T: r.t0 + ms, cam: s.cam };
+        const s = snaps[lo] || { view: 0, flip: null, cam: CAM0(), place };
+        return { st: { view: s.view, flip: s.flip }, T: r.t0 + ms, cam: s.cam, place: s.place };
       },
     };
     openExport();
@@ -584,8 +652,8 @@
   }
   function chip(label, on, fn) {
     const b = document.createElement("button");
-    b.type = "button"; b.className = "chip"; b.textContent = label; b.setAttribute("aria-pressed", String(on));
-    b.addEventListener("click", () => { $$(".chip", b.parentElement).forEach((x) => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); fn(); });
+    b.type = "button"; b.className = "us-chip"; b.textContent = label; b.setAttribute("aria-pressed", String(on));
+    b.addEventListener("click", () => { $$(".us-chip", b.parentElement).forEach((x) => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); fn(); });
     return b;
   }
   // durata di disegno di un segno: più lungo il segno, più tempo
@@ -632,20 +700,20 @@
     const lay = layout, cov = cover;
     const g = E.geometry(PG.aspect, lay);
     const { C } = E.corners(g, "bottom");
-    const drawMode = aMarks === "draw";
+    const drawMode = aMarks === "draw", pl = place;
     take = {
       kind: "auto", dur: p.dur, layout: lay, cover: cov,
       stateAt(ms) {
         let seg = p.segs[p.segs.length - 1];
         for (const s of p.segs) if (ms >= s.t0 && ms < s.t0 + s.dur) { seg = s; break; }
         const reveal = drawMode ? (s) => { const x = p.sched.get(s); return x ? Math.max(0, Math.min(1, (ms - x[0]) / x[1])) : 1; } : null;
-        if (seg.type === "hold") return { st: { view: seg.view, flip: null }, T: Infinity, reveal, cam: CAM0() };
+        if (seg.type === "hold") return { st: { view: seg.view, flip: null }, T: Infinity, reveal, cam: CAM0(), place: pl };
         if (seg.type === "close") {
           const k = Math.min(1, (ms - seg.t0) / seg.dur);
-          return { st: { view: seg.view, flip: { dir: -1, to: 0, corner: "bottom", P: E.flipPath(g, "bottom", C, k, true) } }, T: Infinity, reveal, cam: CAM0() };
+          return { st: { view: seg.view, flip: { dir: -1, to: 0, corner: "bottom", P: E.flipPath(g, "bottom", C, k, true) } }, T: Infinity, reveal, cam: CAM0(), place: pl };
         }
         const k = Math.min(1, (ms - seg.t0) / seg.dur);
-        return { st: { view: seg.view, flip: { dir: 1, corner: "bottom", P: E.flipPath(g, "bottom", C, k, true) } }, T: Infinity, reveal, cam: CAM0() };
+        return { st: { view: seg.view, flip: { dir: 1, corner: "bottom", P: E.flipPath(g, "bottom", C, k, true) } }, T: Infinity, reveal, cam: CAM0(), place: pl };
       },
     };
     hideDlg("#autoDlg");
@@ -684,9 +752,11 @@
     if (mp4Bg === "image" && bgImg) { pv.style.background = "#000000 center/cover no-repeat"; pv.style.backgroundImage = $("#bgImgBtn").style.backgroundImage; }
     else { pv.style.backgroundImage = ""; pv.style.background = mp4Color; }
     const rc = $("#resChips"); rc.innerHTML = "";
-    [[1080, "1920 × 1080"], [720, "1280 × 720"]].forEach(([r, l]) => rc.appendChild(chip(l, xRes === r, () => { xRes = r; ST.setPref("xRes", r); syncExport(); })));
-    const secs = take.dur / 1000;
-    const mb = xFmt === "mov" ? secs * (xRes === 1080 ? 12 : 6) : secs * (xRes === 1080 ? 1.6 : 0.8);
+    const sizes = fmt === "custom" ? [0] : [1080, 720];
+    sizes.forEach((r) => { const z = exportSize(r); rc.appendChild(chip(z.W + " × " + z.H, fmt === "custom" || xRes === r, () => { if (r) { xRes = r; ST.setPref("xRes", r); } syncExport(); })); });
+    // peso stimato: proporzionale ai pixel del fotogramma (riferimento 1920 × 1080)
+    const z = exportSize(xRes), area = z.W * z.H / (1920 * 1080), secs = take.dur / 1000;
+    const mb = secs * area * (xFmt === "mov" ? 12 : 1.6);
     $("#expNote").textContent = t(xFmt === "mov" ? "x.noteMov" : "x.noteMp4", { mb: mb < 10 ? mb.toFixed(1) : Math.round(mb) });
   }
   function showExpState(s) {
@@ -706,7 +776,7 @@
     if (!take || xRunning) return;
     xRunning = true; xCancel = false;
     showExpState("run");
-    const W = xRes === 1080 ? 1920 : 1280, H = xRes === 1080 ? 1080 : 720;
+    const { W, H } = exportSize(xRes);
     const frames = Math.max(1, Math.ceil(take.dur / 1000 * FPS));
     const bg = xFmt === "mp4" ? (mp4Bg === "image" ? "#000000" : mp4Color) : null;
     const bgImage = xFmt === "mp4" && mp4Bg === "image" ? bgImg : null;
@@ -731,7 +801,7 @@
           await PG.ensure(need.filter((x) => x != null));
           c.save();
           c.setTransform(w / E.SW, 0, 0, h / E.SH, 0, 0);
-          E.render(c, s, opts({ bg, bgImage, T: f.T, reveal: f.reveal, layout: lay, cover: cov, cam: f.cam }));
+          E.render(c, s, opts({ bg, bgImage, T: f.T, reveal: f.reveal, layout: lay, cover: cov, cam: f.cam, place: f.place }));
           c.restore();
         },
       });
@@ -765,18 +835,31 @@
   let lastFocus = null;
   function showDlg(sel) { lastFocus = document.activeElement; $(sel).hidden = false; const f = $(sel + " button:not([hidden]):not(:disabled), " + sel + " input"); f && f.focus(); }
   function hideDlg(sel) { $(sel).hidden = true; lastFocus && lastFocus.focus && lastFocus.focus(); }
-  const dlgOpen = () => !$("#expDlg").hidden || !$("#autoDlg").hidden || !$("#linkDlg").hidden;
+  const DLGS = ["#expDlg", "#autoDlg", "#linkDlg", "#fmtDlg", "#infoDlg"];
+  const dlgOpen = () => DLGS.some((d) => !$(d).hidden);
 
   const hasFiles = (e) => !!e.dataTransfer && Array.from(e.dataTransfer.types).includes("Files");
 
   /* ---------- Eventi ---------- */
   function wire() {
     const lang = $("#lang");
-    lang.innerHTML = I18N.langs.map(([k, n]) => `<option value="${k}">${n}</option>`).join("");
-    lang.addEventListener("change", () => {
-      LANG = lang.value; ST.setPref("lang", LANG); applyStatic(); lang.blur();   // le frecce tornano a sfogliare
+    UL.bindSelect(lang, LANG, (code) => {
+      LANG = code; applyStatic(); lang.blur();   // le frecce tornano a sfogliare
       if (book && book.sample && book.sample !== LANG && !rec) loadSample(st.view);
     });
+    $("#infoBtn").addEventListener("click", () => showDlg("#infoDlg"));
+    $("#fmtSel").addEventListener("change", (e) => { if (e.target.value === "custom") openFmtDlg(); else setFormat(e.target.value); e.target.blur(); });
+    ["#fmtW", "#fmtH"].forEach((s) => $(s).addEventListener("input", fmtSync));
+    $("#fmtForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!fmtSync()) return;
+      fmtW = even(+$("#fmtW").value); fmtH = even(+$("#fmtH").value);
+      ST.setPref("formatW", fmtW); ST.setPref("formatH", fmtH);
+      hideDlg("#fmtDlg"); setFormat("custom");
+    });
+    $("#placeIn").addEventListener("click", () => scaleBook({ x: E.SW / 2, y: E.SH / 2 }, place.s * 1.15));
+    $("#placeOut").addEventListener("click", () => scaleBook({ x: E.SW / 2, y: E.SH / 2 }, place.s / 1.15));
+    $("#placeReset").addEventListener("click", () => setPlace(E.PLACE0));
     $("#openBtn").addEventListener("click", () => $("#fileIn").click());
     $("#chooseBtn").addEventListener("click", () => $("#fileIn").click());
     $("#sampleBtn").addEventListener("click", () => loadSample());
@@ -826,7 +909,11 @@
     ["#aFrom", "#aTo"].forEach((s) => $(s).addEventListener("input", openAutoSync));
     $$("#aMarks button").forEach((b) => b.addEventListener("click", () => { aMarks = b.dataset.v; ST.setPref("aMarks", aMarks); openAutoSync(); }));
     $("#aClose").addEventListener("change", (e) => { aClose = e.target.checked; ST.setPref("aClose", aClose); openAutoSync(); });
-    $$("[data-close]").forEach((b) => b.addEventListener("click", () => hideDlg("#" + b.closest(".veil").id)));
+    $$("[data-close]").forEach((b) => b.addEventListener("click", () => {
+      const id = "#" + b.closest(".veil").id;
+      if (id === "#fmtDlg") buildFormats();            // annullato: torna il formato di prima
+      hideDlg(id);
+    }));
     $$(".card[data-fmt]").forEach((b) => b.addEventListener("click", () => { xFmt = b.dataset.fmt; syncExport(); }));
     $$("#mp4Bg button").forEach((b) => b.addEventListener("click", () => { mp4Bg = b.dataset.v; syncExport(); }));
     $("#mp4Color").addEventListener("input", (e) => { mp4Color = e.target.value; syncExport(); });
@@ -895,12 +982,12 @@
     document.addEventListener("keydown", (e) => {
       if (e.target && e.target.closest && e.target.closest("input,select,textarea")) return;
       if (dlgOpen()) {
-        if (e.key === "Escape" && !xRunning) { $("#expDlg").hidden = true; $("#autoDlg").hidden = true; $("#linkDlg").hidden = true; }
+        if (e.key === "Escape" && !xRunning) { if (!$("#fmtDlg").hidden) buildFormats(); DLGS.forEach((d) => { $(d).hidden = true; }); }
         return;
       }
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       const k = e.key;
-      const map = { h: "hand", e: "hl", u: "ul", p: "pen", g: "erase", z: "zoom" };
+      const map = { h: "hand", e: "hl", u: "ul", p: "pen", g: "erase", z: "zoom", v: "move" };
       if (k === " ") { e.preventDefault(); if (!spaceDown) { spaceDown = true; cv.style.cursor = "grab"; } return; }
       if (["ArrowRight", "ArrowDown", "PageDown"].includes(k)) { e.preventDefault(); startFlip(1); }
       else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(k)) { e.preventDefault(); startFlip(-1); }
@@ -934,7 +1021,9 @@
 
   /* ---------- Avvio ---------- */
   async function start() {
-    LANG = detectLang();
+    LANG = UL.set(UL.get("flipbooklab.lang"));
+    try { localStorage.removeItem("flipbooklab.lang"); } catch (e) { /* memoria non disponibile */ }
+    E.setStage(Math.round(1080 * ratio()), 1080);
     wire();
     applyStatic();
     setTool("hand");

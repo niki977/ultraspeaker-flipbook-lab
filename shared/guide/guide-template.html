@@ -1,0 +1,145 @@
+<!doctype html>
+<!--
+  MODELLO DI GUIDA D'UTILIZZO — The Ultraspeaker Lab · versione 1.3
+  Copia questo file in guide/src/guide.<lingua>.html (it, en, es, fr, de) e sostituisci i contenuti.
+  Le parti da cambiare sono segnate con [[ ]] nei commenti. Non aggiungere stili qui:
+  tutto lo stile sta in shared/guide/ultraspeaker-guide.css. Il testo di esempio è del QR Lab.
+  Il PDF si genera con:  node shared/guide/build-guide.mjs
+-->
+<html lang="it"><!-- [[ codice lingua ]] -->
+<head>
+<meta charset="utf-8">
+<title>The Ultraspeaker QR Lab · Guida d'utilizzo</title><!-- [[ nome del Lab · titolo tradotto ]] -->
+<link rel="stylesheet" href="../../shared/guide/ultraspeaker-guide.css">
+<!-- Piede di pagina a sinistra: THE ULTRASPEAKER · <NOME> LAB · <GUIDA tradotto> -->
+<style>@page{@bottom-left{content:"THE ULTRASPEAKER  ·  QR LAB  ·  GUIDA";font:700 7pt "Champagne & Limousines",sans-serif;letter-spacing:.32em;color:#8E8E8E;vertical-align:top;padding-top:6mm}}</style>
+</head>
+<body>
+
+<!-- ============ COPERTINA ============ -->
+<section class="g-cover">
+  <img class="g-cover-shadow" src="../../shared/guide/the-shadow.jpg" alt="">
+  <div class="g-cover-body">
+    <img class="g-cover-logo" src="../../assets/logo-qr-lab-white.svg" alt="The Ultraspeaker QR Lab"><!-- [[ logo bianco del Lab ]] -->
+    <p class="g-cover-kicker">Guida d'utilizzo</p>
+    <h1 class="g-cover-title">Dal link alla slide<br>in un minuto</h1><!-- [[ titolo: cosa ottiene l'utente, max 2 righe ]] -->
+    <p class="g-cover-sub">Crea QR code personalizzati e citazioni scientifiche con QR, e inseriscili nelle tue slide di PowerPoint o Keynote.</p><!-- [[ una frase sul Lab ]] -->
+    <div class="g-cover-meta"><span>Versione 1.3 · Novembre 2026</span><span>theultraspeaker.com</span></div><!-- [[ versione del manifest senza l'ultimo .0.0 · mese anno ]] -->
+  </div>
+</section>
+
+<!-- ============ INDICE ============ -->
+<section class="g-toc">
+  <p class="g-label">Indice</p>
+  <h1>In questa guida</h1>
+  <ol><!-- [[ un <li> per capitolo, stessi titoli dei capitoli ]] -->
+    <li><span>01</span><span>Prima di iniziare<small>Cosa fa il QR Lab, dove si trova, versione web e PowerPoint</small></span></li>
+    <li><span>02</span><span>L'interfaccia<small>Le parti dello schermo, una per una</small></span></li>
+    <li><span>03</span><span>Il tuo primo QR<small>Dal contenuto al file nella slide</small></span></li>
+    <li><span>04</span><span>Consigli da speaker<small>Come far funzionare un QR in sala</small></span></li>
+    <li><span>05</span><span>Domande frequenti<small>Problemi comuni e soluzioni</small></span></li>
+  </ol>
+</section>
+
+<!-- ============ CAPITOLO 01 ============ -->
+<section class="g-chapter">
+  <div class="g-chapter-head"><span class="g-chapter-num">01</span><h2 class="g-chapter-title">Prima di iniziare</h2></div>
+  <p class="g-chapter-lead">Il QR Lab trasforma un link, un contatto o una rete Wi-Fi in un QR code con lo stile delle tue slide, pronto da inserire.</p>
+
+  <div class="g-cols">
+    <div>
+      <p class="g-label">In PowerPoint</p>
+      <p>Scheda <b>Home</b> → gruppo <b>The Ultraspeaker</b> → <b>QR Lab</b>. Il pannello si apre a destra e inserisce il QR direttamente nella slide selezionata.</p>
+    </div>
+    <div>
+      <p class="g-label">Nel browser</p>
+      <p>niki977.github.io/ultraspeaker-qr-lab. Funziona su computer e telefono: il QR si scarica in PNG o SVG e si inserisce in qualsiasi programma.</p>
+    </div>
+  </div>
+
+  <div class="g-note"><p class="g-label">Privacy</p><p>Tutto avviene sul tuo dispositivo: i contenuti dei QR non vengono inviati a nessun server.</p></div>
+</section>
+
+<!-- ============ CAPITOLO 02 · schermata con richiami ============ -->
+<section class="g-chapter">
+  <div class="g-chapter-head"><span class="g-chapter-num">02</span><h2 class="g-chapter-title">L'interfaccia</h2></div>
+  <p class="g-chapter-lead">Tre passaggi a sinistra, l'anteprima sempre visibile a destra.</p>
+
+  <!-- I richiami: left/top in percentuale rispetto all'immagine -->
+  <figure class="g-shot">
+    <div class="g-shot-frame">
+      <img src="../img/it/overview.png" alt="">
+      <span class="g-pin" style="left:30%;top:24%">1</span>
+      <span class="g-pin" style="left:30%;top:52%">2</span>
+      <span class="g-pin" style="left:30%;top:72%">3</span>
+      <span class="g-pin" style="left:80%;top:40%">4</span>
+      <span class="g-pin" style="left:93%;top:4%">5</span>
+    </div>
+    <figcaption>Versione web · computer</figcaption>
+  </figure>
+  <ol class="g-legend">
+    <li><span>1</span><span><b>Tipo di QR.</b> Link, testo, email, telefono, Wi-Fi, contatto e altri.</span></li>
+    <li><span>2</span><span><b>Contenuto.</b> I campi cambiano in base al tipo scelto.</span></li>
+    <li><span>3</span><span><b>Design.</b> Modelli rapidi, forme, colori, logo e cornice.</span></li>
+    <li><span>4</span><span><b>Anteprima e download.</b> Larghezza di stampa, PNG o SVG.</span></li>
+    <li><span>5</span><span><b>Lingua e guida.</b> Cambia lingua o apri questa guida.</span></li>
+  </ol>
+</section>
+
+<!-- ============ CAPITOLO 03 · passi numerati ============ -->
+<section class="g-chapter">
+  <div class="g-chapter-head"><span class="g-chapter-num">03</span><h2 class="g-chapter-title">Il tuo primo QR</h2></div>
+  <p class="g-chapter-lead">Un QR verso la pagina del tuo corso, nella slide finale del talk.</p>
+  <div class="g-cols">
+    <ol class="g-steps">
+      <li><div><b>Scegli «Link»</b> nel passo 1.</div></li>
+      <li><div><b>Incolla l'indirizzo</b> nel campo «Indirizzo web». L'anteprima si aggiorna mentre scrivi.</div></li>
+      <li><div><b>Scegli un modello</b> in «Modelli rapidi»: «Ultraspeaker» è bianco e nero, il più leggibile.</div></li>
+      <li><div><b>Imposta la larghezza di stampa</b> (5 cm per una slide, 3 cm per un poster A4).</div></li>
+      <li><div><b>Scarica PNG</b>, oppure in PowerPoint <b>Inserisci nella slide</b>.</div></li>
+    </ol>
+    <figure class="g-shot g-shot--panel">
+      <div class="g-shot-frame"><img src="../img/it/preview.png" alt=""></div>
+      <figcaption>Anteprima e download</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ CAPITOLO 04 · consiglio da speaker ============ -->
+<section class="g-chapter">
+  <div class="g-chapter-head"><span class="g-chapter-num">04</span><h2 class="g-chapter-title">Consigli da speaker</h2></div>
+  <p class="g-chapter-lead">Un QR funziona solo se il pubblico riesce a inquadrarlo dal proprio posto.</p>
+  <div class="g-tip">
+    <p class="g-label">Consiglio da speaker</p>
+    <p>Lascia il QR sullo schermo almeno 10 secondi e dillo a voce: «Inquadrate il codice per scaricare le slide». Senza invito, quasi nessuno prende il telefono.</p>
+  </div>
+  <table>
+    <tr><th>Sala</th><th>Distanza dall'ultima fila</th><th>Lato del QR sullo schermo</th></tr>
+    <tr><td>Aula piccola</td><td>fino a 10 m</td><td>almeno 1/6 dell'altezza della slide</td></tr>
+    <tr><td>Sala congressi</td><td>10–25 m</td><td>almeno 1/4 dell'altezza</td></tr>
+    <tr><td>Plenaria</td><td>oltre 25 m</td><td>almeno 1/3, da solo sulla slide</td></tr>
+  </table>
+</section>
+
+<!-- ============ CAPITOLO 05 · domande frequenti ============ -->
+<section class="g-chapter">
+  <div class="g-chapter-head"><span class="g-chapter-num">05</span><h2 class="g-chapter-title">Domande frequenti</h2></div>
+  <dl class="g-faq">
+    <dt>Il QR scade?</dt>
+    <dd>No. È un QR statico: contiene direttamente il link e funziona per sempre, senza tracciamento.</dd>
+    <dt>Non vedo QR Lab nella scheda Home.</dt>
+    <dd>Reinstalla l'add-in seguendo la pagina «Installazione» del sito, poi riapri PowerPoint.</dd>
+  </dl>
+  <div class="g-note"><p class="g-label">Assistenza</p><p>Scrivi a info@theultraspeaker.com indicando il Lab, il computer e la versione di PowerPoint.</p></div>
+</section>
+
+<!-- ============ CHIUSURA (sempre uguale, solo testi tradotti) ============ -->
+<section class="g-back">
+  <img class="g-back-arena" src="../../shared/guide/arena-white.svg" alt="">
+  <p class="g-back-claim">Knowledge is not enough.<br><i>From expert to Ultraspeaker.</i></p><!-- il claim resta in inglese (Brand Book p. 19) -->
+  <a class="g-back-cta" href="mailto:info@theultraspeaker.com?subject=Richiedi%20un%20consiglio">Richiedi un consiglio</a><!-- [[ CTA tradotta: Richiedi un consiglio · Ask for advice · Pide un consejo · Demander un conseil · Rat einholen ]] -->
+  <p class="g-back-contacts">theultraspeaker.com · info@theultraspeaker.com</p>
+</section>
+
+</body>
+</html>

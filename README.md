@@ -1,65 +1,79 @@
 # The Ultraspeaker Flipbook Lab
 
-App online che trasforma un PDF in un **libro da sfogliare**, con **sottolineature** e **registrazione video**:
-MOV con **sfondo trasparente** per Keynote, MP4 con **il colore della slide** per PowerPoint.
-Funziona nel browser (Chrome, Edge, Safari recenti), senza installare nulla. Interfaccia in italiano, inglese, spagnolo, francese e tedesco.
+App web che trasforma un .pdf in un **libro da sfogliare**: lo sottolinei e registri un **video** da mettere nelle slide.
 
-Grafica conforme al **Brand Book 1.0** di The Ultraspeaker: carattere Champagne & Limousines, palette monocromatica (ambra solo per gli avvisi e la registrazione in corso, blu per il focus), angoli di 10 px, pulsante principale bianco, nessuna ombra.
+- **MOV trasparente** (ProRes 4444 con canale alfa) per Keynote.
+- **MP4 con colore o immagine** (H.264) per PowerPoint: con lo sfondo della slide sembra trasparente.
+
+Funziona nel browser, senza installare nulla, in italiano, inglese, spagnolo, francese e tedesco. Il PDF non lascia il dispositivo.
+
+- **Indirizzo:** https://niki977.github.io/ultraspeaker-flipbook-lab/
+- **Repository:** https://github.com/niki977/ultraspeaker-flipbook-lab (GitHub Pages, ramo `main`, cartella principale)
+- **Famiglia:** The Ultraspeaker Lab (QR, Image, Flipbook, Projector, Check), uniformati alla linea guida 1.3 con il kit comune in `shared/`.
 
 ## Cosa fa
 
-- **Sfogliare**: trascina l’angolo della pagina, clicca sulla pagina, usa ◀ ▶ o le frecce della tastiera.
-  Vista **Libro** (due pagine, copertina da sola) o **Pagina** singola.
-- **Aprire un PDF**: pulsante Apri PDF oppure trascinalo nella finestra (anche con un libro già aperto). Trascinando un’immagine, diventa lo sfondo.
-- **Da un link**: pulsante **Link** (o «Da un link»): incolli l’indirizzo e l’app scarica il PDF. Vanno i link diretti a un .pdf e i link di condivisione di Dropbox, Google Drive, OneDrive e GitHub, se il file è pubblico e il sito permette il download da altre pagine.
-  Con `?pdf=` nell’indirizzo dell’app il PDF si apre da solo, per esempio `https://niki977.github.io/ultraspeaker-flipbook-lab/?pdf=https://…/file.pdf`.
-- **Sottolineare**: Evidenzia (E) e Sottolinea (U) **si agganciano al testo come una selezione**: parola per parola, anche su più righe,
-  restando nella stessa colonna (articoli a due colonne compresi). Un clic segna una parola. Penna (P), Gomma (G), 6 colori.
-  L’aggancio usa il testo del PDF: con le scansioni senza testo la linea resta dritta ma libera.
-  Ogni segno può **restare** oppure **svanire dopo 3 secondi** (tasto M per passare dall’uno all’altro).
-- **Zoom**: rotellina del mouse (o pizzico sul trackpad) sul punto da ingrandire, pulsanti − % +, strumenti Lente per ingrandire (Z) e per ridurre (⇧Z).
-  Su telefono e tablet: pizzico con due dita sul libro per ingrandire, ridurre e spostarsi.
-  Per spostarti: tieni premuta la barra spaziatrice e trascina, oppure trascina fuori dalle pagine. Lo zoom entra nella registrazione.
-- **Sfondo**: trasparente, a colore o un’immagine.
-- **Registrare dal vivo**: premi **Registra** (o R), sfoglia e sottolinea, premi **Stop**. Il video riproduce esattamente
-  quello che hai fatto, ma solo il libro: niente mouse, niente interfaccia.
-- **Video automatico**: scegli le pagine, i secondi su ogni pagina e la velocità del giro: le pagine si girano da sole.
-  Opzione **Sottolineature che si disegnano da sole**: prepara prima i segni (modalità «restano») e nel video compaiono uno dopo l’altro, nell’ordine di lettura,
-  con una pausa a scelta dopo l’ultimo segno. Opzione **Richiudi il libro sulla copertina** alla fine del video.
-- **Esportare**:
-  - **MOV trasparente** (ProRes 4444 con canale alfa) → Keynote, Final Cut. File grandi: circa 12 MB al secondo in 1920×1080.
-  - **MP4 con colore o immagine** (H.264) → PowerPoint su Mac e Windows. Usa lo stesso sfondo della slide.
-- **Sul telefono**: a video pronto, il pulsante **Salva o condividi** apre il menu Condividi del sistema: «Salva video» lo mette nelle Foto, oppure lo invii con WhatsApp, Messaggi o Mail. Sul telefono il formato proposto è l’MP4.
-- L’ultimo PDF, con le sottolineature fisse, resta memorizzato **in questo browser**. Il PDF non viene inviato a nessun server.
-
-Perché due formati: PowerPoint non mostra la trasparenza dei video in modo affidabile durante la presentazione
-(su Mac lo sfondo diventa nero), mentre Keynote sì. Con l’MP4 dello stesso colore della slide il risultato in PowerPoint è identico.
-
-## Pubblicazione su GitHub Pages
-
-Passo passo in **GUIDA-INSTALLAZIONE.html** (aprila con doppio clic). In breve: repository pubblico `ultraspeaker-flipbook-lab`,
-caricamento con GitHub Desktop di tutto il contenuto della cartella, poi *Settings → Pages → main / (root)*.
-Serve GitHub Desktop perché `vendor/ffmpeg/ffmpeg-core.wasm` (31 MB, il motore del MOV trasparente) supera il limite di 25 MB
-del caricamento dal sito di GitHub.
+- **Aprire un PDF:** Apri PDF, trascinamento nella finestra (un'immagine trascinata diventa lo sfondo), **Link** (Dropbox, Google Drive, OneDrive, GitHub o link diretto; il file deve essere pubblico e scaricabile da altre pagine). `?pdf=<link>` apre subito un PDF, `?lang=it|en|es|fr|de` sceglie la lingua.
+- **Sfogliare:** angolo trascinabile, clic, frecce; vista Libro (copertina da sola) o Pagina.
+- **Segni:** Evidenzia (E) e Sottolinea (U) agganciati al testo del PDF, Penna (P), Gomma (G), sei colori; segni che restano o che svaniscono dopo 3 secondi (M).
+- **Zoom:** rotellina, pizzico, pulsanti − % +, Lente (Z) e Lente − (⇧Z). Lo zoom entra nella registrazione.
+- **Formato del video:** 16:9, 4:3, 3:1 o personalizzato (larghezza × altezza in pixel, da 160 a 3840).
+- **Sposta (V):** trascina il libro sul palco; rotellina, pizzico o − % + per ingrandirlo o rimpicciolirlo; «Centra» lo rimette al centro. Serve a collocarlo sopra un'immagine di sfondo e vale anche nel video.
+- **Sfondo:** trasparente, colore o immagine.
+- **Registra** (R) dal vivo oppure **Video automatico** (pagine, secondi, velocità, sottolineature che si disegnano da sole, chiusura sulla copertina).
+- **Esporta:** MOV o MP4. Con i formati fissi a 1080 o 720 px di altezza, con quello personalizzato alla misura esatta. «Scarica il video», «Salva in…» (Chrome, Edge) e, sul telefono, «Salva o condividi».
+- **Memoria:** sul computer l'ultimo PDF, la pagina e i segni (IndexedDB `flipbook-lab`); le preferenze in `ultraspeaker.flipbook.*`, la lingua in `ultraspeaker.lang`. Le vecchie chiavi `flipbooklab.*` vengono copiate e cancellate al primo avvio.
+- **Pannello di PowerPoint** (in prova, fase 2): `addin.html` apre l'app nel browser, perché PowerPoint per Mac non lascia salvare file ai componenti aggiuntivi.
 
 ## File
 
-| File | Cosa contiene |
+| File | Contenuto |
 |---|---|
-| `index.html` | L’interfaccia |
-| `js/engine.js` | Il libro disegnato su canvas: piega della pagina, ombre, sfondo trasparente |
-| `js/annot.js` | Evidenziatore, sottolineatura, penna, gomma, segni che svaniscono |
-| `js/pages.js` | Conversione delle pagine PDF in immagini nitide |
-| `js/export.js` | Video: MOV ProRes 4444 con trasparenza, MP4 H.264 |
-| `js/app.js` | Collegamenti tra interfaccia, registrazione ed esportazione |
-| `js/store.js` | Memoria dell’ultimo PDF nel browser |
-| `js/i18n.js` | Testi nelle 5 lingue |
+| `index.html`, `css/app.css` | Interfaccia e stile proprio del Lab (dopo `shared/ultraspeaker-lab.css`) |
+| `js/app.js` | Collegamenti tra interfaccia, formato, strumento Sposta, registrazione, esportazione e memoria |
+| `js/engine.js` | Libro disegnato su canvas: piega, ombre, zoom, palco a formato variabile, posizione del libro |
+| `js/annot.js` | Segni agganciati al testo, sbiadimento, gomma |
+| `js/pages.js` | PDF → immagini con pdf.js, righe di testo, cache |
+| `js/store.js` | Memoria del browser e migrazione delle preferenze |
+| `js/export.js` | MOV (ffmpeg.wasm + muxer MOV) e MP4 (WebCodecs + mp4-muxer) |
+| `js/i18n.js` | Testi nelle cinque lingue, anche del pannello (`p.*`) |
+| `js/addin.js`, `addin.html` | Pannello di PowerPoint |
+| `js/legal.js` | Menu e lingua delle pagine di servizio |
+| `support.html`, `privacy.html`, `terms.html`, `GUIDA-INSTALLAZIONE.html` | Pagine di servizio, cinque lingue nel file |
+| `ultraspeaker-flipbook-lab-manifest.xml` | Manifest dell'add-in (Id `efb799d0-d3c9-41ef-bb99-1e0e0cbf0a3b`) |
+| `site.webmanifest` | Nome e icone per la schermata Home |
+| `guide/` | Guide d'utilizzo PDF, sorgenti, screenshot e `capture.mjs` |
+| `demo/` | Guida di esempio da sfogliare, in cinque lingue |
+| `shared/`, `fonts/` | Kit comune 1.3 e Champagne & Limousines (non si modificano qui) |
 | `vendor/` | pdf.js (Apache 2.0), mp4-muxer (MIT), ffmpeg.wasm (MIT; core FFmpeg GPL-2.0-or-later, vedi `vendor/ffmpeg/LICENZE.txt`) |
-| `assets/`, `fonts/` | Loghi, icone, carattere Champagne & Limousines (Brand Book 1.0) |
-| `addin.html`, `ultraspeaker-flipbook-lab-manifest.xml` | Componente aggiuntivo di PowerPoint: pulsante Flipbook Lab nella scheda Home, che apre l’app nel browser |
-| `GUIDA-INSTALLAZIONE.html` | Come mettere l’app online su GitHub Pages |
-| `demo/esempio-it.pdf` … `esempio-de.pdf` | Guida di esempio nelle 5 lingue (A4, copertina con la scena della homepage del sito): l’app apre quella della lingua scelta |
 
-## Scorciatoie
+## Decisioni tecniche da non annullare
 
-← → sfoglia · + − 0 zoom · spazio+trascina sposta · H sfoglia · E evidenzia · U sottolinea · P penna · G gomma · Z lente · ⇧Z riduci · M resta/svanisce · R registra/stop · Esc chiude
+- **Trasparenza in Keynote:** `fixProres()` in `export.js` corregge i fotogrammi ProRes di ffmpeg 5/6 (versione dell'intestazione 1, bit di ripetizione alla fine dei dati alfa).
+- **MOV in Safari:** il motore riparte ogni 15 blocchi e ogni blocco si ritenta una volta, contro i limiti di memoria.
+- **Pagine bianche in Safari:** si salvano byte e non Blob in IndexedDB; pdf.js con `disableFontFace`.
+- **MP4** solo con WebCodecs; il livello H.264 sale con la misura del video (4.0 fino a 1920 × 1080, poi 5.0 o 5.1).
+
+## Pubblicare un aggiornamento
+
+Si usa sempre **GitHub Desktop**: `vendor/ffmpeg/ffmpeg-core.wasm` pesa 31 MB, oltre il limite di 25 MB del caricamento dal sito.
+
+1. Estrai lo zip e copiane il contenuto nella cartella del repository (**Sostituisci**). I file da eliminare vanno tolti a mano.
+2. In GitHub Desktop scrivi il messaggio, **Commit to main**, poi **Push origin**.
+3. Dopo 1–2 minuti ricarica il sito con ⌘⇧R.
+
+A ogni rilascio si aggiorna `?v=AAAAMMGG` su CSS e JS.
+
+## Aggiornare la guida d'utilizzo
+
+```bash
+node guide/capture.mjs              # rifà gli screenshot in guide/img/<lingua>/
+node shared/guide/build-guide.mjs   # genera guide/flipbook-lab-guide-<lingua>.pdf
+```
+
+Servono Node e Playwright (`npm i playwright`, fuori dal repository o con `node_modules/` ignorato).
+
+## Versioni
+
+- **1.1 (novembre 2026):** linea guida 1.3 (kit comune, intestazione, chiusura, pagine di servizio, lingua comune, chiavi `ultraspeaker.flipbook.*`), formato del video a scelta, strumento Sposta, guida d'utilizzo PDF, manifest 1.1.0.0.
+- **1.0 (ottobre 2026):** prima versione online; Brand Book 1.0, componente aggiuntivo che apre l'app nel browser.

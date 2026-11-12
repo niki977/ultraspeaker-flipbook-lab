@@ -1,8 +1,10 @@
 /* The Ultraspeaker Flipbook Lab – motore del libro disegnato su canvas.
-   Tutto è in coordinate "palco" 1920×1080: lo stesso disegno serve per lo schermo e per il video. */
+   Tutto è in coordinate "palco": lo stesso disegno serve per lo schermo e per il video.
+   Il palco è alto 1080 e largo quanto chiede il formato scelto (16:9 → 1920, 4:3 → 1440, 3:1 → 3240…). */
 (function () {
   "use strict";
-  const SW = 1920, SH = 1080;
+  let SW = 1920, SH = 1080;
+  function setStage(w, h) { SW = w; SH = h; }
   const PAPER = -2;                       // retro bianco del foglio (vista a pagina singola)
 
   /* ---------- Viste (coppie di pagine) ---------- */
@@ -76,7 +78,18 @@
   }
 
   /* ---------- Disegno ---------- */
-  /* opts: {pageCount, aspect, layout, cover, drawPage(ctx, idx, x, y, w, h), bg (null = trasparente), bgImage, cam} */
+  /* posizione e grandezza del libro sul palco: {x, y} spostamento in frazioni del palco, s grandezza (1 = centrato, misura piena) */
+  const PLACE0 = { x: 0, y: 0, s: 1 };
+  const isPlaced = (pl) => pl && (pl.x || pl.y || pl.s !== 1);
+  function applyPlace(ctx, pl) {
+    ctx.translate(SW / 2 + pl.x * SW, SH / 2 + pl.y * SH); ctx.scale(pl.s, pl.s); ctx.translate(-SW / 2, -SH / 2);
+  }
+  function clampPlace(pl) {
+    const s = Math.max(0.2, Math.min(3, pl.s));
+    return { s, x: Math.max(-0.75, Math.min(0.75, pl.x)), y: Math.max(-0.75, Math.min(0.75, pl.y)) };
+  }
+
+  /* opts: {pageCount, aspect, layout, cover, drawPage(ctx, idx, x, y, w, h), bg (null = trasparente), bgImage, cam, place, outline (colore del bordo o null)} */
   function render(ctx, st, o) {
     const g = geometry(o.aspect, o.layout);
     const views = buildViews(o.pageCount, o.layout, o.cover);
@@ -94,6 +107,7 @@
     if (cam && (cam.z !== 1 || cam.x !== SW / 2 || cam.y !== SH / 2)) {
       ctx.translate(SW / 2, SH / 2); ctx.scale(cam.z, cam.z); ctx.translate(-cam.x, -cam.y);
     }
+    if (isPlaced(o.place)) applyPlace(ctx, o.place);
     const vi = Math.max(0, Math.min(views.length - 1, st.view));
     const cur = views[vi];
     const f = st.flip;
@@ -148,6 +162,12 @@
       bookShadow(rs);
       page(cur[0], L); page(cur[1], R);
       gutter(cur[0] != null, cur[1] != null);
+      if (o.outline && rs.length) {
+        // solo sullo schermo, con lo strumento Sposta: il bordo del libro da trascinare
+        const x0 = rs[0].x, x1 = rs[rs.length - 1].x + g.W;
+        ctx.setLineDash([g.H * 0.02, g.H * 0.014]); ctx.lineWidth = g.H * 0.004; ctx.strokeStyle = o.outline;
+        ctx.strokeRect(x0 - g.H * 0.012, g.y0 - g.H * 0.012, x1 - x0 + g.H * 0.024, g.H * 1.024);
+      }
       ctx.restore();
       return;
     }
@@ -268,11 +288,20 @@
 
   /* telecamera: dal punto sullo schermo (palco) al punto nel mondo del libro, e ritorno */
   function toWorld(p, cam) { return { x: (p.x - SW / 2) / cam.z + cam.x, y: (p.y - SH / 2) / cam.z + cam.y }; }
+  /* dal punto sullo schermo al punto del libro: telecamera, poi posizione e grandezza del libro */
+  function toBook(p, cam, pl) {
+    const w = toWorld(p, cam);
+    if (!isPlaced(pl)) return w;
+    return { x: SW / 2 + (w.x - SW / 2 - pl.x * SW) / pl.s, y: SH / 2 + (w.y - SH / 2 - pl.y * SH) / pl.s };
+  }
   function clampCam(cam) {
     const z = Math.max(1, Math.min(5, cam.z));
     const hw = SW / 2 / z, hh = SH / 2 / z;
     return { z, x: Math.max(hw, Math.min(SW - hw, cam.x)), y: Math.max(hh, Math.min(SH - hh, cam.y)) };
   }
 
-  window.FBEngine = { SW, SH, buildViews, geometry, corners, constrain, render, flipPath, hitPage, offsetNow, toWorld, clampCam };
+  window.FBEngine = {
+    get SW() { return SW; }, get SH() { return SH; }, setStage, PLACE0, clampPlace,
+    buildViews, geometry, corners, constrain, render, flipPath, hitPage, offsetNow, toWorld, toBook, clampCam,
+  };
 })();

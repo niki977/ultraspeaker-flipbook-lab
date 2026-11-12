@@ -1,0 +1,89 @@
+<!doctype html>
+<!--
+  ESEMPIO DI PAGINA DI UN LAB — The Ultraspeaker Lab · kit 1.3 (Linea guida §4, §5, §6)
+  Mostra intestazione (logo, riga sotto il logo, selettore lingua, pulsante «Guida»), chiusura e avvio della lingua.
+  Le parti tra < > vanno sostituite. Non è una pagina da pubblicare così com'è.
+-->
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Ultraspeaker <Nome> Lab</title>
+  <meta name="description" content="<Descrizione in inglese>">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-title" content="<Nome> Lab">
+  <meta name="application-name" content="<Nome> Lab">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261105">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/<nome>-lab-icon-32.png?v=20261105">
+  <link rel="apple-touch-icon" href="assets/<nome>-lab-icon-180.png?v=20261105">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="shared/ultraspeaker-lab.css?v=20261105">
+  <link rel="stylesheet" href="css/app.css?v=20261105">
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script src="shared/ultraspeaker-lang.js?v=20261105"></script>
+</head>
+<body>
+<div class="us-page us-page--narrow">
+
+  <header class="us-header">
+    <div>
+      <a class="us-logo" href="https://www.theultraspeaker.com" target="_blank" rel="noopener">
+        <img src="assets/logo-<nome>-lab-white.svg" alt="The Ultraspeaker <Nome> Lab">
+      </a>
+      <p class="us-subtitle" data-i18n="app.sub">Descrizione breve del Lab</p>
+    </div>
+    <!-- A destra, come ultimi due elementi: prima il selettore lingua, poi «Guida» -->
+    <div class="us-header-tools">
+      <label class="us-lang">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+        <span class="us-sr" data-i18n="us.language">Lingua</span>
+        <select id="usLang"></select>
+      </label>
+      <!-- Su telefono e nel pannello si vede solo l'icona: il nome resta in aria-label -->
+      <a class="us-btn us-guide" id="usGuide" target="_blank" rel="noopener" href="guide/<nome>-lab-guide-it.pdf" aria-label="Guida d'utilizzo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+          <path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+        <span data-i18n="us.guide">Guida</span>
+      </a>
+    </div>
+  </header>
+
+  <main> … contenuto del Lab … </main>
+
+  <footer class="us-footer">
+    <a class="us-cta" href="mailto:info@theultraspeaker.com?subject=Richiedi%20un%20consiglio">
+      <img src="assets/arena-white.svg" alt=""><span data-i18n="us.cta">Richiedi un consiglio</span>
+    </a>
+    <p class="us-links">
+      <a href="support.html" target="_blank" data-i18n="us.support">Supporto</a><a
+         href="privacy.html" target="_blank" data-i18n="us.privacy">Privacy</a><a
+         href="terms.html" target="_blank" data-i18n="us.terms">Condizioni d'uso</a><a
+         href="GUIDA-INSTALLAZIONE.html" target="_blank" data-i18n="us.install">Installazione</a>
+    </p>
+  </footer>
+</div>
+<script>
+  /* Avvio: nel pannello la lingua di Office conta prima di quella del sistema */
+  function start(hostLang) {
+    var L = UltraspeakerLang, lang = L.set(L.get("<vecchia-chiave>", hostLang));
+    L.bindSelect(document.getElementById("usLang"), lang, applyLanguage);
+    applyLanguage(lang);
+  }
+  function applyLanguage(lang) {
+    /* … traduce i testi data-i18n … */
+    document.querySelectorAll(".us-links a").forEach(function (a) {
+      a.href = UltraspeakerLang.linkWithLang(a.getAttribute("href"), lang);
+    });
+    var guide = document.getElementById("usGuide");
+    guide.href = UltraspeakerLang.guideHref("<nome>", lang);
+    guide.setAttribute("aria-label", /* testo us.guide.title nella lingua corrente */ "Guida d'utilizzo");
+  }
+  if (window.Office) Office.onReady(function (info) {
+    if (info.host) document.body.classList.add("us-addin");
+    start(info.host ? Office.context.displayLanguage : null);
+  }); else start(null);
+</script>
+</body>
+</html>

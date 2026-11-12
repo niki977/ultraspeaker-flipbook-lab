@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy · The Ultraspeaker Flipbook Lab</title>
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261112">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/flipbook-lab-icon-32.png?v=20261112">
+<link rel="apple-touch-icon" href="assets/flipbook-lab-icon-180.png?v=20261112">
+<link rel="stylesheet" href="shared/ultraspeaker-lab.css?v=20261112">
+<link rel="stylesheet" href="css/app.css?v=20261112">
+<script src="shared/ultraspeaker-lang.js?v=20261112"></script>
+<!-- Lingua letta prima del disegno della pagina, così compare subito il testo giusto -->
+<script>document.documentElement.lang = UltraspeakerLang.get("flipbooklab.lang");</script>
+</head>
+<body data-page="privacy">
+<div class="us-doc">
+  <header class="us-header">
+    <a class="us-logo" href="https://www.theultraspeaker.com" target="_blank" rel="noopener"><img src="assets/logo-flipbook-lab-white.svg?v=20261112" alt="The Ultraspeaker Flipbook Lab" width="181" height="60"></a>
+    <div class="us-header-tools">
+      <label class="us-lang"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="us-sr" data-t="language">Lingua</span><select id="lang"></select></label>
+      <a class="us-btn us-guide" id="usGuide" href="guide/flipbook-lab-guide-en.pdf" target="_blank" rel="noopener" aria-label="Guida d'utilizzo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-t="guide">Guida</span></a>
+    </div>
+  </header>
+  <nav class="us-doc-nav"><a href="support.html" data-nav="support">Supporto</a><a href="privacy.html" data-nav="privacy" aria-current="page">Privacy</a><a href="terms.html" data-nav="terms">Condizioni d'uso</a><a href="GUIDA-INSTALLAZIONE.html" data-nav="install">Installazione</a></nav>
+<main>
+<div data-lang="it" lang="it">
+<h1>Informativa sulla privacy – The Ultraspeaker Flipbook Lab</h1>
+<p class="us-updated">Ultimo aggiornamento: 12 novembre 2026</p>
+<p><b>Titolare:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
+<h2>In breve</h2>
+<p>The Ultraspeaker Flipbook Lab <b>non raccoglie, non invia a noi e non vende dati personali</b>. Il PDF che apri resta sul tuo dispositivo e non viene mai inviato a server di The Ultraspeaker o di terzi. Non ci sono account, cookie, statistiche d'uso o pubblicità.</p>
+<h2>Cosa fa l'app con i tuoi file</h2>
+<ul>
+<li><b>PDF e immagini:</b> il PDF e l'eventuale immagine di sfondo vengono letti ed elaborati nel browser. Le pagine diventano immagini e il video si crea sul dispositivo.</li>
+<li><b>Librerie in locale:</b> <b>pdf.js</b> legge il PDF, <b>ffmpeg.wasm</b> crea il MOV trasparente e <b>mp4-muxer</b> crea l'MP4. Sono file dell'app, scaricati con le sue pagine, e lavorano nel browser senza inviare nulla.</li>
+<li><b>Apertura da un link:</b> se incolli un indirizzo, o apri l'app con <code>?pdf=</code>, il browser scarica il PDF direttamente da quell'indirizzo. Il sito che ospita il file (per esempio Dropbox, Google Drive, OneDrive o GitHub) riceve la richiesta come per qualsiasi download, con le sue regole sulla privacy.</li>
+<li><b>Video:</b> si scarica sul dispositivo o, sul telefono, si passa al menu di condivisione del sistema solo quando lo scegli tu.</li>
+</ul>
+<h2>Informazioni salvate sul dispositivo</h2>
+<ul>
+<li><b>Sul computer</b>, nel database del browser <code>flipbook-lab</code> (IndexedDB): l'ultimo PDF aperto, come immagini delle pagine con il testo delle righe; la pagina a cui eri e i segni che restano; l'immagine di sfondo. Servono a ritrovare il lavoro alla prossima apertura. Sul telefono il PDF non viene salvato: l'app riparte sempre dalla pagina iniziale. L'immagine di sfondo invece resta anche lì.</li>
+<li>Le preferenze, nella memoria locale del browser con chiavi <code>ultraspeaker.flipbook.*</code>: vista, copertina, sfondo e colore, colore e durata dei segni, impostazioni del video automatico, risoluzione, formato del video, posizione e grandezza del libro.</li>
+<li>La lingua scelta, con la chiave <code>ultraspeaker.lang</code>, comune a tutti i Lab The Ultraspeaker. Le versioni precedenti usavano chiavi <code>flipbooklab.*</code>: al primo avvio i valori vengono copiati nelle chiavi nuove e quelle vecchie vengono cancellate.</li>
+<li>Puoi cancellare tutto svuotando i dati del sito nel browser.</li>
+</ul>
+<h2>Servizi di terze parti</h2>
+<ul>
+<li>I file dell'app sono ospitati su <b>GitHub Pages</b> (GitHub, Inc.). Come ogni sito web, riceve l'indirizzo IP del dispositivo per consegnare le pagine. Vedi <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
+<li>Nel pannello di PowerPoint l'app usa la libreria <b>Office.js</b>, caricata dai server Microsoft. Vedi <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
+<li>Non usiamo altri servizi esterni, sistemi di tracciamento o circuiti pubblicitari.</li>
+</ul>
+<h2>I tuoi diritti</h2>
+<p>Poiché l'app non tratta dati personali, non abbiamo dati da consultare, correggere o cancellare. Per qualsiasi domanda scrivi a <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Puoi sempre rivolgerti al Garante per la protezione dei dati personali.</p>
+<h2>Minori</h2>
+<p>L'app è pensata per un uso professionale e non è rivolta ai minori.</p>
+<h2>Modifiche</h2>
+<p>Se questa informativa cambia, aggiorniamo questa pagina e la data in alto.</p>
+</div>
+<div data-lang="en" lang="en">
+<h1>Privacy policy – The Ultraspeaker Flipbook Lab</h1>
+<p class="us-updated">Last updated: 12 November 2026</p>
+<p><b>Owner:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
+<h2>Summary</h2>
+<p>The Ultraspeaker Flipbook Lab <b>does not collect, send to us or sell any personal data</b>. The PDF you open stays on your device and is never sent to servers run by The Ultraspeaker or by third parties. There are no accounts, cookies, usage statistics or advertising.</p>
+<h2>What the app does with your files</h2>
+<ul>
+<li><b>PDFs and images:</b> the PDF and any background image are read and processed in the browser. The pages become images and the video is created on your device.</li>
+<li><b>Local libraries:</b> <b>pdf.js</b> reads the PDF, <b>ffmpeg.wasm</b> creates the transparent MOV and <b>mp4-muxer</b> creates the MP4. They are files of the app, downloaded with its pages, and they work in the browser without sending anything.</li>
+<li><b>Opening from a link:</b> if you paste an address, or open the app with <code>?pdf=</code>, the browser downloads the PDF directly from that address. The site hosting the file (for example Dropbox, Google Drive, OneDrive or GitHub) receives the request as with any download, under its own privacy rules.</li>
+<li><b>Video:</b> it is downloaded to your device or, on a phone, passed to the system share menu only when you choose to.</li>
+</ul>
+<h2>Information stored on your device</h2>
+<ul>
+<li><b>On a computer</b>, in the browser database <code>flipbook-lab</code> (IndexedDB): the last PDF opened, as page images with the text of the lines; the page you were on and the marks that stay; the background image. They let you pick up your work next time. On a phone the PDF is not saved: the app always starts from the home screen. The background image is kept there too.</li>
+<li>Your preferences, in the browser's local storage under the keys <code>ultraspeaker.flipbook.*</code>: view, cover, background and colour, mark colour and duration, auto video settings, resolution, video format, book position and size.</li>
+<li>The language you choose, under the key <code>ultraspeaker.lang</code>, shared by all The Ultraspeaker Labs. Earlier versions used <code>flipbooklab.*</code> keys: on first start the values are copied to the new keys and the old ones are deleted.</li>
+<li>You can remove all of this by clearing the site data in your browser.</li>
+</ul>
+<h2>Third-party services</h2>
+<ul>
+<li>The app's files are hosted on <b>GitHub Pages</b> (GitHub, Inc.). Like any website, it receives your device's IP address in order to deliver the pages. See <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
+<li>In the PowerPoint pane the app uses the <b>Office.js</b> library, loaded from Microsoft's servers. See <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
+<li>We do not use any other external services, tracking systems or advertising networks.</li>
+</ul>
+<h2>Your rights</h2>
+<p>As the app does not process personal data, we hold no data to access, correct or delete. For any question write to <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. You can always contact your data protection authority.</p>
+<h2>Children</h2>
+<p>The app is designed for professional use and is not aimed at children.</p>
+<h2>Changes</h2>
+<p>If this policy changes, we will update this page and the date at the top.</p>
+</div>
+<div data-lang="es" lang="es">
+<h1>Política de privacidad – The Ultraspeaker Flipbook Lab</h1>
+<p class="us-updated">Última actualización: 12 de noviembre de 2026</p>
+<p><b>Titular:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
+<h2>En resumen</h2>
+<p>The Ultraspeaker Flipbook Lab <b>no recoge, no nos envía ni vende datos personales</b>. El PDF que abres se queda en tu dispositivo y nunca se envía a servidores de The Ultraspeaker ni de terceros. No hay cuentas, cookies, estadísticas de uso ni publicidad.</p>
+<h2>Qué hace la app con tus archivos</h2>
+<ul>
+<li><b>PDF e imágenes:</b> el PDF y la posible imagen de fondo se leen y procesan en el navegador. Las páginas se convierten en imágenes y el vídeo se crea en el dispositivo.</li>
+<li><b>Bibliotecas locales:</b> <b>pdf.js</b> lee el PDF, <b>ffmpeg.wasm</b> crea el MOV transparente y <b>mp4-muxer</b> crea el MP4. Son archivos de la app, descargados con sus páginas, y trabajan en el navegador sin enviar nada.</li>
+<li><b>Apertura desde un enlace:</b> si pegas una dirección, o abres la app con <code>?pdf=</code>, el navegador descarga el PDF directamente desde esa dirección. El sitio que aloja el archivo (por ejemplo Dropbox, Google Drive, OneDrive o GitHub) recibe la petición como en cualquier descarga, con sus propias normas de privacidad.</li>
+<li><b>Vídeo:</b> se descarga en el dispositivo o, en el móvil, se pasa al menú de compartir del sistema solo cuando tú lo eliges.</li>
+</ul>
+<h2>Información guardada en el dispositivo</h2>
+<ul>
+<li><b>En el ordenador</b>, en la base de datos del navegador <code>flipbook-lab</code> (IndexedDB): el último PDF abierto, como imágenes de las páginas con el texto de las líneas; la página en la que estabas y las marcas que se quedan; la imagen de fondo. Sirven para recuperar el trabajo la próxima vez. En el móvil el PDF no se guarda: la app empieza siempre desde la pantalla inicial. La imagen de fondo, en cambio, se guarda también allí.</li>
+<li>Las preferencias, en la memoria local del navegador con las claves <code>ultraspeaker.flipbook.*</code>: vista, portada, fondo y color, color y duración de las marcas, ajustes del vídeo automático, resolución, formato del vídeo, posición y tamaño del libro.</li>
+<li>El idioma elegido, con la clave <code>ultraspeaker.lang</code>, común a todos los Labs de The Ultraspeaker. Las versiones anteriores usaban claves <code>flipbooklab.*</code>: en el primer inicio los valores se copian en las claves nuevas y las antiguas se borran.</li>
+<li>Puedes borrarlo todo vaciando los datos del sitio en el navegador.</li>
+</ul>
+<h2>Servicios de terceros</h2>
+<ul>
+<li>Los archivos de la app están alojados en <b>GitHub Pages</b> (GitHub, Inc.). Como cualquier sitio web, recibe la dirección IP del dispositivo para entregar las páginas. Consulta <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
+<li>En el panel de PowerPoint la app usa la biblioteca <b>Office.js</b>, cargada desde los servidores de Microsoft. Consulta <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
+<li>No usamos otros servicios externos, sistemas de seguimiento ni redes publicitarias.</li>
+</ul>
+<h2>Tus derechos</h2>
+<p>Como la app no trata datos personales, no tenemos datos que consultar, corregir o borrar. Para cualquier pregunta escribe a <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Siempre puedes dirigirte a tu autoridad de protección de datos.</p>
+<h2>Menores</h2>
+<p>La app está pensada para un uso profesional y no está dirigida a menores.</p>
+<h2>Cambios</h2>
+<p>Si esta política cambia, actualizaremos esta página y la fecha de arriba.</p>
+</div>
+<div data-lang="fr" lang="fr">
+<h1>Politique de confidentialité – The Ultraspeaker Flipbook Lab</h1>
+<p class="us-updated">Dernière mise à jour: 12 novembre 2026</p>
+<p><b>Titulaire:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
+<h2>En bref</h2>
+<p>The Ultraspeaker Flipbook Lab <b>ne collecte, ne nous envoie et ne vend aucune donnée personnelle</b>. Le PDF que vous ouvrez reste sur votre appareil et n'est jamais envoyé aux serveurs de The Ultraspeaker ni de tiers. Il n'y a ni compte, ni cookies, ni statistiques d'utilisation, ni publicité.</p>
+<h2>Ce que fait l'app de vos fichiers</h2>
+<ul>
+<li><b>PDF et images :</b> le PDF et l'éventuelle image de fond sont lus et traités dans le navigateur. Les pages deviennent des images et la vidéo est créée sur l'appareil.</li>
+<li><b>Bibliothèques locales :</b> <b>pdf.js</b> lit le PDF, <b>ffmpeg.wasm</b> crée le MOV transparent et <b>mp4-muxer</b> crée le MP4. Ce sont des fichiers de l'app, téléchargés avec ses pages, qui travaillent dans le navigateur sans rien envoyer.</li>
+<li><b>Ouverture depuis un lien :</b> si vous collez une adresse, ou ouvrez l'app avec <code>?pdf=</code>, le navigateur télécharge le PDF directement depuis cette adresse. Le site qui héberge le fichier (par exemple Dropbox, Google Drive, OneDrive ou GitHub) reçoit la requête comme pour tout téléchargement, selon ses propres règles de confidentialité.</li>
+<li><b>Vidéo :</b> elle est téléchargée sur l'appareil ou, sur le téléphone, transmise au menu de partage du système uniquement quand vous le choisissez.</li>
+</ul>
+<h2>Informations enregistrées sur l'appareil</h2>
+<ul>
+<li><b>Sur l'ordinateur</b>, dans la base de données du navigateur <code>flipbook-lab</code> (IndexedDB) : le dernier PDF ouvert, sous forme d'images des pages avec le texte des lignes ; la page où vous étiez et les marques qui restent ; l'image de fond. Elles servent à retrouver votre travail à la prochaine ouverture. Sur le téléphone, le PDF n'est pas enregistré : l'app repart toujours de l'écran d'accueil. L'image de fond, elle, y est conservée aussi.</li>
+<li>Les préférences, dans la mémoire locale du navigateur sous les clés <code>ultraspeaker.flipbook.*</code> : vue, couverture, fond et couleur, couleur et durée des marques, réglages de la vidéo automatique, résolution, format de la vidéo, position et taille du livre.</li>
+<li>La langue choisie, sous la clé <code>ultraspeaker.lang</code>, commune à tous les Labs The Ultraspeaker. Les versions précédentes utilisaient des clés <code>flipbooklab.*</code> : au premier démarrage, les valeurs sont copiées dans les nouvelles clés et les anciennes sont supprimées.</li>
+<li>Vous pouvez tout effacer en supprimant les données du site dans le navigateur.</li>
+</ul>
+<h2>Services tiers</h2>
+<ul>
+<li>Les fichiers de l'app sont hébergés sur <b>GitHub Pages</b> (GitHub, Inc.). Comme tout site web, il reçoit l'adresse IP de l'appareil pour fournir les pages. Voir <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
+<li>Dans le volet PowerPoint, l'app utilise la bibliothèque <b>Office.js</b>, chargée depuis les serveurs de Microsoft. Voir <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
+<li>Nous n'utilisons aucun autre service externe, système de suivi ou réseau publicitaire.</li>
+</ul>
+<h2>Vos droits</h2>
+<p>Comme l'app ne traite pas de données personnelles, nous n'avons aucune donnée à consulter, corriger ou supprimer. Pour toute question, écrivez à <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Vous pouvez toujours vous adresser à votre autorité de protection des données.</p>
+<h2>Mineurs</h2>
+<p>L'app est conçue pour un usage professionnel et ne s'adresse pas aux mineurs.</p>
+<h2>Modifications</h2>
+<p>Si cette politique change, nous mettrons à jour cette page et la date en haut.</p>
+</div>
+<div data-lang="de" lang="de">
+<h1>Datenschutzerklärung – The Ultraspeaker Flipbook Lab</h1>
+<p class="us-updated">Zuletzt aktualisiert: 12. November 2026</p>
+<p><b>Verantwortlich:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
+<h2>Kurz gesagt</h2>
+<p>The Ultraspeaker Flipbook Lab <b>erhebt keine personenbezogenen Daten, sendet sie nicht an uns und verkauft sie nicht</b>. Die PDF, die Sie öffnen, bleibt auf Ihrem Gerät und wird nie an Server von The Ultraspeaker oder Dritten gesendet. Es gibt keine Konten, Cookies, Nutzungsstatistiken oder Werbung.</p>
+<h2>Was die App mit Ihren Dateien macht</h2>
+<ul>
+<li><b>PDFs und Bilder:</b> Die PDF und ein eventuelles Hintergrundbild werden im Browser gelesen und verarbeitet. Die Seiten werden zu Bildern, das Video entsteht auf dem Gerät.</li>
+<li><b>Lokale Bibliotheken:</b> <b>pdf.js</b> liest die PDF, <b>ffmpeg.wasm</b> erstellt das transparente MOV und <b>mp4-muxer</b> das MP4. Es sind Dateien der App, die mit ihren Seiten geladen werden und im Browser arbeiten, ohne etwas zu senden.</li>
+<li><b>Öffnen über einen Link:</b> Wenn Sie eine Adresse einfügen oder die App mit <code>?pdf=</code> öffnen, lädt der Browser die PDF direkt von dieser Adresse. Die Website, auf der die Datei liegt (zum Beispiel Dropbox, Google Drive, OneDrive oder GitHub), erhält die Anfrage wie bei jedem Download, nach ihren eigenen Datenschutzregeln.</li>
+<li><b>Video:</b> Es wird auf das Gerät heruntergeladen oder auf dem Telefon nur dann an das Teilen-Menü des Systems übergeben, wenn Sie es wählen.</li>
+</ul>
+<h2>Auf dem Gerät gespeicherte Informationen</h2>
+<ul>
+<li><b>Auf dem Computer</b> in der Browserdatenbank <code>flipbook-lab</code> (IndexedDB): die zuletzt geöffnete PDF als Seitenbilder mit dem Text der Zeilen; die Seite, auf der Sie waren, und die bleibenden Markierungen; das Hintergrundbild. So finden Sie Ihre Arbeit beim nächsten Öffnen wieder. Auf dem Telefon wird die PDF nicht gespeichert: Die App startet immer auf der Startseite. Das Hintergrundbild bleibt dort dagegen erhalten.</li>
+<li>Die Einstellungen im lokalen Speicher des Browsers unter den Schlüsseln <code>ultraspeaker.flipbook.*</code>: Ansicht, Titelseite, Hintergrund und Farbe, Farbe und Dauer der Markierungen, Einstellungen des automatischen Videos, Auflösung, Videoformat, Position und Größe des Buchs.</li>
+<li>Die gewählte Sprache unter dem Schlüssel <code>ultraspeaker.lang</code>, gemeinsam für alle Labs von The Ultraspeaker. Frühere Versionen nutzten Schlüssel <code>flipbooklab.*</code>: Beim ersten Start werden die Werte in die neuen Schlüssel kopiert und die alten gelöscht.</li>
+<li>Sie können alles löschen, indem Sie die Websitedaten im Browser entfernen.</li>
+</ul>
+<h2>Dienste Dritter</h2>
+<ul>
+<li>Die Dateien der App liegen auf <b>GitHub Pages</b> (GitHub, Inc.). Wie jede Website erhält es die IP-Adresse des Geräts, um die Seiten auszuliefern. Siehe <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
+<li>Im PowerPoint-Bereich nutzt die App die Bibliothek <b>Office.js</b>, die von Microsoft-Servern geladen wird. Siehe <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
+<li>Wir nutzen keine weiteren externen Dienste, Tracking-Systeme oder Werbenetzwerke.</li>
+</ul>
+<h2>Ihre Rechte</h2>
+<p>Da die App keine personenbezogenen Daten verarbeitet, haben wir keine Daten, die eingesehen, berichtigt oder gelöscht werden könnten. Für Fragen schreiben Sie an <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Sie können sich jederzeit an Ihre Datenschutzbehörde wenden.</p>
+<h2>Minderjährige</h2>
+<p>Die App ist für den beruflichen Gebrauch gedacht und richtet sich nicht an Minderjährige.</p>
+<h2>Änderungen</h2>
+<p>Wenn sich diese Erklärung ändert, aktualisieren wir diese Seite und das Datum oben.</p>
+</div>
+</main>
+  <footer class="us-footer">
+    <a class="us-cta" id="usCta" href="mailto:info@theultraspeaker.com"><img src="assets/arena-white.svg?v=20261112" alt=""><span data-t="cta">Richiedi un consiglio</span></a>
+    <p class="us-links"><a href="support.html" data-nav="support">Supporto</a><a href="privacy.html" data-nav="privacy">Privacy</a><a href="terms.html" data-nav="terms">Condizioni d'uso</a><a href="GUIDA-INSTALLAZIONE.html" data-nav="install">Installazione</a></p>
+  </footer>
+</div>
+<script src="js/legal.js?v=20261112"></script>
+</body>
+</html>
