@@ -1,80 +1,61 @@
-# The Ultraspeaker Flipbook Lab
+![The Ultraspeaker Check Lab](assets/img/check-lab-logo.png)
 
-App web che trasforma un .pdf in un **libro da sfogliare**: lo sottolinei e registri un **video** da mettere nelle slide.
+# The Ultraspeaker Check Lab
 
-- **MOV trasparente** (ProRes 4444 con canale alfa) per Keynote.
-- **MP4 con colore o immagine** (H.264) per PowerPoint: con lo sfondo della slide sembra trasparente.
+Controlla una presentazione PowerPoint (.pptx) o Keynote (.key) prima di consegnarla alla regia di un congresso: font, video e audio, immagini, leggibilità (contrasto con lo sfondo e con le foto, grandezza del testo per l’ultima fila, grafici per chi distingue male rosso e verde), formato e struttura, tempi. La scheda **Stile** aiuta a scegliere sfondo, colore del testo e font prima di creare le slide e crea un modello .pptx con queste scelte. Crea il report Critico · Attenzione · OK, senza punteggio: il relatore può cambiare la valutazione di ogni voce e aggiungere una nota. Poi l’esportazione PDF, il nome del file per la regia, la checklist del giorno e i kit di prova video e immagini da aprire in sala.
 
-Funziona nel browser, senza installare nulla, in italiano, inglese, spagnolo, francese e tedesco. Il PDF non lascia il dispositivo.
+- **Versione web** (PowerPoint e Keynote): https://niki977.github.io/ultraspeaker-check-lab/
+- **Add-in PowerPoint** (Windows, Mac, web): `ultraspeaker-check-lab-manifest.xml`
+- Interfaccia e pagine in italiano, inglese, spagnolo, francese e tedesco.
 
-- **Indirizzo:** https://niki977.github.io/ultraspeaker-flipbook-lab/
-- **Repository:** https://github.com/niki977/ultraspeaker-flipbook-lab (GitHub Pages, ramo `main`, cartella principale)
-- **Famiglia:** The Ultraspeaker Lab (QR, Image, Flipbook, Projector, Check), uniformati alla linea guida con il kit comune in `shared/` (kit 1.4 dal 12 novembre 2026).
+L’analisi avviene interamente nel browser o nel pannello di PowerPoint: la presentazione non viene mai inviata a server esterni.
 
-## Cosa fa
+## Struttura
 
-- **Aprire un PDF:** Apri PDF, trascinamento nella finestra (un'immagine trascinata diventa lo sfondo), **Link** (Dropbox, Google Drive, OneDrive, GitHub o link diretto; il file deve essere pubblico e scaricabile da altre pagine). `?pdf=<link>` apre subito un PDF, `?lang=it|en|es|fr|de` sceglie la lingua.
-- **Sfogliare:** angolo trascinabile, clic, frecce; vista Libro (copertina da sola) o Pagina.
-- **Segni:** Evidenzia (E) e Sottolinea (U) agganciati al testo del PDF, Penna (P), Gomma (G), sei colori; segni che restano o che svaniscono dopo 3 secondi (M). Il cestino cancella i segni delle pagine aperte oppure chiude il PDF e torna alla schermata iniziale.
-- **Zoom:** rotellina, pizzico, pulsanti − % +, Lente (Z) e Lente − (⇧Z). Lo zoom entra nella registrazione.
-- **Formato del video:** 16:9, 4:3, 3:1 o personalizzato (larghezza × altezza in pixel, da 160 a 3840).
-- **Sposta (V):** trascina il libro sul palco; rotellina, pizzico o − % + per ingrandirlo o rimpicciolirlo; «Centra» lo rimette al centro. Serve a collocarlo sopra un'immagine di sfondo e vale anche nel video.
-- **Sfondo:** trasparente, colore o immagine.
-- **Registra** (R) dal vivo oppure **Video automatico** (pagine, secondi, velocità, sottolineature che si disegnano da sole, chiusura sulla copertina).
-- **Esporta:** MOV o MP4. Con i formati fissi a 1080 o 720 px di altezza, con quello personalizzato alla misura esatta. «Scarica il video», «Salva in…» (Chrome, Edge) e, sul telefono, «Salva o condividi».
-- **Memoria:** sul computer l'ultimo PDF, la pagina e i segni (IndexedDB `flipbook-lab`); le preferenze in `ultraspeaker.flipbook.*`, la lingua in `ultraspeaker.lang`. Le vecchie chiavi `flipbooklab.*` vengono copiate e cancellate al primo avvio.
-- **Pannello di PowerPoint** (in prova, fase 2): `addin.html` apre l'app nel browser, perché PowerPoint per Mac non lascia salvare file ai componenti aggiuntivi.
-
-## File
-
-| File | Contenuto |
-|---|---|
-| `index.html`, `css/app.css` | Interfaccia e stile proprio del Lab (dopo `shared/ultraspeaker-lab.css`) |
-| `js/app.js` | Collegamenti tra interfaccia, formato, strumento Sposta, registrazione, esportazione e memoria |
-| `js/engine.js` | Libro disegnato su canvas: piega, ombre, zoom, palco a formato variabile, posizione del libro |
-| `js/annot.js` | Segni agganciati al testo, sbiadimento, gomma |
-| `js/pages.js` | PDF → immagini con pdf.js, righe di testo, cache |
-| `js/store.js` | Memoria del browser e migrazione delle preferenze |
-| `js/export.js` | MOV (ffmpeg.wasm + muxer MOV) e MP4 (WebCodecs + mp4-muxer) |
-| `js/i18n.js` | Testi nelle cinque lingue, anche del pannello (`p.*`) |
-| `js/addin.js`, `addin.html` | Pannello di PowerPoint |
-| `js/legal.js` | Menu e lingua delle pagine di servizio |
-| `support.html`, `privacy.html`, `terms.html`, `GUIDA-INSTALLAZIONE.html` | Pagine di servizio, cinque lingue nel file |
-| `ultraspeaker-flipbook-lab-manifest.xml` | Manifest dell'add-in (Id `efb799d0-d3c9-41ef-bb99-1e0e0cbf0a3b`) |
-| `site.webmanifest` | Nome e icone per la schermata Home |
-| `guide/` | Guide d'utilizzo PDF, sorgenti, screenshot e `capture.mjs` |
-| `demo/` | Guida di esempio da sfogliare, in cinque lingue |
-| `shared/`, `fonts/` | Kit comune 1.3 e Champagne & Limousines (non si modificano qui) |
-| `vendor/` | pdf.js (Apache 2.0), mp4-muxer (MIT), ffmpeg.wasm (MIT; core FFmpeg GPL-2.0-or-later, vedi `vendor/ffmpeg/LICENZE.txt`) |
-
-## Decisioni tecniche da non annullare
-
-- **Trasparenza in Keynote:** `fixProres()` in `export.js` corregge i fotogrammi ProRes di ffmpeg 5/6 (versione dell'intestazione 1, bit di ripetizione alla fine dei dati alfa).
-- **MOV in Safari:** il motore riparte ogni 15 blocchi e ogni blocco si ritenta una volta, contro i limiti di memoria.
-- **Pagine bianche in Safari:** si salvano byte e non Blob in IndexedDB; pdf.js con `disableFontFace`.
-- **MP4** solo con WebCodecs; il livello H.264 sale con la misura del video (4.0 fino a 1920 × 1080, poi 5.0 o 5.1).
-
-## Pubblicare un aggiornamento
-
-Si usa sempre **GitHub Desktop**: `vendor/ffmpeg/ffmpeg-core.wasm` pesa 31 MB, oltre il limite di 25 MB del caricamento dal sito.
-
-1. Estrai lo zip e copiane il contenuto nella cartella del repository (**Sostituisci**). I file da eliminare vanno tolti a mano.
-2. In GitHub Desktop scrivi il messaggio, **Commit to main**, poi **Push origin**.
-3. Dopo 1–2 minuti ricarica il sito con ⌘⇧R.
-
-A ogni rilascio si aggiorna `?v=AAAAMMGG` su CSS e JS.
-
-## Aggiornare la guida d'utilizzo
-
-```bash
-node guide/capture.mjs              # rifà gli screenshot in guide/img/<lingua>/
-node shared/guide/build-guide.mjs   # genera guide/flipbook-lab-guide-<lingua>.pdf
+```
+index.html            versione web (.pptx e .key)
+addin/taskpane.html   pannello dell’add-in PowerPoint (stessa intestazione e chiusura della versione web)
+addin/commands.html   file di funzioni richiesto dal manifest
+ultraspeaker-check-lab-manifest.xml   manifest dell’add-in (versione 1.3.0.0)
+support.html, privacy.html, terms.html, GUIDA-INSTALLAZIONE.html   pagine di servizio, cinque lingue nel file
+guide.html            rimanda a GUIDA-INSTALLAZIONE.html (vecchio indirizzo della guida), conserva ?lang=
+guide/                guida d’utilizzo PDF in cinque lingue: src/ (sorgenti), img/ (screenshot), capture.mjs
+shared/, fonts/       file comuni del kit 1.4 della linea guida Lab Ultraspeaker: non si modificano qui
+assets/css/app.css    stile proprio del Lab, caricato dopo shared/ultraspeaker-lab.css
+assets/js/            motore di analisi (pptx, key, testi e contrasto, foto), scheda Stile, interfaccia, traduzioni, legal.js (pagine di servizio)
+assets/kit/           modello e file di esempio dei kit di prova (Full HD, un video 4K)
+assets/icons/         icone 16–512 px (loghetto della E-checklist; check-lab-mark-*)
+assets/img/           logo Check Lab (bianco e nero, SVG e PNG), Arena
+assets/fonts/         Champagne & Limousines in .ttf, solo per il report PDF (jsPDF)
+assets/vendor/        JSZip 3.10.1 (MIT), jsPDF 2.5.2 (MIT)
+test/                 presentazioni di prova con problemi voluti (generali e di leggibilità)
 ```
 
-Servono Node e Playwright (`npm i playwright`, fuori dal repository o con `node_modules/` ignorato).
+## Memoria del browser
+
+`ultraspeaker.lang` (lingua, comune a tutti i Lab) e `ultraspeaker.check.<cosa>`: `settings`, `delivery`, `checklist`, `reviews` (valutazioni e note del report, per nome del file). Le chiavi della 1.x (`ultraspeaker-checklab-…`) vengono copiate una volta e cancellate.
+
+## Aggiornare la guida d’utilizzo
+
+Dalla radice del repository, con Playwright installato (fuori dal repository o con `NODE_PATH`):
+
+1. `node guide/capture.mjs` rifà gli screenshot in `guide/img/<lingua>/` e scrive `guide/img/pins.json` con la posizione dei richiami;
+2. se l’interfaccia è cambiata, aggiorna testi e posizioni dei richiami in `guide/src/guide.<lingua>.html`;
+3. `node shared/guide/build-guide.mjs` genera `guide/check-lab-guide-<lingua>.pdf`.
 
 ## Versioni
 
-- **1.1.1 (novembre 2026):** nell'esportazione MOV la scelta **Con ombra / Senza ombra**. In modalità presentazione PowerPoint rende pieni i pixel semitrasparenti e l'ombra del libro diventa un bordo nero; senza ombra restano solo pixel pieni o trasparenti (anche il retro del foglio nella vista Pagina compare senza sfumatura). Il cestino apre un menu: **Cancella i segni di queste pagine** oppure **Chiudi il PDF**, che torna alla schermata iniziale (e alla guida di esempio) e toglie il PDF dalla memoria del browser.
-- **1.1 (novembre 2026):** linea guida 1.3 (kit comune, intestazione, chiusura, pagine di servizio, lingua comune, chiavi `ultraspeaker.flipbook.*`), formato del video a scelta, strumento Sposta, guida d'utilizzo PDF, manifest 1.1.0.0.
-- **1.0 (ottobre 2026):** prima versione online; Brand Book 1.0, componente aggiuntivo che apre l'app nel browser.
+- 1.3.0 (novembre 2026): uniformazione alla linea guida Lab Ultraspeaker 1.4 (kit comune, intestazione e chiusura, pagine statiche, guida PDF, manifest).
+- 1.2.0 (novembre 2026): report senza punteggio con valutazione del relatore, sala chiesta prima del controllo, scheda Stile con popup del contrasto e font da file, test in sala in Full HD, nuovi loghi.
+
+## Leggibilità: come si calcola
+
+- Contrasto WCAG 2 tra testo e sfondo, con la luce della sala sommata all’immagine proiettata (buio 1%, penombra 5%, luci accese 12% del bianco). Minimo 4,5 : 1, 3 : 1 per titoli e testo grande.
+- Testo su foto: la parte della foto sotto il testo viene letta nel browser; conta il 5% dell’area con meno contrasto, anche con una banda al 60% dietro il testo.
+- Grandezza (solo se è stata scelta l’ultima fila; altrimenti la chiede prima del controllo): le minuscole alte almeno 1/200 della distanza dell’ultima fila (AVIXA DISCAS), con l’altezza x del font e le bande nere se la slide non riempie lo schermo. In PowerPoint i punti sono su 540 pt di altezza, in Keynote sui pixel della slide.
+
+## Immagine coordinata
+
+Allineata al Brand Book di The Ultraspeaker: logo master con il descrittore CHECK LAB, in cui la E è una checklist a tre righe (quella centrale più corta); palette Stage Black; carattere Champagne & Limousines nell’interfaccia, nelle pagine e nel PDF; angoli 10 px, pulsante primario bianco, nessuna ombra, focus in blu #4F8DFF. Eccezione concordata: nel report Critico è rosso, Attenzione giallo, OK verde. Kit di prova: sfondo nero, logo The Ultraspeaker in basso a destra, testo in Arial per la massima compatibilità con i computer di regia, file di esempio in Full HD (un video 4K), video e audio che partono da soli dopo la transizione.
+
+Nicholas D. Charles (The Ultraspeaker) · info@theultraspeaker.com

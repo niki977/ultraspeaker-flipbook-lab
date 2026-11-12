@@ -1,245 +1,94 @@
 <!doctype html>
-<!-- Guida d'utilizzo del Flipbook Lab (fr). Stile: shared/guide/ultraspeaker-guide.css. PDF: node shared/guide/build-guide.mjs -->
+<!-- Guida d'utilizzo del Check Lab · fr · generata da make-guide.js con il modello del kit 1.4. PDF: node shared/guide/build-guide.mjs -->
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<title>The Ultraspeaker Flipbook Lab · Guide d'utilisation</title>
+<title>The Ultraspeaker Check Lab · Guide d'utilisation</title>
 <link rel="stylesheet" href="../../shared/guide/ultraspeaker-guide.css">
-<style>@page{@bottom-left{content:"THE ULTRASPEAKER  ·  FLIPBOOK LAB  ·  GUIDE";font:700 7pt "Champagne & Limousines",sans-serif;letter-spacing:.32em;color:#8E8E8E;vertical-align:top;padding-top:6mm}}</style>
+<style>@page{@bottom-left{content:"THE ULTRASPEAKER  ·  CHECK LAB  ·  GUIDE";font:700 7pt "Champagne & Limousines",sans-serif;letter-spacing:.32em;color:#8E8E8E;vertical-align:top;padding-top:6mm}}</style>
 </head>
 <body>
-
 <section class="g-cover">
   <img class="g-cover-shadow" src="../../shared/guide/the-shadow.jpg" alt="">
   <div class="g-cover-body">
-    <img class="g-cover-logo" src="../../assets/logo-flipbook-lab-white.svg" alt="The Ultraspeaker Flipbook Lab">
+    <img class="g-cover-logo" src="../../assets/img/check-lab-logo.svg" alt="The Ultraspeaker Check Lab">
     <p class="g-cover-kicker">Guide d'utilisation</p>
-    <h1 class="g-cover-title">Votre .pdf devient<br>une vidéo pour vos diapositives</h1>
-    <p class="g-cover-sub">Feuilletez un document comme un livre, soulignez les phrases qui comptent et enregistrez une vidéo : transparente pour Keynote ou avec le fond de la diapositive pour PowerPoint.</p>
-    <div class="g-cover-meta"><span>Version 1.1 · Novembre 2026</span><span>theultraspeaker.com</span></div>
+    <h1 class="g-cover-title">Votre présentation prête<br>pour la régie</h1>
+    <p class="g-cover-sub">Contrôlez polices, vidéos, images, lisibilité, format et durée d’une présentation PowerPoint ou Keynote avant de la remettre au congrès.</p>
+    <div class="g-cover-meta"><span>Version 1.3 · Novembre 2026</span><span>theultraspeaker.com</span></div>
   </div>
 </section>
-
 <section class="g-toc">
   <p class="g-label">Sommaire</p>
   <h1>Dans ce guide</h1>
-  <ol>
-    <li><span>01</span><span>Avant de commencer<small>Ce que fait Flipbook Lab, où le trouver, ce qu'il vous faut</small></span></li>
-    <li><span>02</span><span>L'interface<small>Les parties de l'écran, une par une</small></span></li>
-    <li><span>03</span><span>Ouvrir un PDF<small>Depuis l'ordinateur, depuis un lien, le guide d'exemple</small></span></li>
-    <li><span>04</span><span>Feuilleter, surligner et souligner<small>Outils, couleurs, raccourcis clavier</small></span></li>
-    <li><span>05</span><span>Format et position<small>16:9, 4:3, 3:1 ou sur mesure ; le livre où vous voulez</small></span></li>
-    <li><span>06</span><span>Enregistrer la vidéo<small>En direct ou automatique, MOV ou MP4</small></span></li>
-    <li><span>07</span><span>Insérer la vidéo dans la diapositive<small>Keynote, PowerPoint et le volet</small></span></li>
-    <li><span>08</span><span>Conseils de speaker<small>Combien de pages, quelle durée, ce qui se lit dans la salle</small></span></li>
-    <li><span>09</span><span>Questions fréquentes<small>Problèmes courants et solutions</small></span></li>
-  </ol>
+  <ol><li><span>01</span><span>Avant de commencer<small>Ce que contrôle Check Lab, où le trouver, ce qui reste sur votre ordinateur</small></span></li><li><span>02</span><span>L’interface<small>Les parties de l’écran, une par une</small></span></li><li><span>03</span><span>Contrôlez la présentation<small>Du fichier au rapport en quatre étapes</small></span></li><li><span>04</span><span>Lisez le rapport<small>Critique, Attention, OK et votre évaluation</small></span></li><li><span>05</span><span>Corrigez les problèmes les plus courants<small>Que faire pour chaque avertissement</small></span></li><li><span>06</span><span>Avant de créer les diapositives<small>L’onglet Style : couleurs, polices, contraste</small></span></li><li><span>07</span><span>Remise et essai en salle<small>Nom du fichier, check-list et kits de test</small></span></li><li><span>08</span><span>Conseils d’orateur<small>Trois habitudes qui évitent les surprises</small></span></li><li><span>09</span><span>Questions fréquentes<small>Problèmes courants et assistance</small></span></li></ol>
 </section>
-
 <section class="g-chapter">
   <div class="g-chapter-head"><span class="g-chapter-num">01</span><h2 class="g-chapter-title">Avant de commencer</h2></div>
-<p class="g-chapter-lead">Flipbook Lab transforme un .pdf en livre que l'on feuillette à l'écran. En tournant les pages, vous soulignez les phrases importantes, puis vous enregistrez le tout dans une vidéo pour vos diapositives.</p>
-<div class="g-cols">
-  <div>
-    <p class="g-label">Dans le navigateur</p>
-    <p>Ouvrez <b>niki977.github.io/ultraspeaker-flipbook-lab</b> sur ordinateur, tablette ou téléphone. Rien à installer, et le PDF reste sur votre appareil.</p>
-  </div>
-  <div>
-    <p class="g-label">Dans PowerPoint</p>
-    <p>Onglet <b>Accueil</b> → groupe <b>The Ultraspeaker</b> → <b>Flipbook Lab</b>. Le volet ouvre l'app dans le navigateur, où vous enregistrez et sauvegardez la vidéo.</p>
-  </div>
-</div>
-<div class="g-note"><p class="g-label">Bientôt disponible</p><p>Le volet pour PowerPoint est en phase de test et sera bientôt disponible. Le chapitre 07 le décrit déjà en entier.</p></div>
-<table>
-  <tr><th>Vidéo</th><th>Pour</th><th>Rendu</th></tr>
-  <tr><td>MOV transparent</td><td>Keynote, Final Cut</td><td>Le livre seul, par-dessus la diapositive</td></tr>
-  <tr><td>MP4 avec couleur ou image</td><td>PowerPoint, téléphone</td><td>Le livre sur le même fond que la diapositive : il semble transparent</td></tr>
-</table>
-<table>
-  <tr><th>Ce qu'il vous faut</th><th>Détails</th></tr>
-  <tr><td>Navigateur</td><td>Chrome, Edge ou Safari à jour. Pour le MOV transparent, préférez Chrome ou Edge sur ordinateur</td></tr>
-  <tr><td>Document</td><td>N'importe quel .pdf ; avec du texte sélectionnable, le soulignement s'accroche aux lignes</td></tr>
-</table>
-<div class="g-note"><p class="g-label">Confidentialité</p><p>Le PDF et la vidéo restent sur votre appareil et ne sont envoyés à aucun serveur.</p></div>
+  <p class="g-chapter-lead">Check Lab lit votre présentation et vous dit ce qui risque de ne pas fonctionner sur l’ordinateur de la régie : une police absente, une vidéo qui ne démarre pas, un texte illisible depuis le dernier rang.</p>
+  <div class="g-cols"><div><p class="g-label">Dans le navigateur</p><p>niki977.github.io/ultraspeaker-check-lab. Déposez un fichier .pptx (PowerPoint) ou .key (Keynote). Fonctionne sur ordinateur, tablette et téléphone.</p></div><div><p class="g-label">Dans PowerPoint</p><p>Onglet <b>Accueil</b> → groupe <b>The Ultraspeaker</b> → <b>Check Lab</b>. Le volet contrôle la présentation ouverte et vous mène à la diapositive du problème avec « Aller à la diapositive ».</p></div></div>
+  <div class="g-note"><p class="g-label">Bientôt disponible</p><p>Le volet PowerPoint est en phase de test et sera bientôt disponible. En attendant, utilisez la version web : elle fait les mêmes contrôles.</p></div>
+  <table><tr><th>Ce qu’il contrôle</th><th>Exemples</th></tr><tr><td>Polices</td><td>non incorporées, Windows seulement ou Mac seulement</td></tr><tr><td>Vidéo et audio</td><td>liés au lieu d’incorporés, formats qui ne démarrent pas, 4K</td></tr><tr><td>Images</td><td>basse résolution, fichiers lourds, EPS, CMJN, HEIC</td></tr><tr><td>Lisibilité</td><td>contraste avec le fond et sur les photos, taille pour le dernier rang, graphiques pour qui confond rouge et vert</td></tr><tr><td>Format et fichier</td><td>format de l’écran, diapositives vides ou masquées, liens, poids</td></tr><tr><td>Durée</td><td>secondes par diapositive par rapport au temps attribué</td></tr></table>
+  <div class="g-note"><p class="g-label">Confidentialité</p><p>Le fichier est lu uniquement sur votre ordinateur et n’est jamais envoyé à un serveur. La langue, les réglages de l’intervention, la check-list et vos évaluations du rapport restent sur l’appareil.</p></div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">02</span><h2 class="g-chapter-title">L'interface</h2></div>
-<p class="g-chapter-lead">Au centre se trouve la scène : ce que vous y voyez est exactement ce qui finit dans la vidéo, sans souris ni boutons.</p>
-<figure class="g-shot">
-  <div class="g-shot-frame"><img src="../img/fr/overview.png" alt="">
-      <span class="g-pin" style="left:65%;top:6%">1</span>
-      <span class="g-pin" style="left:4.5%;top:36.6%">2</span>
-      <span class="g-pin" style="left:52.3%;top:18.6%">3</span>
-      <span class="g-pin" style="left:7.4%;top:92%">4</span>
-      <span class="g-pin" style="left:37.9%;top:92%">5</span>
-      <span class="g-pin" style="left:52.9%;top:92%">6</span>
-      <span class="g-pin" style="left:83.8%;top:92%">7</span></div>
-  <figcaption>Version web · ordinateur</figcaption>
-</figure>
-<ol class="g-legend">
-  <li><span>1</span><span><b>En-tête.</b> Informations, Ouvrir un PDF, Lien, langue et « Guide », qui ouvre ce PDF.</span></li>
-  <li><span>2</span><span><b>Outils.</b> Feuilleter, surligner, souligner, stylo, gomme, loupes, Déplacer ; durée et couleur des marques.</span></li>
-  <li><span>3</span><span><b>Scène.</b> Le livre et le fond, au format de la vidéo.</span></li>
-  <li><span>4</span><span><b>Pages.</b> Première page, précédente, suivante ; puis zoom et vue Livre ou Page.</span></li>
-  <li><span>5</span><span><b>Format.</b> 16:9, 4:3, 3:1 ou votre propre taille.</span></li>
-  <li><span>6</span><span><b>Fond.</b> Transparent, couleur ou image.</span></li>
-  <li><span>7</span><span><b>Enregistrer.</b> À côté : « Vidéo automatique » et le plein écran.</span></li>
-</ol>
+  <div class="g-chapter-head"><span class="g-chapter-num">02</span><h2 class="g-chapter-title">L’interface</h2></div>
+  <p class="g-chapter-lead">Quatre onglets en haut. On commence par Contrôle ; Style sert avant de créer les diapositives, Régie le jour de l’intervention.</p>
+  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/fr/02-overview.png" alt=""><span class="g-pin" style="left:69.2%;top:5%">1</span><span class="g-pin" style="left:2.7%;top:24.5%">2</span><span class="g-pin" style="left:2.7%;top:50.5%">3</span><span class="g-pin" style="left:2.7%;top:80.7%">4</span></div><figcaption>Version web · ordinateur</figcaption></figure>
+  <ol class="g-legend"><li><span>1</span><span><b>Langue et guide.</b> Changez de langue ou ouvrez ce guide.</span></li><li><span>2</span><span><b>Onglets.</b> <b>Style</b>, <b>Contrôle</b>, <b>Rapport</b>, <b>Régie</b>.</span></li><li><span>3</span><span><b>Le fichier.</b> Déposez ici le .pptx ou le .key, ou <b>Choisir un fichier</b>.</span></li><li><span>4</span><span><b>Votre intervention.</b> Ordinateur de la régie, minutes, format de l’écran, lumière dans la salle et dernier rang.</span></li></ol>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">03</span><h2 class="g-chapter-title">Ouvrir un PDF</h2></div>
-<p class="g-chapter-lead">Quatre chemins possibles. Tous mènent au même livre, prêt à feuilleter.</p>
-<ol class="g-steps">
-  <li><div><b>Ouvrir un PDF.</b> Le bouton de l'écran d'accueil, ou <b>Ouvrir un PDF</b> en haut, choisit le fichier sur l'ordinateur ou le téléphone.</div></li>
-  <li><div><b>Faites glisser le fichier</b> dans la fenêtre, même avec un livre déjà ouvert. Une image glissée devient le fond.</div></li>
-  <li><div><b>Depuis un lien.</b> Collez l'adresse du fichier : les liens directs vers un .pdf et les liens de partage de Dropbox, Google Drive, OneDrive et GitHub fonctionnent, si le fichier est public.</div></li>
-  <li><div><b>Ouvrir le guide d'exemple</b> pour essayer tout de suite : un livre de 11 pages dans la langue de l'app.</div></li>
-</ol>
-<figure class="g-shot g-shot--half">
-  <div class="g-shot-frame"><img src="../img/fr/link.png" alt=""></div>
-  <figcaption>Ouvrir un PDF depuis un lien</figcaption>
-</figure>
-<div class="g-tip"><p class="g-label">Bon à savoir</p><p>Sur ordinateur, l'app se souvient du dernier PDF, de la page et des marques : à la prochaine ouverture, vous reprenez là. Sur téléphone, elle repart toujours de l'écran d'accueil.</p></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">03</span><h2 class="g-chapter-title">Contrôlez la présentation</h2></div>
+  <p class="g-chapter-lead">Il suffit d’une minute et du fichier de la présentation. Plus vous donnez d’informations sur l’intervention, plus le rapport est précis.</p>
+  <ol class="g-steps"><li><div>Dans <b>Votre intervention</b>, choisissez <b>Ordinateur de la régie</b>. Si vous présentez depuis votre portable, choisissez <b>J’utilise mon ordinateur</b> : les polices installées dessus ne sont pas signalées.</div></li><li><div>Saisissez <b>Temps attribué par le congrès (minutes)</b>. Après le premier contrôle, le champ indique combien de secondes vous avez par diapositive.</div></li><li><div>Déposez le fichier sur la page. Dans PowerPoint, appuyez sur <b>Lancer le contrôle</b>.</div></li><li><div>Au premier contrôle, le Lab demande la taille de la salle : choisissez le type de salle, ou <b>Passer : ne pas vérifier la taille du texte</b>.</div></li></ol>
+  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/fr/03-room.png" alt=""></div><figcaption>La question sur la salle</figcaption></figure>
+  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/fr/03-talk.png" alt=""></div><figcaption>Votre intervention, après le contrôle</figcaption></figure><div class="g-note"><p class="g-label">Dernier rang</p><p>Salle de cours, salle de congrès ou plénière : la taille minimale du texte dépend de la distance du dernier rang. Si vous connaissez les mesures, choisissez « Je connais les mesures » et saisissez hauteur de l’image et distance en mètres.</p></div></div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">04</span><h2 class="g-chapter-title">Feuilleter, surligner et souligner</h2></div>
-<p class="g-chapter-lead">Les outils sont dans la colonne de gauche. La lettre à côté de l'icône est le raccourci clavier.</p>
-<ol class="g-steps">
-    <li><div><b>Feuilleter (H).</b> Faites glisser le coin de la page, cliquez sur la page ou utilisez les flèches. Plusieurs tours rapides se mettent en file.</div></li>
-    <li><div><b>Surligner (E) et Souligner (U).</b> Faites glisser sur une phrase : la marque s'accroche au texte mot par mot, même sur plusieurs lignes et dans les colonnes. Un clic marque un mot.</div></li>
-    <li><div><b>Stylo (P) et Gomme (G).</b> Pour entourer, tracer des flèches ou effacer une marque d'un geste.</div></li>
-    <li><div><b>Durée des marques (M).</b> La punaise les garde sur la page ; le chronomètre les efface après 3 secondes.</div></li>
-    <li><div><b>Couleurs et corbeille.</b> Six couleurs. La corbeille propose deux choix : <b>Effacer les marques de ces pages</b> ou <b>Fermer le PDF</b>, qui ramène à l'écran d'accueil.</div></li>
-</ol>
-<table>
-  <tr><th>Touche</th><th>Action</th></tr>
-  <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Page précédente ou suivante</td></tr>
-  <tr><td><kbd>Z</kbd> · <kbd>⇧Z</kbd></td><td>Loupe pour zoomer · pour dézoomer ; la molette ou le pincement zooment là où vous êtes</td></tr>
-  <tr><td><kbd>Espace</kbd> + glisser</td><td>Se déplacer dans le zoom ; <kbd>0</kbd> revient à 100 %</td></tr>
-  <tr><td><kbd>V</kbd></td><td>Déplacer et redimensionner le livre (chapitre 05)</td></tr>
-  <tr><td><kbd>R</kbd> · <kbd>Échap</kbd></td><td>Lancer et arrêter l'enregistrement</td></tr>
-</table>
+  <div class="g-chapter-head"><span class="g-chapter-num">04</span><h2 class="g-chapter-title">Lisez le rapport</h2></div>
+  <p class="g-chapter-lead">Le rapport ne donne pas de note : un orateur doit souvent faire des compromis, et c’est vous qui décidez du poids de chaque problème.</p>
+  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/fr/04-report.png" alt=""><span class="g-pin" style="left:2.8%;top:18.1%">1</span><span class="g-pin" style="left:5.4%;top:40.5%">2</span><span class="g-pin" style="left:5.4%;top:52.5%">3</span><span class="g-pin" style="left:5.4%;top:66.3%">4</span><span class="g-pin" style="left:5.4%;top:82.9%">5</span><span class="g-pin" style="left:5.4%;top:89.7%">6</span></div><figcaption>Rapport · version web</figcaption></figure>
+  <ol class="g-legend"><li><span>1</span><span><b>Comptes.</b> Points Critiques (rouges), Attention (jaunes) et OK (verts).</span></li><li><span>2</span><span><b>Le point.</b> Ce qui se passe, sur quelles diapositives et pourquoi c’est un risque.</span></li><li><span>3</span><span><b>Afficher la liste.</b> Les objets concernés, avec diapositive et nom comme dans le volet Sélection de PowerPoint.</span></li><li><span>4</span><span><b>Comment corriger.</b> Le conseil, seulement quand vous en avez besoin.</span></li><li><span>5</span><span><b>Votre évaluation.</b> Déplacez le point entre Critique, Attention et OK.</span></li><li><span>6</span><span><b>Ajouter une note.</b> La raison de votre choix : elle figure aussi dans le PDF.</span></li></ol>
+  <p>Vos évaluations restent sur cet appareil, liées au fichier : si vous corrigez la présentation et la contrôlez à nouveau, vous les retrouvez. <b>Effacer mes évaluations</b> les efface. Avec <b>Exporter en PDF</b> ou <b>Copier le rapport</b>, vous transmettez le rapport au secrétariat ou à votre assistant.</p>
+  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/fr/04-ok.png" alt=""></div><figcaption>Les points OK, avec « Évaluer »</figcaption></figure><figure class="g-shot g-shot--panel"><div class="g-shot-frame"><img src="../img/fr/04-panel.png" alt=""></div><figcaption>Volet PowerPoint</figcaption></figure></div>
+  <p>Dans le volet PowerPoint, chaque diapositive du rapport est cliquable et vous mène directement au point à corriger.</p>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">05</span><h2 class="g-chapter-title">Format et position</h2></div>
-<p class="g-chapter-lead">La vidéo peut prendre la forme du cadre dont vous avez besoin sur la diapositive, et le livre peut se placer où vous voulez sur le fond.</p>
-<div class="g-cols">
-  <ol class="g-steps">
-    <li><div><b>Choisissez le format</b> dans le menu du bas : <b>16:9</b> pour une diapositive entière, <b>4:3</b> pour les diapositives classiques, <b>3:1</b> pour un bandeau.</div></li>
-    <li><div><b>Personnalisé…</b> demande la largeur et la hauteur en pixels, de 160 à 3 840 par côté : la vidéo aura exactement cette taille.</div></li>
-    <li><div><b>Ajoutez un fond :</b> « Image » reprend l'image de la diapositive, « Couleur » la même couleur.</div></li>
-    <li><div><b>Outil Déplacer (V).</b> Faites glisser le livre où vous voulez ; la molette, le pincement ou les boutons <b>−</b> et <b>+</b> l'agrandissent ou le réduisent. <b>Centrer</b> le remet au milieu, en taille réelle.</div></li>
-  </ol>
-  <figure class="g-shot g-shot--panel">
-    <div class="g-shot-frame"><img src="../img/fr/custom.png" alt=""></div>
-    <figcaption>Format personnalisé</figcaption>
-  </figure>
-</div>
-<figure class="g-shot">
-  <div class="g-shot-frame"><img src="../img/fr/move.png" alt=""></div>
-  <figcaption>Format 3:1, fond image, livre déplacé à droite à 66 %</figcaption>
-</figure>
+  <div class="g-chapter-head"><span class="g-chapter-num">05</span><h2 class="g-chapter-title">Corrigez les problèmes les plus courants</h2></div>
+  <p class="g-chapter-lead">Les avertissements les plus fréquents et la correction la plus rapide. Le conseil complet se trouve toujours dans « Comment corriger ».</p>
+  <table><tr><th>Avertissement</th><th>Que faire</th></tr><tr><td>Police non incorporée</td><td>PowerPoint : Fichier › Options › Enregistrement › « Incorporer les polices dans le fichier ». Si la licence ne le permet pas, remplacez la police.</td></tr><tr><td>Vidéo liée ou en ligne</td><td>Insérez-la depuis l’ordinateur (Insertion › Vidéo › Cet appareil) : le fichier doit être dans la présentation.</td></tr><tr><td>Vidéo en .mov, ProRes, WMV</td><td>Convertissez-la en MP4 H.264, par exemple avec HandBrake, et insérez-la à nouveau.</td></tr><tr><td>Images en basse résolution</td><td>Remplacez-les par l’original, au moins de la largeur en pixels indiquée.</td></tr><tr><td>Texte peu lisible</td><td>Utilisez la couleur proposée ; dans le volet, appuyez sur « Appliquer ».</td></tr><tr><td>Texte sur photo</td><td>Placez un bandeau semi-transparent derrière le texte ou déplacez le texte sur une zone uniforme.</td></tr><tr><td>Texte trop petit</td><td>Agrandissez-le ou répartissez le contenu sur deux diapositives.</td></tr><tr><td>Fichier lourd</td><td>Format de l’image › Compresser les images, 220 ppp, supprimer les zones rognées.</td></tr></table>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">06</span><h2 class="g-chapter-title">Enregistrer la vidéo</h2></div>
-<p class="g-chapter-lead">Deux façons d'enregistrer. Dans les deux cas, la vidéo ne contient que la scène : ni souris ni boutons.</p>
-<ol class="g-steps">
-  <li><div><b>Enregistrer (R).</b> Feuilletez, soulignez et zoomez comme pendant un cours, puis appuyez sur <b>Stop</b>. La vidéo reproduit exactement ce que vous avez fait, jusqu'à 15 minutes.</div></li>
-  <li><div><b>Vidéo automatique.</b> Choisissez les pages, les secondes sur chaque page et la vitesse du tour : les pages tournent toutes seules, à un rythme régulier.</div></li>
-  <li><div><b>Choisissez le type de fichier :</b> <b>MOV transparent</b> pour Keynote, <b>MP4 avec couleur</b> pour PowerPoint, avec la même couleur ou la même image que la diapositive.</div></li>
-  <li><div><b>Résolution :</b> 1080 ou 720 pixels de haut ; avec le format personnalisé, la taille est celle que vous avez indiquée.</div></li>
-  <li><div><b>Créer la vidéo</b> et gardez la page ouverte. Ensuite <b>Télécharger la vidéo</b> (dossier Téléchargements) ou <b>Enregistrer dans…</b> pour choisir le dossier. Sur téléphone : <b>Enregistrer ou partager</b>.</div></li>
-</ol>
-<div class="g-cols">
-  <figure class="g-shot">
-    <div class="g-shot-frame"><img src="../img/fr/auto.png" alt=""></div>
-    <figcaption>Vidéo automatique</figcaption>
-  </figure>
-  <figure class="g-shot">
-    <div class="g-shot-frame"><img src="../img/fr/export.png" alt=""></div>
-    <figcaption>Exporter la vidéo</figcaption>
-  </figure>
-</div>
-<div class="g-tip"><p class="g-label">Des soulignements qui se dessinent seuls</p><p>Préparez d'abord les marques avec la punaise, puis choisissez « Se dessinent seuls » : dans la vidéo, ils apparaissent l'un après l'autre, dans l'ordre de lecture, avec une pause au choix après le dernier.</p></div>
+  <div class="g-chapter-head"><span class="g-chapter-num">06</span><h2 class="g-chapter-title">Avant de créer les diapositives</h2></div>
+  <p class="g-chapter-lead">Avant de créer les diapositives, choisissez fond, couleur du texte et police : vous voyez aussitôt s’ils seront lisibles en salle.</p>
+  <figure class="g-shot"><div class="g-shot-frame"><img src="../img/fr/06-style.png" alt=""><span class="g-pin" style="left:2.8%;top:10.8%">1</span><span class="g-pin" style="left:6%;top:30.6%">2</span><span class="g-pin" style="left:2.8%;top:42.6%">3</span><span class="g-pin" style="left:2.8%;top:76.1%">4</span><span class="g-pin" style="left:2.8%;top:94.6%">5</span></div><figcaption>Onglet Style</figcaption></figure>
+  <ol class="g-legend"><li><span>1</span><span><b>Rapport de contraste.</b> À quel point le texte se détache du fond. Cliquez dessus pour l’explication.</span></li><li><span>2</span><span><b>Résultats.</b> Texte, titres et lecture en salle avec la lumière choisie.</span></li><li><span>3</span><span><b>Couleurs et police.</b> Fond, texte, inverser, police. Avec <b>Une autre police…</b>, choisissez une police de l’ordinateur ou <b>Charger le fichier de la police</b>.</span></li><li><span>4</span><span><b>Le meilleur texte.</b> Quatre couleurs lisibles sur votre fond : touchez-en une pour l’utiliser.</span></li><li><span>5</span><span><b>Approfondir.</b> Lumière de la salle, taille minimale du texte, aperçu pour qui confond rouge et vert, <b>Créer le modèle .pptx</b>.</span></li></ol>
+  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/fr/06-contrast.png" alt=""></div><figcaption>Le rapport de contraste expliqué</figcaption></figure><div><table><tr><th>Rapport</th><th>Usage</th></tr><tr><td>sous 3 : 1</td><td>peu lisible, à éviter</td></tr><tr><td>à partir de 3 : 1</td><td>seulement grands titres, flèches, graphiques</td></tr><tr><td>à partir de 4,5 : 1</td><td>texte normal, listes, légendes</td></tr><tr><td>à partir de 7 : 1</td><td>excellent, même le petit texte</td></tr></table><div class="g-note"><p class="g-label">Polices téléchargées</p><p>Avant d’utiliser une police de Dafont ou d’un autre site, vérifiez la licence : beaucoup sont « pour usage personnel uniquement ». Pour l’incorporer dans PowerPoint, la licence doit le permettre.</p></div></div></div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">07</span><h2 class="g-chapter-title">Insérer la vidéo dans la diapositive</h2></div>
-<p class="g-chapter-lead">La vidéo se comporte comme une animation ordinaire : elle démarre toute seule quand vous arrivez sur la diapositive.</p>
-<div class="g-cols">
-  <div>
-    <p class="g-label">Keynote · MOV transparent</p>
-    <ol class="g-steps">
-      <li><div>Faites glisser le fichier .mov sur la diapositive.</div></li>
-      <li><div>Dans <b>Format → Séquence</b>, réglez le démarrage automatique.</div></li>
-      <li><div>Le fond est déjà transparent : on voit la diapositive.</div></li>
-    </ol>
-  </div>
-  <div>
-    <p class="g-label">PowerPoint · MP4</p>
-    <ol class="g-steps">
-      <li><div><b>Insertion → Vidéo → Vidéo à partir d'un fichier.</b></div></li>
-      <li><div>Donnez à la diapositive la même couleur ou la même image que la vidéo.</div></li>
-      <li><div>Dans <b>Lecture</b>, choisissez <b>Démarrer automatiquement</b>.</div></li>
-    </ol>
-  </div>
-</div>
-<div class="g-note"><p class="g-label">Bientôt disponible</p><p>Le volet pour PowerPoint est en phase de test et sera bientôt disponible.</p></div>
-<div class="g-cols">
-  <div>
-    <p class="g-label">Le volet PowerPoint</p>
-    <p><b>Accueil → The Ultraspeaker → Flipbook Lab</b> ouvre le volet. <b>Ouvrir Flipbook Lab</b> ouvre l'app dans le navigateur, dans la langue de PowerPoint : vous y enregistrez en plein écran et sauvegardez la vidéo, car PowerPoint ne permet pas aux compléments d'enregistrer des fichiers.</p>
-    <p>Le volet résume en quatre étapes le chemin du livre à la diapositive et ouvre ce guide.</p>
-  </div>
-  <figure class="g-shot g-shot--panel">
-    <div class="g-shot-frame"><img src="../img/fr/panel.png" alt=""></div>
-    <figcaption>Volet PowerPoint</figcaption>
-  </figure>
-</div>
+  <div class="g-chapter-head"><span class="g-chapter-num">07</span><h2 class="g-chapter-title">Remise et essai en salle</h2></div>
+  <p class="g-chapter-lead">L’onglet <b>Régie</b> prépare la remise : le nom du fichier, la check-list du jour et les fichiers de test à ouvrir en salle.</p>
+  <ol class="g-steps"><li><div>Remplissez date, heure, salle, nom et titre court : le nom du fichier se compose tout seul, sans espaces ni accents. <b>Copier le nom</b> et renommez le fichier.</div></li><li><div>Cochez la check-list du jour ; vous pouvez ajouter vos propres points.</div></li><li><div>Dans <b>Test en salle</b>, créez <b>Mes vidéos</b> et <b>Mes images</b> (vos fichiers à risque, un par diapositive) ou le <b>Kit générique</b>.</div></li><li><div>Ouvrez le kit sur l’ordinateur de la régie pendant l’essai : les vidéos démarrent seules après la transition. Notez sur la dernière diapositive ce qui fonctionne.</div></li></ol>
+  <div class="g-cols"><figure class="g-shot"><div class="g-shot-frame"><img src="../img/fr/07-name.png" alt=""></div><figcaption>Nom du fichier pour la régie</figcaption></figure><figure class="g-shot"><div class="g-shot-frame"><img src="../img/fr/07-kits.png" alt=""></div><figcaption>Test en salle</figcaption></figure></div>
+  <div class="g-note"><p class="g-label">Kit images</p><p>Sur la diapositive SVG, le titre de l’image doit indiquer « SVG ». Si vous lisez « PNG », cet ordinateur n’affiche pas le vectoriel et utilise l’aperçu de secours.</p></div>
 </section>
 <section class="g-chapter">
-  <div class="g-chapter-head"><span class="g-chapter-num">08</span><h2 class="g-chapter-title">Conseils de speaker</h2></div>
-<p class="g-chapter-lead">Le livre feuilleté est une preuve visuelle : il montre que la source existe et où se trouve le point. Personne n'a besoin de tout lire.</p>
-<div class="g-tip"><p class="g-label">Conseil de speaker</p><p>Montrez trois ou quatre doubles pages au maximum et soulignez une seule phrase par page. Dites-la à voix haute pendant qu'elle apparaît : le public regarde là où vous regardez.</p></div>
-<table>
-  <tr><th>Situation</th><th>Durée de la vidéo</th><th>Que faire</th></tr>
-  <tr><td>Citer une source</td><td>8–12 secondes</td><td>Couverture, une page, un soulignement, retour sur la couverture</td></tr>
-  <tr><td>Expliquer un passage</td><td>20–40 secondes</td><td>Enregistrement en direct avec la loupe sur le paragraphe</td></tr>
-  <tr><td>Présenter un document</td><td>jusqu'à 60 secondes</td><td>Vidéo automatique, 2 secondes par page, tour normal</td></tr>
-</table>
-<ul>
-  <li><b>Lisibilité dans la salle :</b> les lignes d'un A4 ne se lisent pas du fond. Zoomez sur la phrase avec la loupe, ou utilisez le format 3:1 et un grand livre.</li>
-  <li><b>Couleur des marques :</b> jaune pour surligner, rouge pour souligner sur les pages claires ; le blanc seulement sur les pages sombres.</li>
-  <li><b>Essai dans la salle :</b> regardez la vidéo sur le projecteur avant votre intervention. Sur fond sombre, le MP4 avec du noir est le plus sûr.</li>
-</ul>
+  <div class="g-chapter-head"><span class="g-chapter-num">08</span><h2 class="g-chapter-title">Conseils d’orateur</h2></div>
+  <p class="g-chapter-lead">Check Lab trouve les problèmes du fichier. Ces trois habitudes évitent ceux de la salle.</p>
+  <div class="g-tip"><p class="g-label">Remettez-la la veille</p><p>Envoyez le fichier au secrétariat au moins 24 heures avant, nommé au format de la régie, et apportez une clé USB avec la présentation et un PDF de secours.</p></div>
+  <div class="g-tip"><p class="g-label">Essayez en salle 30 minutes avant</p><p>Ouvrez le kit « Test en salle » sur l’ordinateur de la régie : en deux minutes, vous savez si vidéo, audio et images fonctionnent.</p></div>
+  <div class="g-tip"><p class="g-label">Écrivez pour le dernier rang</p><p>Dans une salle de congrès avec un écran 16:9, il faut environ 32 pt dans PowerPoint. Si un texte ne tient pas, répartissez-le sur deux diapositives au lieu de le réduire.</p></div>
 </section>
 <section class="g-chapter">
   <div class="g-chapter-head"><span class="g-chapter-num">09</span><h2 class="g-chapter-title">Questions fréquentes</h2></div>
-<dl class="g-faq">
-<dt>Dans PowerPoint, la vidéo a un fond noir.</dt>
-<dd>PowerPoint n'affiche pas la transparence de façon fiable. Exportez en <b>MP4 avec couleur</b> avec la même couleur ou la même image que la diapositive. Si vous utilisez le MOV transparent, exportez-le <b>Sans ombre</b> : en diaporama, PowerPoint transformerait l'ombre en bord noir.</dd>
-<dt>Le PDF depuis un lien ne s'ouvre pas.</dt>
-<dd>Le fichier doit être public et le site qui l'héberge doit autoriser son téléchargement depuis une autre page. Sinon, téléchargez-le et faites-le glisser dans la fenêtre.</dd>
-<dt>Le soulignement ne suit pas les lignes.</dt>
-<dd>Le PDF ne contient pas de texte, par exemple un scan : le trait reste droit mais libre.</dd>
-<dt>Le MOV ne se crée pas ou s'arrête dans Safari.</dt>
-<dd>Le MOV transparent demande beaucoup de mémoire. Choisissez 1280 × 720 ou utilisez Chrome ou Edge.</dd>
-<dt>La vidéo n'a pas la forme du cadre de la diapositive.</dt>
-<dd>Choisissez le format avant d'enregistrer : 4:3, 3:1 ou <b>Personnalisé…</b> avec la taille du cadre.</dd>
-<dt>Le livre est trop petit ou mal placé.</dt>
-<dd>Utilisez l'outil <b>Déplacer (V)</b> ; <b>Centrer</b> le remet au milieu en taille réelle.</dd>
-<dt>Où trouver la vidéo ?</dt>
-<dd>Dans le dossier Téléchargements. Avec <b>Enregistrer dans…</b>, vous choisissez le dossier dans Chrome et Edge ; dans Safari, activez « Demander pour chaque téléchargement ».</dd>
-<dt>Comment revenir au guide d'exemple ?</dt>
-<dd>Corbeille → <b>Fermer le PDF</b> : sur l'écran d'accueil, cliquez sur <b>Ouvrir le guide d’exemple</b>.</dd>
-</dl>
+  <dl class="g-faq"><dt>Le rapport dit qu’une police n’est pas standard, mais la régie l’a.</dt><dd>Check Lab ne voit pas les polices installées en régie. Si vous en êtes sûr, passez le point en OK avec <b>Votre évaluation</b> et ajoutez une note. Incorporer la police reste le choix le plus sûr.</dd><dt>Mon fichier Keynote n’est pas accepté.</dt><dd>S’il est enregistré comme paquet, dans Keynote choisissez Fichier › Avancé › Changer le type de fichier › Fichier unique.</dd><dt>Un fichier très lourd s’interrompt.</dt><dd>Le volet PowerPoint a moins de mémoire que le navigateur : utilisez la version web.</dd><dt>Sur Mac, je ne peux pas télécharger le PDF depuis le volet.</dt><dd>PowerPoint pour Mac n’autorise pas les téléchargements depuis le volet : utilisez <b>Copier le rapport</b> ou la version web. Les kits de test s’ouvrent comme une nouvelle présentation.</dd><dt>Où va ma présentation ?</dt><dd>Nulle part : elle est lue uniquement sur votre ordinateur.</dd></dl>
+  <div class="g-note"><p class="g-label">Assistance</p><p>Écrivez à info@theultraspeaker.com en indiquant ordinateur, version de PowerPoint ou navigateur et ce qui apparaît à l’écran. Inutile d’envoyer la présentation.</p></div>
 </section>
-
 <section class="g-back">
   <img class="g-back-arena" src="../../shared/guide/arena-white.svg" alt="">
   <p class="g-back-claim">Knowledge is not enough.<br><i>From expert to Ultraspeaker.</i></p>
-  <a class="g-back-cta" href="mailto:info@theultraspeaker.com?subject=Demander%20un%20conseil">Demander un conseil</a>
+  <a class="g-back-cta" href="mailto:info@theultraspeaker.com?subject=Demander%20un%20conseil%20%E2%80%93%20Check%20Lab">Demander un conseil</a>
   <p class="g-back-contacts">theultraspeaker.com · info@theultraspeaker.com</p>
 </section>
-
 </body>
 </html>

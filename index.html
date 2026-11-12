@@ -1,303 +1,60 @@
 <!doctype html>
-<html lang="it" class="fb">
+<html lang="it">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Ultraspeaker Flipbook Lab</title>
-<meta name="description" content="Turn a PDF into a flip book: flip it, underline it and record a video with a transparent background for Keynote or with the slide colour for PowerPoint.">
+<title>The Ultraspeaker Check Lab</title>
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-<meta name="apple-mobile-web-app-title" content="Flipbook Lab">
-<meta name="application-name" content="Flipbook Lab">
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261112e">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/flipbook-lab-icon-32.png?v=20261112e">
-<link rel="apple-touch-icon" href="assets/flipbook-lab-icon-180.png?v=20261112e">
+<meta name="description" content="Check your PowerPoint or Keynote presentation before handing it to the AV desk. Analysed in your browser: the file is never uploaded.">
+<meta name="apple-mobile-web-app-title" content="Check Lab">
+<meta name="application-name" content="Check Lab">
 <link rel="manifest" href="site.webmanifest">
-<link rel="stylesheet" href="shared/ultraspeaker-lab.css?v=20261112e">
-<link rel="stylesheet" href="css/app.css?v=20261112e">
-<script src="shared/ultraspeaker-lang.js?v=20261112e"></script>
+<link rel="icon" type="image/svg+xml" href="assets/img/check-lab-icon.svg?v=20261112">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/check-lab-mark-32.png?v=20261112">
+<link rel="apple-touch-icon" href="assets/icons/check-lab-mark-180.png?v=20261112">
+<link rel="stylesheet" href="shared/ultraspeaker-lab.css?v=20261112">
+<link rel="stylesheet" href="assets/css/app.css?v=20261112">
+<script src="shared/ultraspeaker-lang.js?v=20261112"></script>
 </head>
 <body>
-<div class="app">
-  <header class="us-header top">
+<div class="us-page us-page--narrow">
+  <header class="us-header">
     <div>
-      <a class="us-logo" href="https://www.theultraspeaker.com" target="_blank" rel="noopener"><img src="assets/logo-flipbook-lab-white.svg?v=20261112e" alt="The Ultraspeaker Flipbook Lab" width="181" height="60"></a>
-      <p class="us-subtitle"><i class="us-dot"></i><span id="docLine"></span></p>
+      <a class="us-logo" href="https://www.theultraspeaker.com" target="_blank" rel="noopener"><img src="assets/img/check-lab-logo.svg?v=20261112" alt="The Ultraspeaker Check Lab" width="172" height="60"></a>
+      <p class="us-subtitle" data-i18n="app.sub">Controllo della presentazione per la regia</p>
     </div>
     <div class="us-header-tools">
-      <span class="recpill" id="recPill" hidden><i></i><span id="recTime">00:00</span></span>
-      <button type="button" class="us-btn us-btn--icon" id="infoBtn" data-i18n-aria="info" data-i18n-title="info"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
-      <button type="button" class="us-btn" id="openBtn" data-i18n-aria="open">
-        <svg class="i" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9 14l3-3 3 3"/></svg>
-        <span class="tlabel" data-i18n="open"></span>
-      </button>
-      <button type="button" class="us-btn" id="linkBtn" data-i18n-title="l.open" data-i18n-aria="l.open">
-        <svg class="i" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>
-        <span class="tlabel" data-i18n="l.short"></span>
-      </button>
-      <span class="brk" aria-hidden="true"></span>
-      <label class="us-lang"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="us-sr" data-i18n="us.language"></span><select id="lang"></select></label>
-      <a class="us-btn us-guide" id="usGuide" href="guide/flipbook-lab-guide-en.pdf" target="_blank" rel="noopener" data-i18n-aria="us.guide.title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-i18n="us.guide"></span></a>
+      <label class="us-lang"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="us-sr" data-i18n="us.language">Lingua</span><select id="usLang"></select></label>
+      <a class="us-btn us-guide" id="usGuide" href="guide/check-lab-guide-it.pdf" target="_blank" rel="noopener" aria-label="Guida d'utilizzo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-i18n="us.guide">Guida</span></a>
     </div>
   </header>
-
-  <div class="work">
-    <nav class="tools" id="tools" data-i18n-aria="tools">
-      <button type="button" class="tool" data-tool="hand"><svg viewBox="0 0 24 24" class="i"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12M11 11.5v-7a1.5 1.5 0 0 1 3 0V12M14 11.5v-5a1.5 1.5 0 0 1 3 0V13M17 9.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-2a6 6 0 0 1-4.9-2.6L4.3 14.3a1.6 1.6 0 0 1 2.5-2L8 14"/></svg><span class="k">H</span></button>
-      <button type="button" class="tool" data-tool="hl"><svg viewBox="0 0 24 24" class="i"><path d="M9 11l-5 5v3h3l5-5M9 11l4-4 5 5-4 4M9 11l5 5M13 7l2-2a2 2 0 0 1 2.8 0L19 6.2a2 2 0 0 1 0 2.8l-2 2"/><path d="M3 22h8" stroke-width="3"/></svg><span class="k">E</span></button>
-      <button type="button" class="tool" data-tool="ul"><svg viewBox="0 0 24 24" class="i"><path d="M7 4v6a5 5 0 0 0 10 0V4M5 20h14"/></svg><span class="k">U</span></button>
-      <button type="button" class="tool" data-tool="pen"><svg viewBox="0 0 24 24" class="i"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><span class="k">P</span></button>
-      <button type="button" class="tool" data-tool="erase"><svg viewBox="0 0 24 24" class="i"><path d="M20 20H9L4 15a2 2 0 0 1 0-2.8L13.2 3a2 2 0 0 1 2.8 0L21 8a2 2 0 0 1 0 2.8L12 20M7.5 9.5l7 7"/></svg><span class="k">G</span></button>
-      <button type="button" class="tool" data-tool="zoom"><svg viewBox="0 0 24 24" class="i"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg><span class="k">Z</span></button>
-      <button type="button" class="tool" data-tool="zoomout"><svg viewBox="0 0 24 24" class="i"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6"/></svg><span class="k">⇧Z</span></button>
-      <button type="button" class="tool" data-tool="move"><svg viewBox="0 0 24 24" class="i"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/></svg><span class="k">V</span></button>
-      <div class="tsep"></div>
-      <div class="mode" role="group" data-i18n-aria="markMode">
-        <button type="button" class="tool" data-mode="keep"><svg viewBox="0 0 24 24" class="i"><path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3z"/></svg></button>
-        <button type="button" class="tool" data-mode="fade"><svg viewBox="0 0 24 24" class="i"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></button>
-      </div>
-      <div class="tsep"></div>
-      <div class="dots" id="dots"></div>
-      <div class="tsep"></div>
-      <button type="button" class="tool" id="clearBtn" aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24" class="i"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-13M9 7V4h6v3"/></svg></button>
-    </nav>
-
-    <!-- Menu del cestino -->
-    <div class="clearmenu us-panel" id="clearMenu" role="menu" hidden>
-      <button type="button" class="us-btn us-btn--block" id="clearMarks" role="menuitem" data-i18n="clearPage"></button>
-      <button type="button" class="us-btn us-btn--block" id="closePdf" role="menuitem" data-i18n="clear.pdf"></button>
-      <p class="note" data-i18n="clear.pdfNote"></p>
-    </div>
-
-    <div class="stagewrap" id="stagewrap">
-      <div class="stage checker" id="stage">
-        <canvas id="cv"></canvas>
-        <div class="stagenote" id="stagenote"></div>
-        <div class="placebar" id="placebar" hidden>
-          <button type="button" id="placeOut" data-i18n-aria="place.smaller" data-i18n-title="place.smaller"><svg class="i" viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button>
-          <button type="button" id="placePct" data-i18n-title="place.size">100%</button>
-          <button type="button" id="placeIn" data-i18n-aria="place.bigger" data-i18n-title="place.bigger"><svg class="i" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></button>
-          <button type="button" id="placeReset" data-i18n="place.reset" data-i18n-title="place.resetTitle"></button>
-        </div>
-        <section class="empty us-spotlight" id="empty" hidden>
-          <h1 data-i18n="empty.title"></h1>
-          <p data-i18n="empty.text"></p>
-          <div class="dropzone" id="dropzone">
-            <svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
-            <b data-i18n="dropBox"></b>
-            <div class="row">
-              <button type="button" class="us-btn us-btn--primary" id="chooseBtn"><span data-i18n="choose"></span></button>
-              <button type="button" class="us-btn" id="linkBtn2" data-i18n="l.fromLink"></button>
-              <button type="button" class="us-btn" id="sampleBtn" data-i18n="sample"></button>
-            </div>
-          </div>
-          <footer class="us-footer">
-            <a class="us-cta" href="mailto:info@theultraspeaker.com"><img src="assets/arena-white.svg" alt=""><span data-i18n="us.cta"></span></a>
-            <p class="us-links"><a href="support.html" target="_blank" data-i18n="us.support"></a><a href="privacy.html" target="_blank" data-i18n="us.privacy"></a><a href="terms.html" target="_blank" data-i18n="us.terms"></a><a href="GUIDA-INSTALLAZIONE.html" target="_blank" data-i18n="us.install"></a></p>
-          </footer>
-        </section>
-        <section class="busy" id="busy" hidden>
-          <img src="assets/flipbook-logetto.svg" alt="">
-          <div id="busyText"></div>
-          <div class="bar"><i id="busyBar"></i></div>
-        </section>
-      </div>
-    </div>
-  </div>
-
-  <footer class="bottom">
-    <div class="nav">
-      <button type="button" id="firstBtn" data-i18n-aria="first" data-i18n-title="first"><svg class="i" viewBox="0 0 24 24"><path d="M18 5l-7 7 7 7M7 5v14"/></svg></button>
-      <button type="button" id="prevBtn" data-i18n-aria="prev" data-i18n-title="prev"><svg class="i" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div class="num" id="num">–</div>
-      <button type="button" id="nextBtn" data-i18n-aria="next" data-i18n-title="next"><svg class="i" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
-    </div>
-    <div class="nav" id="zoomGrp">
-      <button type="button" id="zoomOut" data-i18n-aria="zoomOut" data-i18n-title="zoomOut"><svg class="i" viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button>
-      <button type="button" class="num" id="zoomPct" data-i18n-title="zoomReset">100%</button>
-      <button type="button" id="zoomIn" data-i18n-aria="zoomIn" data-i18n-title="zoomIn"><svg class="i" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></button>
-    </div>
-    <div class="grp">
-      <div class="seg" id="segLayout">
-        <button type="button" data-v="book" data-i18n-title="l.book"><svg class="i" viewBox="0 0 24 24"><path d="M12 6c-2-1.5-5-2-8-1.6V19c3-.4 6 .1 8 1.6 2-1.5 5-2 8-1.6V4.4C17 4 14 4.5 12 6zM12 6v14.6"/></svg><span class="hide-s hide-m" data-i18n="l.book"></span></button>
-        <button type="button" data-v="single" data-i18n-title="l.single"><svg class="i" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="1.5"/><path d="M9 8h6M9 12h6M9 16h4"/></svg><span class="hide-s hide-m" data-i18n="l.single"></span></button>
-      </div>
-      <label class="chk" id="coverWrap" data-i18n-title="cover"><input type="checkbox" id="optCover"><span class="hide-s hide-m" data-i18n="cover"></span></label>
-    </div>
-    <div class="grp">
-      <span class="us-label hide-s hide-m" data-i18n="fmt"></span>
-      <select class="fmtsel" id="fmtSel" data-i18n-aria="fmt" data-i18n-title="fmt.title"></select>
-    </div>
-    <div class="grp">
-      <span class="us-label hide-s hide-m" data-i18n="bg"></span>
-      <div class="seg" id="segBg">
-        <button type="button" data-v="clear"><i class="checkicon"></i><span data-i18n="bg.clear"></span></button>
-        <button type="button" data-v="color"><i class="checkicon" id="bgChip" style="background:#000000"></i><span data-i18n="bg.color"></span></button>
-        <button type="button" data-v="image"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg><span data-i18n="bg.image"></span></button>
-      </div>
-      <label class="swatch" id="bgSwatch" data-i18n-title="bg.pick"><input type="color" id="bgColor" value="#000000"></label>
-      <button type="button" class="swatch imgsw" id="bgImgBtn" data-i18n-title="bg.imagePick" hidden></button>
-      <input type="file" id="bgFile" accept="image/*" hidden>
-    </div>
-    <div class="spacer"></div>
-    <button type="button" class="us-btn us-btn--icon hide-s" id="fsBtn" data-i18n-title="full"><svg class="i" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
-    <button type="button" class="us-btn" id="autoBtn"><svg class="i" viewBox="0 0 24 24"><path d="M5 4l10 8-10 8zM19 5v14"/></svg><span data-i18n="auto"></span></button>
-    <button type="button" class="us-btn us-btn--primary" id="recBtn"><svg class="i" viewBox="0 0 24 24" id="recIco"><circle cx="12" cy="12" r="6" fill="currentColor" stroke="none"/></svg><span id="recLabel"></span></button>
+  <div id="app"><p class="cl-muted">The Ultraspeaker Check Lab…</p></div>
+  <noscript><p>JavaScript is required.</p></noscript>
+  <footer class="us-footer">
+    <a class="us-cta" id="usCta" href="mailto:info@theultraspeaker.com"><img src="assets/img/arena.svg?v=20261112" alt=""><span data-i18n="us.cta">Richiedi un consiglio</span></a>
+    <p class="us-links"><a href="support.html" target="_blank" data-i18n="us.support">Supporto</a><a href="privacy.html" target="_blank" data-i18n="us.privacy">Privacy</a><a href="terms.html" target="_blank" data-i18n="us.terms">Condizioni d'uso</a><a href="GUIDA-INSTALLAZIONE.html" target="_blank" data-i18n="us.install">Installazione</a></p>
   </footer>
 </div>
-
-<!-- Registrazione automatica -->
-<div class="veil" id="autoDlg" hidden>
-  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="autoTitle">
-    <h2 id="autoTitle" data-i18n="a.title"></h2>
-    <p class="sub" data-i18n="a.sub"></p>
-    <div class="opts">
-      <div class="optrow"><span class="us-label" data-i18n="a.pages"></span>
-        <input class="us-field num-in" type="number" id="aFrom" min="1" value="1"> <span>–</span> <input class="us-field num-in" type="number" id="aTo" min="1" value="1">
-      </div>
-      <div class="optrow"><span class="us-label" data-i18n="a.hold"></span><div class="chips" id="aHold"></div></div>
-      <div class="optrow"><span class="us-label" data-i18n="a.speed"></span><div class="chips" id="aSpeed"></div></div>
-      <div class="optrow"><span class="us-label" data-i18n="a.marks"></span>
-        <div class="seg" id="aMarks">
-          <button type="button" data-v="draw" data-i18n="a.marksDraw"></button>
-          <button type="button" data-v="show" data-i18n="a.marksShow"></button>
-        </div>
-      </div>
-      <div class="optrow" id="aAfterRow"><span class="us-label" data-i18n="a.after"></span><div class="chips" id="aAfter"></div></div>
-      <p class="us-note" id="aMarksInfo"></p>
-      <label class="chk"><input type="checkbox" id="aClose"><span data-i18n="a.close"></span></label>
-    </div>
-    <p class="note" id="aInfo"></p>
-    <div class="acts">
-      <button type="button" class="us-btn" data-close data-i18n="cancel"></button>
-      <button type="button" class="us-btn us-btn--primary" id="aGo" data-i18n="a.go"></button>
-    </div>
-  </div>
-</div>
-
-<!-- Esportazione -->
-<div class="veil" id="expDlg" hidden>
-  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="expTitle">
-    <h2 id="expTitle" data-i18n="x.title"></h2>
-    <p class="sub" id="expSub"></p>
-    <div id="expForm" class="opts">
-      <div class="cards">
-        <button type="button" class="card" data-fmt="mov">
-          <div class="prev checker2"><i></i></div>
-          <span class="tag">KEYNOTE</span>
-          <b data-i18n="x.mov"></b>
-          <span data-i18n="x.movText"></span>
-        </button>
-        <button type="button" class="card" data-fmt="mp4">
-          <div class="prev" id="mp4Prev" style="background:#000000"><i></i></div>
-          <span class="tag">POWERPOINT</span>
-          <b data-i18n="x.mp4"></b>
-          <span data-i18n="x.mp4Text"></span>
-        </button>
-      </div>
-      <div class="optrow" id="mp4ColorRow"><span class="us-label" data-i18n="bg"></span>
-        <div class="seg" id="mp4Bg">
-          <button type="button" data-v="color" data-i18n="bg.color"></button>
-          <button type="button" data-v="image" data-i18n="bg.image"></button>
-        </div>
-        <label class="swatch" id="mp4Sw"><input type="color" id="mp4Color" value="#000000"></label>
-        <span class="note" id="mp4BgNote"></span>
-      </div>
-      <div class="optrow" id="movShadowRow"><span class="us-label" data-i18n="x.shadow"></span>
-        <div class="seg" id="movShadow">
-          <button type="button" data-v="on" data-i18n="x.shadowOn"></button>
-          <button type="button" data-v="off" data-i18n="x.shadowOff"></button>
-        </div>
-        <span class="note" data-i18n="x.shadowNote"></span>
-      </div>
-      <div class="optrow"><span class="us-label" data-i18n="x.res"></span><div class="chips" id="resChips"></div></div>
-      <p class="note" id="expNote"></p>
-    </div>
-    <div id="expRun" class="opts" hidden>
-      <div id="expPhase"></div>
-      <div class="bar" style="width:100%"><i id="expBar"></i></div>
-      <p class="note" data-i18n="x.keepOpen"></p>
-    </div>
-    <div id="expDone" class="done" hidden>
-      <video id="expVideo" controls muted playsinline></video>
-      <div><b id="expFile"></b> <span class="note" id="expSize"></span></div>
-      <p class="note" id="expWhere" hidden></p>
-      <p class="us-note" id="expHow"></p>
-    </div>
-    <div class="acts">
-      <button type="button" class="us-btn" id="expCancel" data-i18n="cancel"></button>
-      <button type="button" class="us-btn" id="expOther" hidden></button>
-      <button type="button" class="us-btn us-btn--primary" id="expGo" data-i18n="x.go"></button>
-      <button type="button" class="us-btn us-btn--primary" id="expShare" hidden><svg class="i" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M6 12H5v8h14v-8h-1"/></svg><span data-i18n="x.share"></span></button>
-      <button type="button" class="us-btn" id="expSaveAs" hidden><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13l3 3 3-3"/></svg><span data-i18n="x.saveAs"></span></button>
-      <a class="us-btn us-btn--primary" id="expDl" hidden download><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-i18n="x.download"></span></a>
-    </div>
-  </div>
-</div>
-
-<div class="veil" id="linkDlg" hidden>
-  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="linkTitle">
-    <h2 id="linkTitle" data-i18n="l.title"></h2>
-    <p class="sub" data-i18n="l.sub"></p>
-    <form class="opts" id="linkForm" autocomplete="off">
-      <input class="us-field url-in" type="url" id="linkUrl" inputmode="url" spellcheck="false" placeholder="https://…" required>
-      <p class="us-note" data-i18n="l.hint"></p>
-    </form>
-    <div class="acts">
-      <button type="button" class="us-btn" id="linkCancel" data-i18n="cancel"></button>
-      <button type="submit" form="linkForm" class="us-btn us-btn--primary" id="linkGo" data-i18n="l.go"></button>
-    </div>
-  </div>
-</div>
-
-<!-- Formato personalizzato del video -->
-<div class="veil" id="fmtDlg" hidden>
-  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="fmtTitle">
-    <h2 id="fmtTitle" data-i18n="fmt.dlgTitle"></h2>
-    <p class="sub" data-i18n="fmt.sub"></p>
-    <form class="opts" id="fmtForm" autocomplete="off">
-      <div class="fmtrow">
-        <label class="us-sr" for="fmtW" data-i18n="fmt.w"></label><input class="us-field num-in" type="number" id="fmtW" min="160" max="3840" step="2" required>
-        <span>×</span>
-        <label class="us-sr" for="fmtH" data-i18n="fmt.h"></label><input class="us-field num-in" type="number" id="fmtH" min="160" max="3840" step="2" required>
-        <span class="note">px</span>
-      </div>
-      <p class="note" id="fmtInfo"></p>
-    </form>
-    <div class="acts">
-      <button type="button" class="us-btn" data-close data-i18n="cancel"></button>
-      <button type="submit" form="fmtForm" class="us-btn us-btn--primary" data-i18n="fmt.go"></button>
-    </div>
-  </div>
-</div>
-
-<!-- Informazioni: chiusura con Richiedi un consiglio e i link di servizio -->
-<div class="veil" id="infoDlg" hidden>
-  <div class="dlg us-panel" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
-    <h2 id="infoTitle">The Ultraspeaker Flipbook Lab</h2>
-    <p class="sub" data-i18n="empty.text"></p>
-    <p class="note" data-i18n="info.version"></p>
-    <footer class="us-footer">
-            <a class="us-cta" href="mailto:info@theultraspeaker.com"><img src="assets/arena-white.svg" alt=""><span data-i18n="us.cta"></span></a>
-            <p class="us-links"><a href="support.html" target="_blank" data-i18n="us.support"></a><a href="privacy.html" target="_blank" data-i18n="us.privacy"></a><a href="terms.html" target="_blank" data-i18n="us.terms"></a><a href="GUIDA-INSTALLAZIONE.html" target="_blank" data-i18n="us.install"></a></p>
-          </footer>
-    <div class="acts"><button type="button" class="us-btn" data-close data-i18n="close"></button></div>
-  </div>
-</div>
-
-<input type="file" id="fileIn" accept="application/pdf,.pdf" hidden>
-<div class="drop" id="drop" hidden><img src="assets/flipbook-logetto.svg" alt=""><span data-i18n="dropHere"></span></div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<script src="vendor/pdf.min.js?v=20261112e"></script>
-<script src="vendor/mp4-muxer.js?v=20261112e"></script>
-<script src="vendor/ffmpeg/ffmpeg.js?v=20261112e"></script>
-<script src="js/i18n.js?v=20261112e"></script>
-<script src="js/engine.js?v=20261112e"></script>
-<script src="js/annot.js?v=20261112e"></script>
-<script src="js/pages.js?v=20261112e"></script>
-<script src="js/store.js?v=20261112e"></script>
-<script src="js/export.js?v=20261112e"></script>
-<script src="js/app.js?v=20261112e"></script>
+<script src="assets/vendor/jszip.min.js?v=20261112"></script>
+<script src="assets/vendor/jspdf.umd.min.js?v=20261112"></script>
+<script src="assets/js/i18n/it.js?v=20261112"></script>
+<script src="assets/js/i18n/en.js?v=20261112"></script>
+<script src="assets/js/i18n/es.js?v=20261112"></script>
+<script src="assets/js/i18n/fr.js?v=20261112"></script>
+<script src="assets/js/i18n/de.js?v=20261112"></script>
+<script src="assets/js/i18n.js?v=20261112"></script>
+<script src="assets/js/fonts-db.js?v=20261112"></script>
+<script src="assets/js/color.js?v=20261112"></script>
+<script src="assets/js/probe.js?v=20261112"></script>
+<script src="assets/js/analyze-pptx.js?v=20261112"></script>
+<script src="assets/js/analyze-text.js?v=20261112"></script>
+<script src="assets/js/analyze-key.js?v=20261112"></script>
+<script src="assets/js/evaluate.js?v=20261112"></script>
+<script src="assets/js/kit.js?v=20261112"></script>
+<script src="assets/js/photo.js?v=20261112"></script>
+<script src="assets/js/stile.js?v=20261112"></script>
+<script src="assets/js/ui.js?v=20261112"></script>
+<script src="assets/js/app-web.js?v=20261112"></script>
 </body>
 </html>

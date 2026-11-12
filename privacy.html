@@ -3,200 +3,60 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy · The Ultraspeaker Flipbook Lab</title>
+<title>Privacy · The Ultraspeaker Check Lab</title>
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261112e">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/flipbook-lab-icon-32.png?v=20261112e">
-<link rel="apple-touch-icon" href="assets/flipbook-lab-icon-180.png?v=20261112e">
-<link rel="stylesheet" href="shared/ultraspeaker-lab.css?v=20261112e">
-<link rel="stylesheet" href="css/app.css?v=20261112e">
-<script src="shared/ultraspeaker-lang.js?v=20261112e"></script>
+<link rel="icon" type="image/svg+xml" href="assets/img/check-lab-icon.svg?v=20261112">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/check-lab-mark-32.png?v=20261112">
+<link rel="apple-touch-icon" href="assets/icons/check-lab-mark-180.png?v=20261112">
+<link rel="stylesheet" href="shared/ultraspeaker-lab.css?v=20261112">
+<link rel="stylesheet" href="assets/css/app.css?v=20261112">
+<script src="shared/ultraspeaker-lang.js?v=20261112"></script>
 <!-- Lingua letta prima del disegno della pagina, così compare subito il testo giusto -->
-<script>document.documentElement.lang = UltraspeakerLang.get("flipbooklab.lang");</script>
+<script>document.documentElement.lang = UltraspeakerLang.get("ultraspeaker-checklab-lang");</script>
 </head>
 <body data-page="privacy">
 <div class="us-doc">
   <header class="us-header">
-    <a class="us-logo" href="https://www.theultraspeaker.com" target="_blank" rel="noopener"><img src="assets/logo-flipbook-lab-white.svg?v=20261112e" alt="The Ultraspeaker Flipbook Lab" width="181" height="60"></a>
+    <a class="us-logo" href="https://www.theultraspeaker.com" target="_blank" rel="noopener"><img src="assets/img/check-lab-logo.svg?v=20261112" alt="The Ultraspeaker Check Lab" width="172" height="60"></a>
     <div class="us-header-tools">
       <label class="us-lang"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="us-sr" data-t="language">Lingua</span><select id="lang"></select></label>
-      <a class="us-btn us-guide" id="usGuide" href="guide/flipbook-lab-guide-en.pdf" target="_blank" rel="noopener" aria-label="Guida d'utilizzo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-t="guide">Guida</span></a>
+      <a class="us-btn us-guide" id="usGuide" href="guide/check-lab-guide-it.pdf" target="_blank" rel="noopener" aria-label="Guida d'utilizzo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-t="guide">Guida</span></a>
     </div>
   </header>
   <nav class="us-doc-nav"><a href="support.html" data-nav="support">Supporto</a><a href="privacy.html" data-nav="privacy" aria-current="page">Privacy</a><a href="terms.html" data-nav="terms">Condizioni d'uso</a><a href="GUIDA-INSTALLAZIONE.html" data-nav="install">Installazione</a></nav>
 <main>
 <div data-lang="it" lang="it">
-<h1>Informativa sulla privacy – The Ultraspeaker Flipbook Lab</h1>
+<h1>Informativa sulla privacy</h1>
 <p class="us-updated">Ultimo aggiornamento: 12 novembre 2026</p>
 <p><b>Titolare:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
-<h2>In breve</h2>
-<p>The Ultraspeaker Flipbook Lab <b>non raccoglie, non invia a noi e non vende dati personali</b>. Il PDF che apri resta sul tuo dispositivo e non viene mai inviato a server di The Ultraspeaker o di terzi. Non ci sono account, cookie, statistiche d'uso o pubblicità.</p>
-<h2>Cosa fa l'app con i tuoi file</h2>
-<ul>
-<li><b>PDF e immagini:</b> il PDF e l'eventuale immagine di sfondo vengono letti ed elaborati nel browser. Le pagine diventano immagini e il video si crea sul dispositivo.</li>
-<li><b>Librerie in locale:</b> <b>pdf.js</b> legge il PDF, <b>ffmpeg.wasm</b> crea il MOV trasparente e <b>mp4-muxer</b> crea l'MP4. Sono file dell'app, scaricati con le sue pagine, e lavorano nel browser senza inviare nulla.</li>
-<li><b>Apertura da un link:</b> se incolli un indirizzo, o apri l'app con <code>?pdf=</code>, il browser scarica il PDF direttamente da quell'indirizzo. Il sito che ospita il file (per esempio Dropbox, Google Drive, OneDrive o GitHub) riceve la richiesta come per qualsiasi download, con le sue regole sulla privacy.</li>
-<li><b>Video:</b> si scarica sul dispositivo o, sul telefono, si passa al menu di condivisione del sistema solo quando lo scegli tu.</li>
-</ul>
-<h2>Informazioni salvate sul dispositivo</h2>
-<ul>
-<li><b>Sul computer</b>, nel database del browser <code>flipbook-lab</code> (IndexedDB): l'ultimo PDF aperto, come immagini delle pagine con il testo delle righe; la pagina a cui eri e i segni che restano; l'immagine di sfondo. Servono a ritrovare il lavoro alla prossima apertura. Sul telefono il PDF non viene salvato: l'app riparte sempre dalla pagina iniziale. L'immagine di sfondo invece resta anche lì.</li>
-<li>Le preferenze, nella memoria locale del browser con chiavi <code>ultraspeaker.flipbook.*</code>: vista, copertina, sfondo e colore, colore e durata dei segni, impostazioni del video automatico, risoluzione, formato del video, posizione e grandezza del libro.</li>
-<li>La lingua scelta, con la chiave <code>ultraspeaker.lang</code>, comune a tutti i Lab The Ultraspeaker. Le versioni precedenti usavano chiavi <code>flipbooklab.*</code>: al primo avvio i valori vengono copiati nelle chiavi nuove e quelle vecchie vengono cancellate.</li>
-<li>Puoi cancellare tutto svuotando i dati del sito nel browser.</li>
-</ul>
-<h2>Servizi di terze parti</h2>
-<ul>
-<li>I file dell'app sono ospitati su <b>GitHub Pages</b> (GitHub, Inc.). Come ogni sito web, riceve l'indirizzo IP del dispositivo per consegnare le pagine. Vedi <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
-<li>Nel pannello di PowerPoint l'app usa la libreria <b>Office.js</b>, caricata dai server Microsoft. Vedi <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
-<li>Non usiamo altri servizi esterni, sistemi di tracciamento o circuiti pubblicitari.</li>
-</ul>
-<h2>I tuoi diritti</h2>
-<p>Poiché l'app non tratta dati personali, non abbiamo dati da consultare, correggere o cancellare. Per qualsiasi domanda scrivi a <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Puoi sempre rivolgerti al Garante per la protezione dei dati personali.</p>
-<h2>Minori</h2>
-<p>L'app è pensata per un uso professionale e non è rivolta ai minori.</p>
-<h2>Modifiche</h2>
-<p>Se questa informativa cambia, aggiorniamo questa pagina e la data in alto.</p>
-</div>
+<h2>Titolare</h2><p>The Ultraspeaker Check Lab (add-in per PowerPoint e versione web) è realizzato da <strong>Nicholas D. Charles (The Ultraspeaker)</strong>, titolare del trattamento. Contatto: <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>.</p><h2>La tua presentazione resta sul tuo computer</h2><p>Il file che controlli (.pptx o .key) viene letto e analizzato <strong>solo localmente</strong>, nel pannello di PowerPoint o nel tuo browser. Non viene mai inviato, caricato o copiato su server esterni, né nostri né di terzi. Lo stesso vale per i kit di prova e per il report PDF: vengono creati sul tuo dispositivo e salvati dove decidi tu.</p><h2>Nessun dato personale raccolto</h2><p>Check Lab non raccoglie dati personali: nessun account, nessuna registrazione, nessun modulo di contatto, nessuno strumento di statistica o di tracciamento, nessun cookie di profilazione o pubblicitario. I caratteri tipografici sono ospitati insieme all’applicazione, senza richieste a servizi esterni.</p><h2>Cosa resta sul tuo dispositivo</h2><p>Per comodità, il browser conserva nella propria memoria locale (localStorage) la lingua scelta, le impostazioni del talk, i campi del nome file, la checklist e, se le usi, le tue valutazioni e note sul report, legate al nome del file. Questi dati restano sul tuo dispositivo, non ci vengono trasmessi e puoi cancellarli in qualsiasi momento («Azzera le mie valutazioni» nel report, oppure eliminando i dati del sito dal browser).</p><p>Chiavi usate nella memoria del browser: <code>ultraspeaker.lang</code> (lingua, condivisa con gli altri Lab The Ultraspeaker) e <code>ultraspeaker.check.*</code> (impostazioni del talk, nome del file, checklist, valutazioni e note del report).</p><h2>Font del computer e scelte di stile</h2><p>Nella scheda Stile puoi chiedere l’elenco dei font installati: lo fornisce il browser, solo se dai il permesso, e l’elenco resta sul tuo computer senza essere inviato a nessuno. Se carichi il file di un font, viene letto solo nella pagina, per l’anteprima, e non viene salvato né trasmesso. I link «Dafont» e «Google Fonts» aprono quei siti in una nuova scheda con il nome del font da cercare: da quel momento valgono le loro informative. Colori e font scelti vengono salvati nella memoria locale del browser insieme alle altre impostazioni. Le immagini della presentazione su cui misuro il contrasto vengono lette solo nella memoria del browser e mai trasmesse.</p><h2>Servizi tecnici di terze parti</h2><p>Le pagine sono pubblicate su GitHub Pages (GitHub, Inc.), che per motivi di sicurezza può registrare nei propri log tecnici l’indirizzo IP di chi visita il sito, come descritto nell’informativa di GitHub. Nell’add-in, la libreria Office.js viene caricata dai server di Microsoft, come previsto per tutti i componenti aggiuntivi di Office; si applica l’informativa sulla privacy di Microsoft. Questi servizi non ricevono mai il contenuto della tua presentazione.</p><p>Nel pannello di PowerPoint la pagina carica Office.js da Microsoft (appsforoffice.microsoft.com), necessario a ogni componente aggiuntivo; si applica l’informativa di Microsoft.</p><h2>I tuoi diritti</h2><p>Poiché non raccogliamo dati personali, non abbiamo dati da consultare, correggere o cancellare. Per qualsiasi domanda scrivi a <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Hai comunque il diritto di presentare reclamo all’autorità di controllo (in Italia, il Garante per la protezione dei dati personali).</p><h2>Modifiche</h2><p>Eventuali modifiche a questa informativa saranno pubblicate su questa pagina con la nuova data di aggiornamento.</p></div>
 <div data-lang="en" lang="en">
-<h1>Privacy policy – The Ultraspeaker Flipbook Lab</h1>
+<h1>Privacy policy</h1>
 <p class="us-updated">Last updated: 12 November 2026</p>
 <p><b>Owner:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
-<h2>Summary</h2>
-<p>The Ultraspeaker Flipbook Lab <b>does not collect, send to us or sell any personal data</b>. The PDF you open stays on your device and is never sent to servers run by The Ultraspeaker or by third parties. There are no accounts, cookies, usage statistics or advertising.</p>
-<h2>What the app does with your files</h2>
-<ul>
-<li><b>PDFs and images:</b> the PDF and any background image are read and processed in the browser. The pages become images and the video is created on your device.</li>
-<li><b>Local libraries:</b> <b>pdf.js</b> reads the PDF, <b>ffmpeg.wasm</b> creates the transparent MOV and <b>mp4-muxer</b> creates the MP4. They are files of the app, downloaded with its pages, and they work in the browser without sending anything.</li>
-<li><b>Opening from a link:</b> if you paste an address, or open the app with <code>?pdf=</code>, the browser downloads the PDF directly from that address. The site hosting the file (for example Dropbox, Google Drive, OneDrive or GitHub) receives the request as with any download, under its own privacy rules.</li>
-<li><b>Video:</b> it is downloaded to your device or, on a phone, passed to the system share menu only when you choose to.</li>
-</ul>
-<h2>Information stored on your device</h2>
-<ul>
-<li><b>On a computer</b>, in the browser database <code>flipbook-lab</code> (IndexedDB): the last PDF opened, as page images with the text of the lines; the page you were on and the marks that stay; the background image. They let you pick up your work next time. On a phone the PDF is not saved: the app always starts from the home screen. The background image is kept there too.</li>
-<li>Your preferences, in the browser's local storage under the keys <code>ultraspeaker.flipbook.*</code>: view, cover, background and colour, mark colour and duration, auto video settings, resolution, video format, book position and size.</li>
-<li>The language you choose, under the key <code>ultraspeaker.lang</code>, shared by all The Ultraspeaker Labs. Earlier versions used <code>flipbooklab.*</code> keys: on first start the values are copied to the new keys and the old ones are deleted.</li>
-<li>You can remove all of this by clearing the site data in your browser.</li>
-</ul>
-<h2>Third-party services</h2>
-<ul>
-<li>The app's files are hosted on <b>GitHub Pages</b> (GitHub, Inc.). Like any website, it receives your device's IP address in order to deliver the pages. See <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
-<li>In the PowerPoint pane the app uses the <b>Office.js</b> library, loaded from Microsoft's servers. See <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
-<li>We do not use any other external services, tracking systems or advertising networks.</li>
-</ul>
-<h2>Your rights</h2>
-<p>As the app does not process personal data, we hold no data to access, correct or delete. For any question write to <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. You can always contact your data protection authority.</p>
-<h2>Children</h2>
-<p>The app is designed for professional use and is not aimed at children.</p>
-<h2>Changes</h2>
-<p>If this policy changes, we will update this page and the date at the top.</p>
-</div>
+<h2>Controller</h2><p>The Ultraspeaker Check Lab (PowerPoint add-in and web version) is made by <strong>Nicholas D. Charles (The Ultraspeaker)</strong>, the data controller. Contact: <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>.</p><h2>Your presentation stays on your computer</h2><p>The file you check (.pptx or .key) is read and analysed <strong>locally only</strong>, in the PowerPoint pane or in your browser. It is never sent, uploaded or copied to external servers, ours or anyone else’s. The same applies to the test kits and the PDF report: they are created on your device and saved wherever you choose.</p><h2>No personal data collected</h2><p>Check Lab does not collect personal data: no account, no sign-up, no contact form, no analytics or tracking tools, no profiling or advertising cookies. Fonts are hosted together with the application, with no requests to external services.</p><h2>What stays on your device</h2><p>For convenience, your browser keeps in its local storage (localStorage) the chosen language, the talk settings, the file-name fields, the checklist and, if you use them, your ratings and notes on the report, linked to the file name. This data stays on your device, is not sent to us and you can delete it at any time (“Clear my ratings” in the report, or by deleting the site data in your browser).</p><p>Keys used in the browser’s storage: <code>ultraspeaker.lang</code> (language, shared with the other The Ultraspeaker Labs) and <code>ultraspeaker.check.*</code> (talk settings, file name, checklist, ratings and notes on the report).</p><h2>Computer fonts and style choices</h2><p>In the Style tab you can ask for the list of installed fonts: the browser provides it only if you allow it, and the list stays on your computer and is not sent to anyone. If you load a font file, it is read only inside the page, for the preview, and is neither saved nor transmitted. The “Dafont” and “Google Fonts” links open those sites in a new tab with the font name to search for: from then on their own policies apply. The chosen colours and font are saved in the browser’s local storage with the other settings. The images of the presentation used to measure contrast are read only in the browser’s memory and never transmitted.</p><h2>Third-party technical services</h2><p>The pages are published on GitHub Pages (GitHub, Inc.), which for security reasons may record visitors’ IP addresses in its technical logs, as described in GitHub’s privacy statement. In the add-in, the Office.js library is loaded from Microsoft’s servers, as for every Office add-in; Microsoft’s privacy statement applies. These services never receive the content of your presentation.</p><p>In the PowerPoint pane the page loads Office.js from Microsoft (appsforoffice.microsoft.com), required by every add-in; Microsoft’s privacy statement applies.</p><h2>Your rights</h2><p>Since we collect no personal data, there is no data of yours to access, correct or delete. For any question write to <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. You always have the right to lodge a complaint with your data protection authority.</p><h2>Changes</h2><p>Any change to this policy will be published on this page with a new update date.</p></div>
 <div data-lang="es" lang="es">
-<h1>Política de privacidad – The Ultraspeaker Flipbook Lab</h1>
+<h1>Política de privacidad</h1>
 <p class="us-updated">Última actualización: 12 de noviembre de 2026</p>
-<p><b>Titular:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
-<h2>En resumen</h2>
-<p>The Ultraspeaker Flipbook Lab <b>no recoge, no nos envía ni vende datos personales</b>. El PDF que abres se queda en tu dispositivo y nunca se envía a servidores de The Ultraspeaker ni de terceros. No hay cuentas, cookies, estadísticas de uso ni publicidad.</p>
-<h2>Qué hace la app con tus archivos</h2>
-<ul>
-<li><b>PDF e imágenes:</b> el PDF y la posible imagen de fondo se leen y procesan en el navegador. Las páginas se convierten en imágenes y el vídeo se crea en el dispositivo.</li>
-<li><b>Bibliotecas locales:</b> <b>pdf.js</b> lee el PDF, <b>ffmpeg.wasm</b> crea el MOV transparente y <b>mp4-muxer</b> crea el MP4. Son archivos de la app, descargados con sus páginas, y trabajan en el navegador sin enviar nada.</li>
-<li><b>Apertura desde un enlace:</b> si pegas una dirección, o abres la app con <code>?pdf=</code>, el navegador descarga el PDF directamente desde esa dirección. El sitio que aloja el archivo (por ejemplo Dropbox, Google Drive, OneDrive o GitHub) recibe la petición como en cualquier descarga, con sus propias normas de privacidad.</li>
-<li><b>Vídeo:</b> se descarga en el dispositivo o, en el móvil, se pasa al menú de compartir del sistema solo cuando tú lo eliges.</li>
-</ul>
-<h2>Información guardada en el dispositivo</h2>
-<ul>
-<li><b>En el ordenador</b>, en la base de datos del navegador <code>flipbook-lab</code> (IndexedDB): el último PDF abierto, como imágenes de las páginas con el texto de las líneas; la página en la que estabas y las marcas que se quedan; la imagen de fondo. Sirven para recuperar el trabajo la próxima vez. En el móvil el PDF no se guarda: la app empieza siempre desde la pantalla inicial. La imagen de fondo, en cambio, se guarda también allí.</li>
-<li>Las preferencias, en la memoria local del navegador con las claves <code>ultraspeaker.flipbook.*</code>: vista, portada, fondo y color, color y duración de las marcas, ajustes del vídeo automático, resolución, formato del vídeo, posición y tamaño del libro.</li>
-<li>El idioma elegido, con la clave <code>ultraspeaker.lang</code>, común a todos los Labs de The Ultraspeaker. Las versiones anteriores usaban claves <code>flipbooklab.*</code>: en el primer inicio los valores se copian en las claves nuevas y las antiguas se borran.</li>
-<li>Puedes borrarlo todo vaciando los datos del sitio en el navegador.</li>
-</ul>
-<h2>Servicios de terceros</h2>
-<ul>
-<li>Los archivos de la app están alojados en <b>GitHub Pages</b> (GitHub, Inc.). Como cualquier sitio web, recibe la dirección IP del dispositivo para entregar las páginas. Consulta <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
-<li>En el panel de PowerPoint la app usa la biblioteca <b>Office.js</b>, cargada desde los servidores de Microsoft. Consulta <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
-<li>No usamos otros servicios externos, sistemas de seguimiento ni redes publicitarias.</li>
-</ul>
-<h2>Tus derechos</h2>
-<p>Como la app no trata datos personales, no tenemos datos que consultar, corregir o borrar. Para cualquier pregunta escribe a <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Siempre puedes dirigirte a tu autoridad de protección de datos.</p>
-<h2>Menores</h2>
-<p>La app está pensada para un uso profesional y no está dirigida a menores.</p>
-<h2>Cambios</h2>
-<p>Si esta política cambia, actualizaremos esta página y la fecha de arriba.</p>
-</div>
+<p><b>Responsable:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
+<h2>Responsable</h2><p>The Ultraspeaker Check Lab (complemento de PowerPoint y versión web) ha sido creado por <strong>Nicholas D. Charles (The Ultraspeaker)</strong>, responsable del tratamiento. Contacto: <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>.</p><h2>Tu presentación se queda en tu ordenador</h2><p>El archivo que revisas (.pptx o .key) se lee y analiza <strong>solo localmente</strong>, en el panel de PowerPoint o en tu navegador. Nunca se envía, se sube ni se copia a servidores externos, ni nuestros ni de terceros. Lo mismo vale para los kits de prueba y el informe PDF: se crean en tu dispositivo y se guardan donde tú decides.</p><h2>No se recogen datos personales</h2><p>Check Lab no recoge datos personales: sin cuenta, sin registro, sin formulario de contacto, sin herramientas de estadística o seguimiento, sin cookies de perfilado o publicidad. Las fuentes tipográficas se alojan junto con la aplicación, sin solicitudes a servicios externos.</p><h2>Qué se queda en tu dispositivo</h2><p>Por comodidad, el navegador guarda en su almacenamiento local (localStorage) el idioma elegido, los ajustes de la ponencia, los campos del nombre del archivo, la lista y, si las usas, tus valoraciones y notas del informe, ligadas al nombre del archivo. Estos datos se quedan en tu dispositivo, no se nos transmiten y puedes borrarlos en cualquier momento («Borrar mis valoraciones» en el informe, o eliminando los datos del sitio en el navegador).</p><p>Claves usadas en el almacenamiento del navegador: <code>ultraspeaker.lang</code> (idioma, compartido con los demás Labs The Ultraspeaker) y <code>ultraspeaker.check.*</code> (ajustes de la ponencia, nombre del archivo, lista, valoraciones y notas del informe).</p><h2>Fuentes del ordenador y elecciones de estilo</h2><p>En la pestaña Estilo puedes pedir la lista de fuentes instaladas: la proporciona el navegador solo si das permiso, y la lista se queda en tu ordenador sin enviarse a nadie. Si cargas el archivo de una fuente, se lee solo dentro de la página, para la vista previa, y no se guarda ni se transmite. Los enlaces «Dafont» y «Google Fonts» abren esos sitios en una pestaña nueva con el nombre de la fuente que buscar: desde ese momento valen sus propias políticas. Los colores y la fuente elegidos se guardan en el almacenamiento local del navegador junto con los demás ajustes. Las imágenes de la presentación en las que mido el contraste se leen solo en la memoria del navegador y nunca se transmiten.</p><h2>Servicios técnicos de terceros</h2><p>Las páginas se publican en GitHub Pages (GitHub, Inc.), que por motivos de seguridad puede registrar en sus registros técnicos la dirección IP de los visitantes, según su declaración de privacidad. En el complemento, la biblioteca Office.js se carga desde los servidores de Microsoft, como en todos los complementos de Office; se aplica la declaración de privacidad de Microsoft. Estos servicios nunca reciben el contenido de tu presentación.</p><p>En el panel de PowerPoint la página carga Office.js de Microsoft (appsforoffice.microsoft.com), necesario para cualquier complemento; se aplica la política de privacidad de Microsoft.</p><h2>Tus derechos</h2><p>Como no recogemos datos personales, no tenemos datos tuyos que consultar, corregir o eliminar. Para cualquier pregunta escribe a <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Siempre tienes derecho a presentar una reclamación ante la autoridad de protección de datos.</p><h2>Cambios</h2><p>Cualquier cambio en esta política se publicará en esta página con la nueva fecha de actualización.</p></div>
 <div data-lang="fr" lang="fr">
-<h1>Politique de confidentialité – The Ultraspeaker Flipbook Lab</h1>
-<p class="us-updated">Dernière mise à jour: 12 novembre 2026</p>
-<p><b>Titulaire:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
-<h2>En bref</h2>
-<p>The Ultraspeaker Flipbook Lab <b>ne collecte, ne nous envoie et ne vend aucune donnée personnelle</b>. Le PDF que vous ouvrez reste sur votre appareil et n'est jamais envoyé aux serveurs de The Ultraspeaker ni de tiers. Il n'y a ni compte, ni cookies, ni statistiques d'utilisation, ni publicité.</p>
-<h2>Ce que fait l'app de vos fichiers</h2>
-<ul>
-<li><b>PDF et images :</b> le PDF et l'éventuelle image de fond sont lus et traités dans le navigateur. Les pages deviennent des images et la vidéo est créée sur l'appareil.</li>
-<li><b>Bibliothèques locales :</b> <b>pdf.js</b> lit le PDF, <b>ffmpeg.wasm</b> crée le MOV transparent et <b>mp4-muxer</b> crée le MP4. Ce sont des fichiers de l'app, téléchargés avec ses pages, qui travaillent dans le navigateur sans rien envoyer.</li>
-<li><b>Ouverture depuis un lien :</b> si vous collez une adresse, ou ouvrez l'app avec <code>?pdf=</code>, le navigateur télécharge le PDF directement depuis cette adresse. Le site qui héberge le fichier (par exemple Dropbox, Google Drive, OneDrive ou GitHub) reçoit la requête comme pour tout téléchargement, selon ses propres règles de confidentialité.</li>
-<li><b>Vidéo :</b> elle est téléchargée sur l'appareil ou, sur le téléphone, transmise au menu de partage du système uniquement quand vous le choisissez.</li>
-</ul>
-<h2>Informations enregistrées sur l'appareil</h2>
-<ul>
-<li><b>Sur l'ordinateur</b>, dans la base de données du navigateur <code>flipbook-lab</code> (IndexedDB) : le dernier PDF ouvert, sous forme d'images des pages avec le texte des lignes ; la page où vous étiez et les marques qui restent ; l'image de fond. Elles servent à retrouver votre travail à la prochaine ouverture. Sur le téléphone, le PDF n'est pas enregistré : l'app repart toujours de l'écran d'accueil. L'image de fond, elle, y est conservée aussi.</li>
-<li>Les préférences, dans la mémoire locale du navigateur sous les clés <code>ultraspeaker.flipbook.*</code> : vue, couverture, fond et couleur, couleur et durée des marques, réglages de la vidéo automatique, résolution, format de la vidéo, position et taille du livre.</li>
-<li>La langue choisie, sous la clé <code>ultraspeaker.lang</code>, commune à tous les Labs The Ultraspeaker. Les versions précédentes utilisaient des clés <code>flipbooklab.*</code> : au premier démarrage, les valeurs sont copiées dans les nouvelles clés et les anciennes sont supprimées.</li>
-<li>Vous pouvez tout effacer en supprimant les données du site dans le navigateur.</li>
-</ul>
-<h2>Services tiers</h2>
-<ul>
-<li>Les fichiers de l'app sont hébergés sur <b>GitHub Pages</b> (GitHub, Inc.). Comme tout site web, il reçoit l'adresse IP de l'appareil pour fournir les pages. Voir <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
-<li>Dans le volet PowerPoint, l'app utilise la bibliothèque <b>Office.js</b>, chargée depuis les serveurs de Microsoft. Voir <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
-<li>Nous n'utilisons aucun autre service externe, système de suivi ou réseau publicitaire.</li>
-</ul>
-<h2>Vos droits</h2>
-<p>Comme l'app ne traite pas de données personnelles, nous n'avons aucune donnée à consulter, corriger ou supprimer. Pour toute question, écrivez à <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Vous pouvez toujours vous adresser à votre autorité de protection des données.</p>
-<h2>Mineurs</h2>
-<p>L'app est conçue pour un usage professionnel et ne s'adresse pas aux mineurs.</p>
-<h2>Modifications</h2>
-<p>Si cette politique change, nous mettrons à jour cette page et la date en haut.</p>
-</div>
+<h1>Politique de confidentialité</h1>
+<p class="us-updated">Dernière mise à jour : 12 novembre 2026</p>
+<p><b>Responsable:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
+<h2>Responsable</h2><p>The Ultraspeaker Check Lab (complément PowerPoint et version web) est réalisé par <strong>Nicholas D. Charles (The Ultraspeaker)</strong>, responsable du traitement. Contact : <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>.</p><h2>Votre présentation reste sur votre ordinateur</h2><p>Le fichier que vous contrôlez (.pptx ou .key) est lu et analysé <strong>uniquement en local</strong>, dans le volet de PowerPoint ou dans votre navigateur. Il n’est jamais envoyé, chargé ou copié sur des serveurs externes, les nôtres ou ceux de tiers. Il en va de même pour les kits de test et le rapport PDF : ils sont créés sur votre appareil et enregistrés où vous le souhaitez.</p><h2>Aucune donnée personnelle collectée</h2><p>Check Lab ne collecte aucune donnée personnelle : pas de compte, pas d’inscription, pas de formulaire de contact, pas d’outil de statistiques ou de suivi, pas de cookies de profilage ou publicitaires. Les polices sont hébergées avec l’application, sans requête vers des services externes.</p><h2>Ce qui reste sur votre appareil</h2><p>Par commodité, le navigateur conserve dans son stockage local (localStorage) la langue choisie, les réglages de l’intervention, les champs du nom de fichier, la check-list et, si vous les utilisez, vos évaluations et notes sur le rapport, liées au nom du fichier. Ces données restent sur votre appareil, ne nous sont pas transmises et vous pouvez les effacer à tout moment (« Effacer mes évaluations » dans le rapport, ou en supprimant les données du site dans le navigateur).</p><p>Clés utilisées dans le stockage du navigateur : <code>ultraspeaker.lang</code> (langue, partagée avec les autres Labs The Ultraspeaker) et <code>ultraspeaker.check.*</code> (réglages de l’intervention, nom du fichier, check-list, évaluations et notes du rapport).</p><h2>Polices de l’ordinateur et choix de style</h2><p>Dans l’onglet Style, vous pouvez demander la liste des polices installées : le navigateur la fournit seulement avec votre autorisation, et la liste reste sur votre ordinateur sans être envoyée à personne. Si vous chargez le fichier d’une police, il est lu uniquement dans la page, pour l’aperçu, et n’est ni enregistré ni transmis. Les liens « Dafont » et « Google Fonts » ouvrent ces sites dans un nouvel onglet avec le nom de la police à rechercher : leurs propres politiques s’appliquent alors. Les couleurs et la police choisies sont enregistrées dans le stockage local du navigateur avec les autres réglages. Les images de la présentation sur lesquelles je mesure le contraste sont lues uniquement dans la mémoire du navigateur et jamais transmises.</p><h2>Services techniques tiers</h2><p>Les pages sont publiées sur GitHub Pages (GitHub, Inc.), qui, pour des raisons de sécurité, peut enregistrer dans ses journaux techniques l’adresse IP des visiteurs, comme indiqué dans sa déclaration de confidentialité. Dans le complément, la bibliothèque Office.js est chargée depuis les serveurs de Microsoft, comme pour tout complément Office ; la déclaration de confidentialité de Microsoft s’applique. Ces services ne reçoivent jamais le contenu de votre présentation.</p><p>Dans le volet PowerPoint, la page charge Office.js de Microsoft (appsforoffice.microsoft.com), nécessaire à tout complément ; la politique de confidentialité de Microsoft s’applique.</p><h2>Vos droits</h2><p>Comme nous ne collectons aucune donnée personnelle, nous n’avons aucune donnée vous concernant à consulter, corriger ou supprimer. Pour toute question, écrivez à <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Vous avez toujours le droit d’introduire une réclamation auprès de l’autorité de protection des données.</p><h2>Modifications</h2><p>Toute modification de cette politique sera publiée sur cette page avec une nouvelle date de mise à jour.</p></div>
 <div data-lang="de" lang="de">
-<h1>Datenschutzerklärung – The Ultraspeaker Flipbook Lab</h1>
+<h1>Datenschutzerklärung</h1>
 <p class="us-updated">Zuletzt aktualisiert: 12. November 2026</p>
-<p><b>Verantwortlich:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
-<h2>Kurz gesagt</h2>
-<p>The Ultraspeaker Flipbook Lab <b>erhebt keine personenbezogenen Daten, sendet sie nicht an uns und verkauft sie nicht</b>. Die PDF, die Sie öffnen, bleibt auf Ihrem Gerät und wird nie an Server von The Ultraspeaker oder Dritten gesendet. Es gibt keine Konten, Cookies, Nutzungsstatistiken oder Werbung.</p>
-<h2>Was die App mit Ihren Dateien macht</h2>
-<ul>
-<li><b>PDFs und Bilder:</b> Die PDF und ein eventuelles Hintergrundbild werden im Browser gelesen und verarbeitet. Die Seiten werden zu Bildern, das Video entsteht auf dem Gerät.</li>
-<li><b>Lokale Bibliotheken:</b> <b>pdf.js</b> liest die PDF, <b>ffmpeg.wasm</b> erstellt das transparente MOV und <b>mp4-muxer</b> das MP4. Es sind Dateien der App, die mit ihren Seiten geladen werden und im Browser arbeiten, ohne etwas zu senden.</li>
-<li><b>Öffnen über einen Link:</b> Wenn Sie eine Adresse einfügen oder die App mit <code>?pdf=</code> öffnen, lädt der Browser die PDF direkt von dieser Adresse. Die Website, auf der die Datei liegt (zum Beispiel Dropbox, Google Drive, OneDrive oder GitHub), erhält die Anfrage wie bei jedem Download, nach ihren eigenen Datenschutzregeln.</li>
-<li><b>Video:</b> Es wird auf das Gerät heruntergeladen oder auf dem Telefon nur dann an das Teilen-Menü des Systems übergeben, wenn Sie es wählen.</li>
-</ul>
-<h2>Auf dem Gerät gespeicherte Informationen</h2>
-<ul>
-<li><b>Auf dem Computer</b> in der Browserdatenbank <code>flipbook-lab</code> (IndexedDB): die zuletzt geöffnete PDF als Seitenbilder mit dem Text der Zeilen; die Seite, auf der Sie waren, und die bleibenden Markierungen; das Hintergrundbild. So finden Sie Ihre Arbeit beim nächsten Öffnen wieder. Auf dem Telefon wird die PDF nicht gespeichert: Die App startet immer auf der Startseite. Das Hintergrundbild bleibt dort dagegen erhalten.</li>
-<li>Die Einstellungen im lokalen Speicher des Browsers unter den Schlüsseln <code>ultraspeaker.flipbook.*</code>: Ansicht, Titelseite, Hintergrund und Farbe, Farbe und Dauer der Markierungen, Einstellungen des automatischen Videos, Auflösung, Videoformat, Position und Größe des Buchs.</li>
-<li>Die gewählte Sprache unter dem Schlüssel <code>ultraspeaker.lang</code>, gemeinsam für alle Labs von The Ultraspeaker. Frühere Versionen nutzten Schlüssel <code>flipbooklab.*</code>: Beim ersten Start werden die Werte in die neuen Schlüssel kopiert und die alten gelöscht.</li>
-<li>Sie können alles löschen, indem Sie die Websitedaten im Browser entfernen.</li>
-</ul>
-<h2>Dienste Dritter</h2>
-<ul>
-<li>Die Dateien der App liegen auf <b>GitHub Pages</b> (GitHub, Inc.). Wie jede Website erhält es die IP-Adresse des Geräts, um die Seiten auszuliefern. Siehe <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>.</li>
-<li>Im PowerPoint-Bereich nutzt die App die Bibliothek <b>Office.js</b>, die von Microsoft-Servern geladen wird. Siehe <a href="https://privacy.microsoft.com/privacystatement">Microsoft</a>.</li>
-<li>Wir nutzen keine weiteren externen Dienste, Tracking-Systeme oder Werbenetzwerke.</li>
-</ul>
-<h2>Ihre Rechte</h2>
-<p>Da die App keine personenbezogenen Daten verarbeitet, haben wir keine Daten, die eingesehen, berichtigt oder gelöscht werden könnten. Für Fragen schreiben Sie an <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Sie können sich jederzeit an Ihre Datenschutzbehörde wenden.</p>
-<h2>Minderjährige</h2>
-<p>Die App ist für den beruflichen Gebrauch gedacht und richtet sich nicht an Minderjährige.</p>
-<h2>Änderungen</h2>
-<p>Wenn sich diese Erklärung ändert, aktualisieren wir diese Seite und das Datum oben.</p>
-</div>
+<p><b>Verantwortlicher:</b> Nicholas D. Charles (The Ultraspeaker) · <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a></p>
+<h2>Verantwortlicher</h2><p>The Ultraspeaker Check Lab (PowerPoint-Add-in und Webversion) wird von <strong>Nicholas D. Charles (The Ultraspeaker)</strong> bereitgestellt, dem Verantwortlichen. Kontakt: <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>.</p><h2>Ihre Präsentation bleibt auf Ihrem Computer</h2><p>Die geprüfte Datei (.pptx oder .key) wird <strong>ausschließlich lokal</strong> gelesen und analysiert, im PowerPoint-Aufgabenbereich oder in Ihrem Browser. Sie wird nie an externe Server gesendet, hochgeladen oder kopiert, weder an unsere noch an die von Dritten. Dasselbe gilt für die Testkits und den PDF-Bericht: Sie entstehen auf Ihrem Gerät und werden dort gespeichert, wo Sie es wählen.</p><h2>Keine Erhebung personenbezogener Daten</h2><p>Check Lab erhebt keine personenbezogenen Daten: kein Konto, keine Registrierung, kein Kontaktformular, keine Statistik- oder Tracking-Tools, keine Profiling- oder Werbe-Cookies. Die Schriften werden zusammen mit der Anwendung gehostet, ohne Anfragen an externe Dienste.</p><h2>Was auf Ihrem Gerät bleibt</h2><p>Zur Bequemlichkeit speichert Ihr Browser im lokalen Speicher (localStorage) die gewählte Sprache, die Vortragseinstellungen, die Felder für den Dateinamen, die Checkliste und, wenn Sie sie nutzen, Ihre Bewertungen und Notizen zum Bericht, verknüpft mit dem Dateinamen. Diese Daten bleiben auf Ihrem Gerät, werden uns nicht übermittelt und Sie können sie jederzeit löschen („Meine Bewertungen löschen“ im Bericht oder durch Löschen der Websitedaten im Browser).</p><p>Im Speicher des Browsers verwendete Schlüssel: <code>ultraspeaker.lang</code> (Sprache, gemeinsam mit den anderen The-Ultraspeaker-Labs) und <code>ultraspeaker.check.*</code> (Vortragseinstellungen, Dateiname, Checkliste, Bewertungen und Notizen zum Bericht).</p><h2>Schriften des Computers und Stilauswahl</h2><p>Im Tab Stil können Sie die Liste der installierten Schriften anfordern: der Browser liefert sie nur mit Ihrer Erlaubnis, und die Liste bleibt auf Ihrem Computer, ohne an jemanden gesendet zu werden. Wenn Sie eine Schriftdatei laden, wird sie nur innerhalb der Seite für die Vorschau gelesen und weder gespeichert noch übertragen. Die Links „Dafont“ und „Google Fonts“ öffnen diese Websites in einem neuen Tab mit dem gesuchten Schriftnamen: Ab dann gelten deren eigene Datenschutzerklärungen. Die gewählten Farben und die Schrift werden mit den anderen Einstellungen im lokalen Speicher des Browsers gespeichert. Die Bilder der Präsentation, an denen ich den Kontrast messe, werden nur im Speicher des Browsers gelesen und nie übertragen.</p><h2>Technische Dienste Dritter</h2><p>Die Seiten werden auf GitHub Pages (GitHub, Inc.) veröffentlicht; GitHub kann aus Sicherheitsgründen die IP-Adressen der Besucher in technischen Protokollen speichern, wie in der Datenschutzerklärung von GitHub beschrieben. Im Add-in wird die Bibliothek Office.js von Microsoft-Servern geladen, wie bei jedem Office-Add-in; es gilt die Datenschutzerklärung von Microsoft. Diese Dienste erhalten nie den Inhalt Ihrer Präsentation.</p><p>Im PowerPoint-Aufgabenbereich lädt die Seite Office.js von Microsoft (appsforoffice.microsoft.com), das jedes Add-in benötigt; es gilt die Datenschutzerklärung von Microsoft.</p><h2>Ihre Rechte</h2><p>Da wir keine personenbezogenen Daten erheben, gibt es keine Daten über Sie, die eingesehen, berichtigt oder gelöscht werden könnten. Bei Fragen schreiben Sie an <a href="mailto:info@theultraspeaker.com">info@theultraspeaker.com</a>. Sie haben stets das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren.</p><h2>Änderungen</h2><p>Änderungen dieser Erklärung werden auf dieser Seite mit neuem Aktualisierungsdatum veröffentlicht.</p></div>
 </main>
   <footer class="us-footer">
-    <a class="us-cta" id="usCta" href="mailto:info@theultraspeaker.com"><img src="assets/arena-white.svg?v=20261112e" alt=""><span data-t="cta">Richiedi un consiglio</span></a>
+    <a class="us-cta" id="usCta" href="mailto:info@theultraspeaker.com"><img src="assets/img/arena.svg?v=20261112" alt=""><span data-t="cta">Richiedi un consiglio</span></a>
     <p class="us-links"><a href="support.html" data-nav="support">Supporto</a><a href="privacy.html" data-nav="privacy">Privacy</a><a href="terms.html" data-nav="terms">Condizioni d'uso</a><a href="GUIDA-INSTALLAZIONE.html" data-nav="install">Installazione</a></p>
   </footer>
 </div>
-<script src="js/legal.js?v=20261112e"></script>
+<script src="assets/js/legal.js?v=20261112"></script>
 </body>
 </html>
