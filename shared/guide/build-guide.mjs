@@ -1,4 +1,4 @@
-// The Ultraspeaker Lab — generatore delle guide PDF · versione 1.3 (novembre 2026)
+// The Ultraspeaker Lab — generatore delle guide PDF · versione 1.4 (novembre 2026)
 // File IDENTICO in tutti i Lab: shared/guide/build-guide.mjs
 // Uso, dalla radice del repository:   node shared/guide/build-guide.mjs
 // Legge guide/guide.config.json  →  {"slug": "qr"}

@@ -82,13 +82,13 @@ svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke
 .grp{display:flex;align-items:center;gap:8px}
 .grp .us-label,.optrow .us-label{margin:0}
 .fmtsel{height:var(--us-h-lang);padding:0 26px 0 10px;background:var(--us-backstage) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5' fill='none' stroke='%23D0D0D0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 8px center/12px;border:var(--us-border);border-radius:var(--us-radius);font-size:13px;font-weight:700;-webkit-appearance:none;appearance:none;cursor:pointer;font-variant-numeric:tabular-nums}
-/* altezza unica: intestazione e barra in basso alte come «Guida» (32 px), anche «Registra» */
-.top .us-btn,.bottom .us-btn{height:var(--us-h-lang);font-size:13px}
-.top .us-btn--icon,.bottom .us-btn--icon{width:var(--us-h-lang);padding:0}
-/* mappamondo dentro il selettore della lingua, come l'icona dentro «Guida» */
-.us-lang{position:relative}
-.us-lang svg{position:absolute;left:10px;top:50%;width:14px;height:14px;transform:translateY(-50%);pointer-events:none}
-.us-lang select{padding-left:30px}
+/* barra in basso alta come l'intestazione (32 px, kit 1.4), anche «Registra» */
+.bottom .us-btn{height:var(--us-h-lang);font-size:13px}
+.bottom .us-btn--icon{width:var(--us-h-lang);padding:0}
+/* pallino di «Registra»: rosso pieno, come il tasto di registrazione di una videocamera.
+   Eccezione funzionale alla palette (scelta di Nik, 12/11/2026): --us-crit su bianco sembra salmone.
+   Il quadrato di «Stop» resta nero. */
+#recIco circle{fill:#E53935}
 .chk{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--us-silver);cursor:pointer}
 .chk input{appearance:none;-webkit-appearance:none;width:32px;height:18px;border-radius:9px;background:var(--us-graphite);position:relative;margin:0;cursor:pointer;flex:none}
 .chk input::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--us-silver);transition:transform .15s}

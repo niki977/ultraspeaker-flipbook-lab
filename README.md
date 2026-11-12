@@ -9,7 +9,7 @@ Funziona nel browser, senza installare nulla, in italiano, inglese, spagnolo, fr
 
 - **Indirizzo:** https://niki977.github.io/ultraspeaker-flipbook-lab/
 - **Repository:** https://github.com/niki977/ultraspeaker-flipbook-lab (GitHub Pages, ramo `main`, cartella principale)
-- **Famiglia:** The Ultraspeaker Lab (QR, Image, Flipbook, Projector, Check), uniformati alla linea guida 1.3 con il kit comune in `shared/`.
+- **Famiglia:** The Ultraspeaker Lab (QR, Image, Flipbook, Projector, Check), uniformati alla linea guida con il kit comune in `shared/` (kit 1.4 dal 12 novembre 2026).
 
 ## Cosa fa
 
