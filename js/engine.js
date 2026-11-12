@@ -89,7 +89,7 @@
     return { s, x: Math.max(-0.75, Math.min(0.75, pl.x)), y: Math.max(-0.75, Math.min(0.75, pl.y)) };
   }
 
-  /* opts: {pageCount, aspect, layout, cover, drawPage(ctx, idx, x, y, w, h), bg (null = trasparente), bgImage, cam, place, outline (colore del bordo o null)} */
+  /* opts: {pageCount, aspect, layout, cover, drawPage(ctx, idx, x, y, w, h), bg (null = trasparente), bgImage, cam, place, outline (colore del bordo o null), shadow (false = senza ombre)} */
   function render(ctx, st, o) {
     const g = geometry(o.aspect, o.layout);
     const views = buildViews(o.pageCount, o.layout, o.cover);
@@ -133,7 +133,10 @@
       else o.drawPage(ctx, idx, rect.x, rect.y, rect.w, rect.h);
       ctx.restore();
     };
+    // senza ombra (MOV per PowerPoint): in presentazione PowerPoint rende pieni i pixel semitrasparenti e l'ombra diventa un bordo nero
+    const shadows = o.shadow !== false;
     const bookShadow = (rects) => {
+      if (!shadows) return;
       ctx.save();
       ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = g.H * 0.035; ctx.shadowOffsetY = g.H * 0.012;
       ctx.fillStyle = "#ffffff";
@@ -206,7 +209,7 @@
     const sd = Math.min(g.W * 0.35, dl * 0.5);
 
     // ombra portata sulla pagina scoperta
-    if (folded.length > 2) {
+    if (folded.length > 2 && (shadows || under != null)) {
       ctx.save(); pathPoly(ctx, folded); ctx.clip();
       const gr = ctx.createLinearGradient(M.x, M.y, M.x + n.x * sd, M.y + n.y * sd);
       gr.addColorStop(0, "rgba(0,0,0,.38)"); gr.addColorStop(1, "rgba(0,0,0,0)");
@@ -216,7 +219,9 @@
     gutter(staticL != null, false);
     // parte ancora piatta del foglio
     // vista singola: il retro bianco compare/sparisce dolcemente fuori pagina
-    const paperA = !g.single ? 1 : f.dir > 0 ? Math.min(1, (1 - prog) / 0.3) : Math.min(1, prog / 0.3);
+    const fadeA = !g.single ? 1 : f.dir > 0 ? Math.min(1, (1 - prog) / 0.3) : Math.min(1, prog / 0.3);
+    // senza ombre niente sfumatura: compare o sparisce di colpo, così restano solo pixel pieni o trasparenti
+    const paperA = shadows ? fadeA : fadeA < 0.5 ? 0 : 1;
     if (kept.length > 2) {
       ctx.save(); pathPoly(ctx, kept); ctx.clip();
       if (front === PAPER) ctx.globalAlpha = paperA;
@@ -231,7 +236,7 @@
     if (foldedR.length > 2) {
       ctx.save();
       if (back === PAPER) ctx.globalAlpha = paperA;
-      ctx.shadowColor = "rgba(0,0,0,.30)"; ctx.shadowBlur = g.H * 0.03;
+      if (shadows) { ctx.shadowColor = "rgba(0,0,0,.30)"; ctx.shadowBlur = g.H * 0.03; }
       ctx.fillStyle = "#ffffff"; pathPoly(ctx, foldedR); ctx.fill();
       ctx.shadowColor = "transparent";
       pathPoly(ctx, foldedR); ctx.clip();

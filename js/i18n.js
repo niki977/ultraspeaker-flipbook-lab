@@ -154,7 +154,11 @@ window.FB_I18N = {
       "p.s1": "Apri il .pdf, sfoglialo e sottolinea, poi premi <b>Registra</b> o <b>Video automatico</b>.",
       "p.s2": "Scegli <b>MP4 con colore</b> e lo stesso colore di sfondo della slide.",
       "p.s3": "<b>Scarica il video</b> lo salva in Download; con <b>Salva in…</b> scegli tu la cartella.",
-      "p.s4": "In PowerPoint: <b>Inserisci → Video → Video da file</b>, poi in Riproduzione scegli <b>Avvia automaticamente</b>."
+      "p.s4": "In PowerPoint: <b>Inserisci → Video → Video da file</b>, poi in Riproduzione scegli <b>Avvia automaticamente</b>.",
+      "x.shadow": "Ombra",
+      "x.shadowOn": "Con ombra",
+      "x.shadowOff": "Senza ombra",
+      "x.shadowNote": "Per PowerPoint scegli «Senza ombra»: in presentazione l’ombra diventerebbe un bordo nero."
   },
   en: {
       "l.open": "Open a PDF from a link",
@@ -310,7 +314,11 @@ window.FB_I18N = {
       "p.s1": "Open the .pdf, flip through and underline, then press <b>Record</b> or <b>Auto video</b>.",
       "p.s2": "Choose <b>MP4 with colour</b> and the same background colour as the slide.",
       "p.s3": "<b>Download video</b> saves it to Downloads; with <b>Save to…</b> you choose the folder.",
-      "p.s4": "In PowerPoint: <b>Insert → Video → Video from file</b>, then set Playback to <b>Start automatically</b>."
+      "p.s4": "In PowerPoint: <b>Insert → Video → Video from file</b>, then set Playback to <b>Start automatically</b>.",
+      "x.shadow": "Shadow",
+      "x.shadowOn": "With shadow",
+      "x.shadowOff": "No shadow",
+      "x.shadowNote": "For PowerPoint choose “No shadow”: in Slide Show the shadow would turn into a black border."
   },
   es: {
       "l.open": "Abrir un PDF desde un enlace",
@@ -466,7 +474,11 @@ window.FB_I18N = {
       "p.s1": "Abre el .pdf, hojéalo y subraya, luego pulsa <b>Grabar</b> o <b>Vídeo automático</b>.",
       "p.s2": "Elige <b>MP4 con color</b> y el mismo color de fondo de la diapositiva.",
       "p.s3": "<b>Descargar el vídeo</b> lo guarda en Descargas; con <b>Guardar en…</b> eliges la carpeta.",
-      "p.s4": "En PowerPoint: <b>Insertar → Vídeo → Vídeo desde archivo</b> y en Reproducción elige <b>Iniciar automáticamente</b>."
+      "p.s4": "En PowerPoint: <b>Insertar → Vídeo → Vídeo desde archivo</b> y en Reproducción elige <b>Iniciar automáticamente</b>.",
+      "x.shadow": "Sombra",
+      "x.shadowOn": "Con sombra",
+      "x.shadowOff": "Sin sombra",
+      "x.shadowNote": "Para PowerPoint elige «Sin sombra»: en la presentación la sombra se convertiría en un borde negro."
   },
   fr: {
       "l.open": "Ouvrir un PDF depuis un lien",
@@ -622,7 +634,11 @@ window.FB_I18N = {
       "p.s1": "Ouvrez le .pdf, feuilletez et soulignez, puis appuyez sur <b>Enregistrer</b> ou <b>Vidéo automatique</b>.",
       "p.s2": "Choisissez <b>MP4 avec couleur</b> et la même couleur de fond que la diapositive.",
       "p.s3": "<b>Télécharger la vidéo</b> l’enregistre dans Téléchargements ; avec <b>Enregistrer dans…</b>, vous choisissez le dossier.",
-      "p.s4": "Dans PowerPoint : <b>Insertion → Vidéo → Vidéo à partir d’un fichier</b>, puis dans Lecture choisissez <b>Démarrer automatiquement</b>."
+      "p.s4": "Dans PowerPoint : <b>Insertion → Vidéo → Vidéo à partir d’un fichier</b>, puis dans Lecture choisissez <b>Démarrer automatiquement</b>.",
+      "x.shadow": "Ombre",
+      "x.shadowOn": "Avec ombre",
+      "x.shadowOff": "Sans ombre",
+      "x.shadowNote": "Pour PowerPoint, choisissez « Sans ombre » : en diaporama, l’ombre deviendrait un bord noir."
   },
   de: {
       "l.open": "PDF über einen Link öffnen",
@@ -778,6 +794,10 @@ window.FB_I18N = {
       "p.s1": "Öffnen Sie die .pdf, blättern und unterstreichen Sie, dann klicken Sie auf <b>Aufnehmen</b> oder <b>Automatisches Video</b>.",
       "p.s2": "Wählen Sie <b>MP4 mit Farbe</b> und dieselbe Hintergrundfarbe wie die Folie.",
       "p.s3": "<b>Video herunterladen</b> speichert es unter Downloads; mit <b>Speichern unter…</b> wählen Sie den Ordner.",
-      "p.s4": "In PowerPoint: <b>Einfügen → Video → Video aus Datei</b>, dann unter Wiedergabe <b>Automatisch starten</b> wählen."
+      "p.s4": "In PowerPoint: <b>Einfügen → Video → Video aus Datei</b>, dann unter Wiedergabe <b>Automatisch starten</b> wählen.",
+      "x.shadow": "Schatten",
+      "x.shadowOn": "Mit Schatten",
+      "x.shadowOff": "Ohne Schatten",
+      "x.shadowNote": "Für PowerPoint „Ohne Schatten“ wählen: In der Bildschirmpräsentation würde der Schatten zu einem schwarzen Rand."
   },
 };

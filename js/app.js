@@ -67,7 +67,7 @@
       layout: o.layout || layout, cover: o.cover == null ? cover : o.cover,
       drawPage: drawPageFor(o.T == null ? now() : o.T, o.reveal),
       bg: o.bg || null, bgImage: o.bgImage || null, cam: o.cam || null,
-      place: o.place || place, outline: o.outline || null,
+      place: o.place || place, outline: o.outline || null, shadow: o.shadow !== false,
     };
   }
   function displayOpts(T) {
@@ -727,7 +727,7 @@
   const isMobile = () => /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent) ||
     (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent)) || matchMedia("(pointer: coarse)").matches;
   const canShareFile = (f) => !!(navigator.canShare && navigator.canShare({ files: [f] }));
-  let xFmt = null, xRes = ST.pref("xRes", 1080), mp4Color = null, mp4Bg = null, xCancel = false, xUrl = null, xRunning = false;
+  let xShadow = ST.pref("xShadow", true), xFmt = null, xRes = ST.pref("xRes", 1080), mp4Color = null, mp4Bg = null, xCancel = false, xUrl = null, xRunning = false;
   function openExport() {
     if (!take) return;
     // sul telefono l'MP4: si apre nelle Foto e in WhatsApp (il MOV trasparente è per Keynote sul Mac)
@@ -743,6 +743,8 @@
     $("#expSub").textContent = t(take.kind === "auto" ? "x.subAuto" : "x.subLive", { d: fmtDur(take.dur), f: frames });
     $$(".card[data-fmt]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.fmt === xFmt)));
     $("#mp4ColorRow").hidden = xFmt !== "mp4";
+    $("#movShadowRow").hidden = xFmt !== "mov";
+    $$("#movShadow button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.v === "on") === xShadow)));
     $$("#mp4Bg button").forEach((b) => { b.setAttribute("aria-pressed", String(b.dataset.v === mp4Bg)); if (b.dataset.v === "image") b.disabled = !bgImg; });
     $("#mp4Sw").hidden = mp4Bg !== "color";
     $("#mp4Color").value = mp4Color;
@@ -801,7 +803,7 @@
           await PG.ensure(need.filter((x) => x != null));
           c.save();
           c.setTransform(w / E.SW, 0, 0, h / E.SH, 0, 0);
-          E.render(c, s, opts({ bg, bgImage, T: f.T, reveal: f.reveal, layout: lay, cover: cov, cam: f.cam, place: f.place }));
+          E.render(c, s, opts({ bg, bgImage, T: f.T, reveal: f.reveal, layout: lay, cover: cov, cam: f.cam, place: f.place, shadow: xFmt === "mp4" || xShadow }));
           c.restore();
         },
       });
@@ -916,6 +918,7 @@
     }));
     $$(".card[data-fmt]").forEach((b) => b.addEventListener("click", () => { xFmt = b.dataset.fmt; syncExport(); }));
     $$("#mp4Bg button").forEach((b) => b.addEventListener("click", () => { mp4Bg = b.dataset.v; syncExport(); }));
+    $$("#movShadow button").forEach((b) => b.addEventListener("click", () => { xShadow = b.dataset.v === "on"; ST.setPref("xShadow", xShadow); syncExport(); }));
     $("#mp4Color").addEventListener("input", (e) => { mp4Color = e.target.value; syncExport(); });
     $("#expGo").addEventListener("click", runExport);
     // «Salva in…»: scegli la cartella. Chrome ed Edge aprono la finestra di salvataggio del Mac;

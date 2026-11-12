@@ -75,5 +75,6 @@ Servono Node e Playwright (`npm i playwright`, fuori dal repository o con `node_
 
 ## Versioni
 
+- **1.1.1 (novembre 2026):** nell'esportazione MOV la scelta **Con ombra / Senza ombra**. In modalità presentazione PowerPoint rende pieni i pixel semitrasparenti e l'ombra del libro diventa un bordo nero; senza ombra restano solo pixel pieni o trasparenti (anche il retro del foglio nella vista Pagina compare senza sfumatura).
 - **1.1 (novembre 2026):** linea guida 1.3 (kit comune, intestazione, chiusura, pagine di servizio, lingua comune, chiavi `ultraspeaker.flipbook.*`), formato del video a scelta, strumento Sposta, guida d'utilizzo PDF, manifest 1.1.0.0.
 - **1.0 (ottobre 2026):** prima versione online; Brand Book 1.0, componente aggiuntivo che apre l'app nel browser.
