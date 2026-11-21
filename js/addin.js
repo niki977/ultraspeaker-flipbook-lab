@@ -28,6 +28,8 @@
     const code = UL.set(UL.get("flipbooklab.lang", hostLang));
     UL.bindSelect(document.getElementById("lang"), code, apply);
     apply(code);
+    // statistiche d'uso anonime (kit 1.5): apertura del pannello, lo stesso evento della versione web
+    if (window.UltraspeakerStats) UltraspeakerStats.init("flipbook");
   }
   document.getElementById("open").addEventListener("click", () => openOut(APP + "?lang=" + lang));
   $$("#usGuide, .us-links a").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); openOut(new URL(a.getAttribute("href"), location.href).href); }));

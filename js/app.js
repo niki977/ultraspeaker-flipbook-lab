@@ -10,6 +10,8 @@
 
   /* ---------- Lingua ---------- */
   const I18N = window.FB_I18N, UL = window.UltraspeakerLang;
+  // statistiche d'uso anonime (kit 1.5): solo il nome dell'azione, mai PDF, nomi di file o contenuti
+  const STATS = window.UltraspeakerStats || { init() {}, track() {} };
   let LANG = "en";
   const t = (k, v) => {
     let s = (I18N[LANG] && I18N[LANG][k]) || I18N.en[k] || k;
@@ -505,6 +507,7 @@
       else if (!extra.sample || extra.view == null) toast(hasText ? t("ready") : t("readyNoText"));
       if (!isMobile()) ST.savePages({ name, sample: book.sample, aspect: r.aspect, lines: r.lines, blobs: r.blobs });
       saveNow();
+      if (!extra.sample) STATS.track("pdf");
     } catch (e) {
       console.error(e);
       toast(t(e.code || "err.pdf"), true);
@@ -633,6 +636,7 @@
     if (!book || rec) return;
     anim = null; queue = 0; drag = null; peek.target = peek.amt = 0; st.flip = null;
     rec = { t0: now(), snaps: [], layout, cover };
+    STATS.track("rec");
     A.prune(now() - 10000);
     syncUI();
     toast(t("recStarted"));
@@ -743,6 +747,7 @@
       },
     };
     hideDlg("#autoDlg");
+    STATS.track("auto");
     openExport();
   }
   const fmtDur = (ms) => { const s = Math.round(ms / 1000); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
@@ -804,6 +809,7 @@
     if (!take || xRunning) return;
     xRunning = true; xCancel = false;
     showExpState("run");
+    STATS.track("export:start");
     const { W, H } = exportSize(xRes);
     const frames = Math.max(1, Math.ceil(take.dur / 1000 * FPS));
     const bg = xFmt === "mp4" ? (mp4Bg === "image" ? "#000000" : mp4Color) : null;
@@ -849,6 +855,7 @@
       $("#expHow").textContent = shareOK ? t(xFmt === "mov" ? "x.shareMov" : "x.shareHow") : xFmt === "mov" ? t("x.howMov") : t("x.howMp4");
       $("#expOther").textContent = xFmt === "mov" ? t("x.alsoMp4") : t("x.alsoMov");
       showExpState("done");
+      STATS.track("export:done");
     } catch (e) {
       if (e && e.message === "cancel") { showExpState("form"); }
       else {
@@ -951,6 +958,7 @@
     $$("#movShadow button").forEach((b) => b.addEventListener("click", () => { xShadow = b.dataset.v === "on"; ST.setPref("xShadow", xShadow); syncExport(); }));
     $("#mp4Color").addEventListener("input", (e) => { mp4Color = e.target.value; syncExport(); });
     $("#expGo").addEventListener("click", runExport);
+    $("#expDl").addEventListener("click", () => STATS.track("download"));
     // «Salva in…»: scegli la cartella. Chrome ed Edge aprono la finestra di salvataggio del Mac;
     // Safari non lo permette alle pagine web, quindi si spiega come fargli chiedere la cartella a ogni download.
     $("#expSaveAs").addEventListener("click", async () => {
@@ -960,12 +968,13 @@
       try {
         const h = await window.showSaveFilePicker({ suggestedName: name, types: [{ description: ext.toUpperCase(), accept: { [lastBlob.type || (ext === "mov" ? "video/quicktime" : "video/mp4")]: ["." + ext] } }] });
         const w = await h.createWritable(); await w.write(lastBlob); await w.close();
+        STATS.track("download");
         toast(t("x.savedAs", { f: h.name }));
       } catch (e) { if (!e || e.name !== "AbortError") toast(t("x.saveErr"), true); }
     });
     $("#expShare").addEventListener("click", async () => {
       if (!shareFile) return;
-      try { await navigator.share({ files: [shareFile], title: shareFile.name }); }
+      try { await navigator.share({ files: [shareFile], title: shareFile.name }); STATS.track("download"); }
       catch (e) { if (!e || e.name !== "AbortError") toast(t("x.shareErr"), true); }
     });
     $("#expCancel").addEventListener("click", () => {
@@ -1060,6 +1069,7 @@
     E.setStage(Math.round(1080 * ratio()), 1080);
     wire();
     applyStatic();
+    STATS.init("flipbook");
     setTool("hand");
     resize();
     requestAnimationFrame(frame);

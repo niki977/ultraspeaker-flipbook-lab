@@ -35,6 +35,7 @@ Funziona nel browser, senza installare nulla, in italiano, inglese, spagnolo, fr
 | `js/annot.js` | Segni agganciati al testo, sbiadimento, gomma |
 | `js/pages.js` | PDF → immagini con pdf.js, righe di testo, cache |
 | `js/store.js` | Memoria del browser e migrazione delle preferenze |
+| `shared/ultraspeaker-stats.js` | Statistiche d'uso anonime del kit 1.5 (non si modifica nel Lab) |
 | `js/export.js` | MOV (ffmpeg.wasm + muxer MOV) e MP4 (WebCodecs + mp4-muxer) |
 | `js/i18n.js` | Testi nelle cinque lingue, anche del pannello (`p.*`) |
 | `js/addin.js`, `addin.html` | Pannello di PowerPoint |
@@ -75,6 +76,7 @@ Servono Node e Playwright (`npm i playwright`, fuori dal repository o con `node_
 
 ## Versioni
 
+- **1.1.2 (novembre 2026):** kit 1.5 con le **statistiche d'uso anonime** (`shared/ultraspeaker-stats.js`). Oltre all'apertura (`flipbook:open`, anche dal pannello) si contano `pdf` (PDF aperto da file, trascinamento o link, non la guida di esempio), `rec`, `auto`, `export:start` / `export:done` e `download` (Scarica, Salva in…, Salva o condividi). Si invia solo il nome dell'azione, mai PDF, nomi di file o segni. Su localhost e con `?nostats=1` non parte nulla. Privacy aggiornata nelle cinque lingue.
 - **1.1.1 (novembre 2026):** nell'esportazione MOV la scelta **Con ombra / Senza ombra**. In modalità presentazione PowerPoint rende pieni i pixel semitrasparenti e l'ombra del libro diventa un bordo nero; senza ombra restano solo pixel pieni o trasparenti (anche il retro del foglio nella vista Pagina compare senza sfumatura). Il cestino apre un menu: **Cancella i segni di queste pagine** oppure **Chiudi il PDF**, che torna alla schermata iniziale (e alla guida di esempio) e toglie il PDF dalla memoria del browser.
 - **1.1 (novembre 2026):** linea guida 1.3 (kit comune, intestazione, chiusura, pagine di servizio, lingua comune, chiavi `ultraspeaker.flipbook.*`), formato del video a scelta, strumento Sposta, guida d'utilizzo PDF, manifest 1.1.0.0.
 - **1.0 (ottobre 2026):** prima versione online; Brand Book 1.0, componente aggiuntivo che apre l'app nel browser.

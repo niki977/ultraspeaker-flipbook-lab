@@ -1,5 +1,5 @@
 /* ==========================================================================
-   The Ultraspeaker Lab — lingua comune  ·  versione 1.4 (novembre 2026)
+   The Ultraspeaker Lab — lingua comune  ·  versione 1.5 (novembre 2026)
    File IDENTICO in tutti i Lab: shared/ultraspeaker-lang.js
    Tutti i Lab stanno su niki977.github.io e condividono la memoria del browser:
    la lingua scelta in un Lab vale per tutti.

@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  ESEMPIO DI PAGINA DI UN LAB — The Ultraspeaker Lab · kit 1.4 (Linea guida §4, §5, §6)
+  ESEMPIO DI PAGINA DI UN LAB — The Ultraspeaker Lab · kit 1.5 (Linea guida §4, §5, §6)
   Mostra intestazione (logo, riga sotto il logo, selettore lingua, pulsante «Guida»), chiusura e avvio della lingua.
   Le parti tra < > vanno sostituite. Non è una pagina da pubblicare così com'è.
 -->
@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="css/app.css?v=20261105">
   <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
   <script src="shared/ultraspeaker-lang.js?v=20261105"></script>
+  <script src="shared/ultraspeaker-stats.js?v=1"></script>
 </head>
 <body>
 <div class="us-page us-page--narrow">
@@ -70,6 +71,7 @@
     var L = UltraspeakerLang, lang = L.set(L.get("<vecchia-chiave>", hostLang));
     L.bindSelect(document.getElementById("usLang"), lang, applyLanguage);
     applyLanguage(lang);
+    UltraspeakerStats.init("<nome>");  /* kit 1.5: «<nome>:open», dopo la lingua */
   }
   function applyLanguage(lang) {
     /* … traduce i testi data-i18n … */
